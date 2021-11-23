@@ -179,7 +179,7 @@ const Nav = ({categories}, {tags}) => {
 							<div className={`${navbar.nav_item} ${navbar.sub_box}`}>
 								{ categoriesList !== undefined && categoriesList.length ?(
 									categoriesList.map( category => 
-									<li className={navbar.nav_item}> <a className={`${navbar.nav_link} ${navbar.sub}`} href={`${process.env.CURRENT_URL}/category/${category.slug}`}>{ category.name }</a></li>
+									<li className={navbar.nav_item}> <a className={`${navbar.nav_link} ${navbar.sub}`} href={`/category/${category.slug}`}>{ category.name }</a></li>
 									//  {console.log('category', category.slug)}
 									)
 									): ''}
@@ -191,7 +191,7 @@ const Nav = ({categories}, {tags}) => {
 							</li>
 							<div className={`${navbar.nav_item} ${navbar.sub_box}`}>
 								{  tagsList !== undefined && tagsList.length ? (
-									tagsList.map( tag => <li className={navbar.nav_item}> <a className={`${navbar.nav_link} ${navbar.sub}`} href={`${process.env.CURRENT_URL}/feature/${tag.slug}`}>{ tag.name }</a></li> )
+									tagsList.map( tag => <li className={navbar.nav_item}> <a className={`${navbar.nav_link} ${navbar.sub}`} href={`/feature/${tag.slug}`}>{ tag.name }</a></li> )
 								): ''}
 							</div>
 
