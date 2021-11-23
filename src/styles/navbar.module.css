@@ -1,0 +1,143 @@
+.nav_container{
+    width: 25%;
+    height: 100vh;
+    position: fixed;
+    left: -24.4%;
+    top: 0;
+    background-color: white;
+    z-index: 10;
+    transition: all 0.5s ease-in-out;
+}
+
+.nav_container:hover{
+    left: 0;
+}
+
+.nav_container:hover .overlay{
+    opacity: 1;
+}
+
+.navbody{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    width: 69%;
+    height: 90vh;
+    background-color: white;
+}
+
+.nav_items_container{
+
+}
+.nav_items{ 
+    
+}
+
+.nav_list{
+    padding: 0 0 0 0;
+    list-style-type: none
+}
+
+.nav_link{
+    color: black;
+    text-decoration: none;
+    /* font-family: sans-serif; */
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+.nav_item.head{
+    font-weight: bold;
+}
+
+.nav_item.head:hover + .sub_box{
+    height:max-content;
+}
+
+.sub_box {
+    height: 0px;
+    overflow: hidden;
+    transition: all 0;
+}
+
+.sub_box:hover{
+    height:max-content;
+}
+
+.nav_btn{
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 15%;
+    background-color: white;
+    border: 1px solid black;
+    border-left: 0px;
+    cursor: pointer;
+}
+
+.nav_btn:hover{
+    /* background-color: lightgrey; */
+}
+
+.nav_btn .dot{
+    display: none;
+    background-color: black;
+    border-radius: 100%;
+    position: relative;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    --dot-size: 5px;
+    height: var(--dot-size);
+    width: var(--dot-size);
+}
+
+.nav_btn .dot::after,
+.nav_btn .dot::before{
+    display: none;
+    content: " ";
+    background-color: black;
+    border-radius: 100%;
+    position: absolute;
+    height: var(--dot-size);
+    width: var(--dot-size);
+}
+
+.nav_btn .dot::before{
+    top: -200%;
+}
+
+.nav_btn .dot::after{
+    top: 200%;
+}
+
+.header_image{
+    position: relative;
+    top: 0;
+    left: 100%;
+    transform: translate(0%, 0);
+    bottom: 0;
+    right: 0;
+    box-sizing: border-box;
+    padding: 0;
+    border: none;
+    margin: 0;
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: initial;
+}
+
+.overlay{
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+    opacity: 0%;
+    pointer-events: none;
+    transition: all 0.5s ease-in-out;
+    z-index: 9;
+}

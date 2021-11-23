@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { gql } from \"@apollo/client\";\n/**\n * GraphQL countries query.\n */\n\nconst GET_STATES = gql`query GET_STATES($countryCode: String!) {\n  wooStates(countryCode: $countryCode) {\n    states {\n      stateCode\n      stateName\n    }\n  }\n}`;\nexport default GET_STATES;","map":null,"metadata":{},"sourceType":"module"}

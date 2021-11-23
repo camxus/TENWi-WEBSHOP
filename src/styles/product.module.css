@@ -1,0 +1,55 @@
+.card {
+    width: 96vw;
+    height: 100vh;
+    margin: 0;
+    position: relative;
+    left: 4vw;
+}
+
+.card_body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "left right";
+}
+
+.card_title {
+    grid-area: right;
+}
+
+.image_container {
+    position: relative;
+    height: 100vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    grid-area: left;
+}
+.image_container::-webkit-scrollbar {
+    display: none;
+}
+
+.image {
+    width: 100%;
+}
+
+.card_text {
+    grid-area:right;
+}
+
+
+.rightContainer{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: relative;
+    height: max-content;
+    width: 70%;
+}
+
+.add_to_cart button{
+    background-color: black;
+    color: white;
+    border: none;
+    height: 5vh;
+    font: inherit;
+    outline: inherit;
+}
