@@ -1,0 +1,22 @@
+.product-container {
+    position: relative;
+    display: flex;
+    flex-flow: wrap;
+    padding: 0px;
+    width: 100%;
+    /* left: 3vw;*/
+}
+
+.product-container img {
+    width: 100%;
+    display: inline-block;
+    object-fit: cover;
+    /* transition: all 1s;
+    transform: scale(1); */
+    vertical-align: text-bottom;
+}
+
+.imagewrapper {
+    min-height: 62vw;
+    overflow: hidden;
+}
