@@ -6,7 +6,7 @@ import PRODUCTS_AND_CATEGORIES_QUERY from "../../src/queries/product-and-categor
 import {isEmpty} from "lodash";
 import {useRouter} from "next/router";
 import categories from "../../src/styles/categories.module.css"
-import styles from '../src/styles/style.module.css';
+import styles from '../../src/styles/style.module.css';
 
 
 export default function CategorySingle( props ) {

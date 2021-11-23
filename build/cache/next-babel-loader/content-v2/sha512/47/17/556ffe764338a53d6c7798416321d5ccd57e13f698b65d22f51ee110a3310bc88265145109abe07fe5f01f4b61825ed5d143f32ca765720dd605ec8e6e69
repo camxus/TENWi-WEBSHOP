@@ -1,1 +1,0 @@
-{"ast":null,"code":"import { gql } from \"@apollo/client\";\nconst CLEAR_CART_MUTATION = gql`\nmutation CLEAR_CART_MUTATION( $input: RemoveItemsFromCartInput! ) {\n  removeItemsFromCart(input: $input) {\n    cartItems {\n      quantity\n    }\n  }\n}\n`;\nexport default CLEAR_CART_MUTATION;","map":null,"metadata":{},"sourceType":"module"}

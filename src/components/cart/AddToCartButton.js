@@ -61,6 +61,7 @@ const AddToCart = (props) => {
     });
 
     const handleAddToCartClick = async () => {
+        console.log("run")
         setRequestError(null);
         await addToCart();
     };

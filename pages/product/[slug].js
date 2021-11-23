@@ -30,7 +30,7 @@ export default function Product(props) {
     // const {images} = props
     var images = []
     images = images.concat(product.image, product?.galleryImages?.nodes)
-    console.log(images)
+    // console.log(images)
     // console.log(images)
 
 	return (
