@@ -2,9 +2,12 @@ import Layout from "../../src/components/Layout";
 import client from "../../src/components/ApolloClient";
 import Product from "../../src/components/Product";
 import {PRODUCT_BY_CATEGORY_SLUG, PRODUCT_CATEGORIES_SLUGS} from "../../src/queries/product-by-category";
+import PRODUCTS_AND_CATEGORIES_QUERY from "../../src/queries/product-and-categories";
 import {isEmpty} from "lodash";
 import {useRouter} from "next/router";
 import categories from "../../src/styles/categories.module.css"
+import styles from '../src/styles/style.module.css';
+
 
 export default function CategorySingle( props ) {
 
@@ -16,17 +19,17 @@ export default function CategorySingle( props ) {
         return <div>Loading...</div>
     }
 
-    const { categoryName, products } = props;
+    const { categoryName, products, categories, tags } = props;
 
     return (
-        <Layout>
+        <Layout categories={categories} tags = {tags}>
             <div>
                 { categoryName ? <h3 className={categories[`header`]}>{ categoryName }</h3> : '' }
-                <div>
-                    { undefined !== products && products?.length ? (
-                        products.map( product => <Product key={ product?.id } product={ product } /> )
-                    ) : ''}
-                </div>
+                <div className={`${styles["product-container"]}`}>
+					{ products.length ? (
+						products.map( product => <Product key={ product.id } product={ product } /> )
+					) : ''}
+				</div>
             </div>
         </Layout>
     )
@@ -41,10 +44,21 @@ export async function getStaticProps(context) {
         variables: { slug }
     }));
 
+     var categories = await client.query( {
+		query: PRODUCTS_AND_CATEGORIES_QUERY,
+	} );
+    // console.log(categories.data.productCategories)
+    var tags = categories.data.productTags.nodes
+    categories = categories.data.productCategories.nodes
+
+
+
     return {
         props: {
             categoryName: data?.productCategory?.name ?? '',
-            products: data?.productCategory?.products?.nodes ?? []
+            products: data?.productCategory?.products?.nodes ?? [],
+            categories: categories ? categories : [],
+            tags: tags ? tags : [],
         },
         revalidate: 1
     }
