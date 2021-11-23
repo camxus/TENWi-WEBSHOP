@@ -22,7 +22,7 @@ module.exports = {
     images: {
         domains: [ allowedImageWordPressDomain, 'via.placeholder.com' ],
     },
-    distDir: 'build',
+    // distDir: 'build',
     // images: {
     //     loader: "imgix",
     //     path: "",
