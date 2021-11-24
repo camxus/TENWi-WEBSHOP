@@ -1,9 +1,9 @@
 .card {
-    width: 96vw;
+    width: 100vw;
     height: 100vh;
     margin: 0;
     position: relative;
-    left: 4vw;
+    /* left: 4vw; */
 }
 
 .card_body {
