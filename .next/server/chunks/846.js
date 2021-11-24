@@ -46,11 +46,11 @@ const AddToCart = (props)=>{
     const { 0: showViewCart , 1: setShowViewCart  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
     const { 0: requestError , 1: setRequestError  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
     // Get Cart Data.
-    const { data , refetch  } = (0,_apollo_client__WEBPACK_IMPORTED_MODULE_2__.useQuery)(_queries_get_cart__WEBPACK_IMPORTED_MODULE_8__/* ["default"] */ .Z, {
+    const { data: data1 , refetch  } = (0,_apollo_client__WEBPACK_IMPORTED_MODULE_2__.useQuery)(_queries_get_cart__WEBPACK_IMPORTED_MODULE_8__/* ["default"] */ .Z, {
         notifyOnNetworkStatusChange: true,
         onCompleted: ()=>{
             // Update cart in the localStorage.
-            const updatedCart = (0,_functions__WEBPACK_IMPORTED_MODULE_7__/* .getFormattedCart */ .W3)(data);
+            const updatedCart = (0,_functions__WEBPACK_IMPORTED_MODULE_7__/* .getFormattedCart */ .W3)(data1);
             localStorage.setItem('tenwi-cart', JSON.stringify(updatedCart));
             // Update cart data in React Context.
             setCart(updatedCart);
@@ -61,7 +61,8 @@ const AddToCart = (props)=>{
         variables: {
             input: productQryInput
         },
-        onCompleted: ()=>{
+        onCompleted: (data)=>{
+            console.log("ADD TO CART SUCCESS", data, 'loading ', loading);
             // On Success:
             // 1. Make the GET_CART query to update the cart with new values in React context.
             refetch();
@@ -69,10 +70,12 @@ const AddToCart = (props)=>{
             setShowViewCart(true);
         },
         onError: (error)=>{
+            var ref, ref1;
             if (error) {
-                var ref, ref1;
-                setRequestError((error === null || error === void 0 ? void 0 : (ref = error.graphQLErrors) === null || ref === void 0 ? void 0 : (ref1 = ref[0]) === null || ref1 === void 0 ? void 0 : ref1.message) ?? '');
+                var ref2, ref3;
+                setRequestError((error === null || error === void 0 ? void 0 : (ref2 = error.graphQLErrors) === null || ref2 === void 0 ? void 0 : (ref3 = ref2[0]) === null || ref3 === void 0 ? void 0 : ref3.message) ?? '');
             }
+            console.log("ADD TO CART FAILURE", (error === null || error === void 0 ? void 0 : (ref = error.graphQLErrors) === null || ref === void 0 ? void 0 : (ref1 = ref[0]) === null || ref1 === void 0 ? void 0 : ref1.message) ?? '');
         }
     });
     const handleAddToCartClick = async ()=>{

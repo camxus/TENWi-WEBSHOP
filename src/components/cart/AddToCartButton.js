@@ -45,7 +45,8 @@ const AddToCart = (props) => {
         variables: {
             input: productQryInput,
         },
-        onCompleted: () => {
+        onCompleted: (data) => {
+            console.log("ADD TO CART SUCCESS", data, 'loading ', loading)
             // On Success:
             // 1. Make the GET_CART query to update the cart with new values in React context.
             refetch();
@@ -57,6 +58,7 @@ const AddToCart = (props) => {
             if (error) {
                 setRequestError(error?.graphQLErrors?.[0]?.message ?? '');
             }
+            console.log("ADD TO CART FAILURE", error?.graphQLErrors?.[0]?.message ?? '')
         }
     });
 
