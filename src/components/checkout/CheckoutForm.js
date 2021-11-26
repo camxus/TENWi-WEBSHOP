@@ -17,6 +17,8 @@ import {
 } from "../../utils/checkout";
 import CheckboxField from "./form-elements/CheckboxField";
 
+import Link from "next/link"
+
 // Use this for testing purposes, so you dont have to fill the checkout form over an over again.
 // const defaultCustomerInfo = {
 // 	firstName: 'Imran',
@@ -99,6 +101,8 @@ const CheckoutForm = ({countriesData}) => {
             if (error) {
                 setRequestError(error?.graphQLErrors?.[0]?.message ?? '');
             }
+            console.log("ERROR ", error, "WITH", error?.graphQLErrors?.[0]?.message ?? '')
+
         }
     });
 
@@ -134,6 +138,7 @@ const CheckoutForm = ({countriesData}) => {
         }
 
         const checkOutData = createCheckoutData(input);
+        console.log("checkout data", check)
         setRequestError(null);
         /**
          *  When order data is set, checkout mutation will automatically be called,
@@ -259,7 +264,17 @@ const CheckoutForm = ({countriesData}) => {
                         </div>
                     </div>
                 </form>
-            ) : ''}
+            ) : 
+            <div className="container mx-auto my-32 px-4 xl:px-0">
+					<h2 className="text-2xl mb-5">YOUR CART IS EMPTY</h2>
+					<Link href="/">
+						<button className="bg-purple-600 text-white px-5 py-3 rounded-sm">
+							<span className="cart-checkout-txt">ADD NEW PRODUCTS</span>
+							<i className="fas fa-long-arrow-alt-right"/>
+						</button>
+					</Link>
+				</div>
+            }
 
             {/*	Show message if Order Success*/}
             <OrderSuccess response={checkoutResponse}/>

@@ -35,22 +35,22 @@ const PaymentModes = ( { input, handleOnChange } ) => {
 					<span className="payment-content">Cash on Delivery</span>
 				</label>
 			</div>
-			<div className="form-check payment-input-container mt-2">
+			{/* <div className="form-check payment-input-container mt-2">
 				<label className="form-check-label">
 					<input onChange={ handleOnChange } value="jccpaymentgatewayredirect" className="form-check-input mr-3" name="paymentMethod" type="radio" checked={'jccpaymentgatewayredirect' === paymentMethod}/>
 					<span className="payment-content">JCC</span>
 				</label>
-			</div>
-			<div className="form-check payment-input-container mt-2">
+			</div> */}
+			{/* <div className="form-check payment-input-container mt-2">
 				<label className="form-check-label">
 					<input onChange={ handleOnChange } value="ccavenue" className="form-check-input mr-3" name="paymentMethod" type="radio" checked={'ccavenue' === paymentMethod}/>
 					<span className="payment-content">CC Avenue</span>
 				</label>
-			</div>
-			{/*	Payment Instructions*/}
+			</div> */}
+				{/* Payment Instructions
 			<div className="checkout-payment-instructions mt-2">
 				Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.
-			</div>
+			</div> */}
 		</div>
 	);
 };

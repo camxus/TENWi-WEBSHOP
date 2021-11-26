@@ -10,6 +10,10 @@ import GET_CART from "../../../queries/get-cart";
 import CLEAR_CART_MUTATION from "../../../mutations/clear-cart";
 import {isEmpty} from 'lodash'
 
+import {getFloatVal} from '../../../../src/functions.js'
+
+import cartbar from '../../../../src/styles/cartbar.module.css'
+
 
 const CartItemsContainer = () => {
 
@@ -104,16 +108,20 @@ const CartItemsContainer = () => {
 			},
 		} );
 	}
+	let currency = cart?.totalProductsPrice ? cart.totalProductsPrice.slice(-1) : "";
+	let price = getFloatVal(cart?.totalProductsPrice ? cart.totalProductsPrice : "0");
+	let totalPrice = `${currency}${price}`
 
+	console.log(currency)
 	return (
-		<div className="cart product-cart-container container mx-auto my-32 px-4 xl:px-0">
+		<div className="cart">
 			{ cart ? (
 				<div className="cart-wrapper container">
-					<div className="cart-header grid grid-cols-2 gap-4">
+					<div className="cart-header-grid">
 						<h1 className="text-2xl mb-5 uppercase">Cart</h1>
 						{/*Clear entire cart*/}
 						<div className="clear-cart text-right">
-							<button className="px-4 py-1 bg-gray-500 text-white rounded-sm w-auto" onClick={ ( event ) => handleClearCart( event ) } disabled={ clearCartProcessing }>
+							<button className="" onClick={ ( event ) => handleClearCart( event ) } disabled={ clearCartProcessing }>
 								<span className="cart">Clear Cart</span>
 								<i className="fa fa-arrow-alt-right"/>
 							</button>
@@ -121,8 +129,8 @@ const CartItemsContainer = () => {
 							{ updateCartProcessing ? <p>Updating...</p> : null }
 						</div>
 					</div>
-					<div className="grid grid-cols-1 xl:grid-cols-4 gap-0 xl:gap-4 mb-5">
-						<table className="cart-products table-auto col-span-3 mb-5">
+					<div className="grid">
+						<table className="cart-products">
 								<thead className="text-left">
 								<tr className="cart-head-container">
 									<th className="cart-heading-el" scope="col"/>
@@ -148,16 +156,16 @@ const CartItemsContainer = () => {
 								) }
 								</tbody>
 							</table>
-
+						
 						{/*Cart Total*/ }
-						<div className="row cart-total-container border p-5 bg-gray-200">
+						<div className="row cart-total-container" className={cartbar[`cart-total-container`]}>
 							<div className="">
 								{/* <h2 className="text-2xl">Cart Total</h2> */}
-								<table className="table table-hover mb-5">
+								<table className="table">
 									<tbody>
-									<tr className="table-light flex flex-col">
-										<td className="cart-element-total text-2xl font-normal">Subtotal</td>
-										<td className="cart-element-amt text-2xl font-bold">{ ( 'string' !== typeof cart.totalProductsPrice ) ? cart.totalProductsPrice.toFixed(2) : cart.totalProductsPrice }</td>
+									<tr className="table-light-flex">
+										<td className={cartbar[`cart-element-total`]}>Total</td>
+										<td className={cartbar[`cart-element-amt`]}>{ ( 'string' !== typeof totalPrice ) ? totalPrice.toFixed(2) : totalPrice }</td>
 									</tr>
 									{/* <tr className="table-light">
 										<td className="cart-element-total">Total</td>
@@ -166,7 +174,7 @@ const CartItemsContainer = () => {
 									</tbody>
 								</table>
 								<Link href="/checkout">
-									<button className="bg-purple-600 text-white px-5 py-3 rounded-sm w-auto xl:w-full">
+									<button className="">
 										<span className="cart-checkout-txt">Proceed to Checkout</span>
 										<i className="fas fa-long-arrow-alt-right"/>
 									</button>
@@ -176,13 +184,13 @@ const CartItemsContainer = () => {
 					</div>
 
 					{/* Display Errors if any */}
-					{ requestError ? <div className="row cart-total-container mt-5"> { requestError } </div> : '' }
+					{ requestError ? <div className="row cart-total-container mt-5" className={cartbar[`cart-total-container`]}> { requestError } </div> : '' }
 				</div>
 			) : (
-				<div className="container mx-auto my-32 px-4 xl:px-0">
+				<div className="container">
 					<h2 className="text-2xl mb-5">YOUR CART IS EMPTY</h2>
 					<Link href="/">
-						<button className="bg-purple-600 text-white px-5 py-3 rounded-sm">
+						<button className="">
 							<span className="cart-checkout-txt">ADD NEW PRODUCTS</span>
 							<i className="fas fa-long-arrow-alt-right"/>
 						</button>

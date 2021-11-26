@@ -1,6 +1,7 @@
 import Layout from "../../src/components/Layout";
 import client from "../../src/components/ApolloClient";
 import Product from "../../src/components/Product";
+import IntroImage from "../../src/components/IntroImage";
 import {PRODUCT_BY_CATEGORY_SLUG, PRODUCT_CATEGORIES_SLUGS} from "../../src/queries/product-by-category";
 import PRODUCTS_AND_CATEGORIES_QUERY from "../../src/queries/product-and-categories";
 import {isEmpty} from "lodash";
@@ -16,7 +17,7 @@ export default function CategorySingle( props ) {
     // If the page is not yet generated, this will be displayed
     // initially until getStaticProps() finishes running
     if (router.isFallback) {
-        return <div>Loading...</div>
+        return <IntroImage></IntroImage>
     }
 
     const { categoryName, products, categories, tags } = props;

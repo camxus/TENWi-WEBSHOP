@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { v4 } from "uuid";
 import { getUpdatedItems } from "../../../functions";
 import {Cross, Loading} from "../../icons";
+// import Link from 'next/link'
+import cartbar from '../../../../src/styles/cartbar.module.css'
+
 
 const CartItem = ( {
 	                   item,
@@ -54,22 +57,24 @@ const CartItem = ( {
 
 		}
 	};
-
+	console.log(item)
 
 	return (
 		<tr className="cart-item" key={ item.productId }>
-			<th className="cart-element cart-el-close">
+			<th className="cart-element cart-el-close" className={cartbar[`cart-el-close`]}>
 				{/* Remove item */}
 				<span className="cart-close-icon cursor-pointer"
 				      onClick={ ( event ) => handleRemoveProductClick( event, item.cartKey, products ) }>
 					<Cross/>
 				</span>
 			</th>
-			<td className="cart-element">
+			<td className={[`cart-element`]} >
 				<img width="64" src={ item.image.sourceUrl } srcSet={ item.image.srcSet } alt={ item.image.title }/>
 			</td>
-			<td className="cart-element">{ item.name }</td>
-			<td className="cart-element">{ ( 'string' !== typeof item.price ) ? item.price.toFixed( 2 ) : item.price }</td>
+			<a href={`/product/${item?.slug? item.slug: ""}`}>
+			<td className={[`cart-element`]}>{ item.name }</td>
+			<td className={[`cart-element`]}>{ ( 'string' !== typeof item.price ) ? item.price.toFixed( 2 ) : item.price }</td>
+			</a>
 
 			{/* Qty Input */ }
 			<td className="cart-element cart-qty">
@@ -83,7 +88,7 @@ const CartItem = ( {
 					onChange={ ( event ) => handleQtyChange( event, item.cartKey ) }
 				/>
 			</td>
-			<td className="cart-element">
+			<td className={[`cart-element`]}>
 				{ ( 'string' !== typeof item.totalPrice ) ? item.totalPrice.toFixed( 2 ) : item.totalPrice }
 			</td>
 		</tr>

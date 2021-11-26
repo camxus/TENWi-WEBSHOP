@@ -1,6 +1,7 @@
 import Nav from "./Nav";
 import header from "../styles/header.module.css";
 import Image from 'next/image';
+import CART from './cart/CART'
 
 const Header = (props) => {
 	return (
@@ -16,6 +17,7 @@ const Header = (props) => {
 			</div>
 			{/* <CartIcon/> */}
 			</a>
+		<CART></CART>
 	</div>
 	)
 };

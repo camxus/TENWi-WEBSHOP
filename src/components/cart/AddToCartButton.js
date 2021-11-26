@@ -1,4 +1,4 @@
-import {useState, useContext} from "react";
+import {useState, useContext, useRef} from "react";
 import {useQuery, useMutation} from '@apollo/client';
 import Link from "next/link";
 import {v4} from 'uuid';
@@ -8,8 +8,11 @@ import {AppContext} from "../context/AppContext";
 import {getFormattedCart} from "../../functions";
 import GET_CART from "../../queries/get-cart";
 import ADD_TO_CART from "../../mutations/add-to-cart";
+import {openNav} from "./CART"
 
 const AddToCart = (props) => {
+
+    let viewCart = useRef(null)
 
     const {product} = props;
 
@@ -17,6 +20,7 @@ const AddToCart = (props) => {
         clientMutationId: v4(), // Generate a unique id.
         productId: product.productId,
     };
+    console.log(product.productId)
 
     const [cart, setCart] = useContext(AppContext);
     const [showViewCart, setShowViewCart] = useState(false);
@@ -45,8 +49,8 @@ const AddToCart = (props) => {
         variables: {
             input: productQryInput,
         },
-        onCompleted: (data) => {
-            console.log("ADD TO CART SUCCESS", data, 'loading ', loading)
+        onCompleted: () => {
+            console.log("ADD TO CART SUCCESS", data)
             // On Success:
             // 1. Make the GET_CART query to update the cart with new values in React context.
             refetch();
@@ -58,7 +62,8 @@ const AddToCart = (props) => {
             if (error) {
                 setRequestError(error?.graphQLErrors?.[0]?.message ?? '');
             }
-            console.log("ADD TO CART FAILURE", error?.graphQLErrors?.[0]?.message ?? '')
+
+            console.log("ERROR ", error, "WITH", error?.graphQLErrors?.[0]?.message ?? '')
         }
     });
 
@@ -90,11 +95,13 @@ const AddToCart = (props) => {
                 </button>
             }
             {showViewCart ? (
-                <Link href="/cart">
-                    <button
+                // <Link href="/cart">
+                    <button 
+                    onClick={openNav}
+                    ref={el => {viewCart = el}}
                         className="px-3 py-1 rounded-sm text-sm border-solid border border-current inline-block">VIEW CART
                     </button>
-                </Link>
+                // </Link>
             ) : ''}
         </div>
     );

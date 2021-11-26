@@ -1,0 +1,45 @@
+.cart-el-close{
+    padding: 10px 20px 10px 0;
+}
+
+.cart-el-close svg{
+    width: 10px;
+}
+
+.cart-element img{
+    width: 10px;
+}
+
+.cart-element input{
+    max-width: 49px;
+    text-align: end;
+    font-weight: bold;
+}
+
+.cart-products {
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.cart-total-container {
+    position: absolute;
+    bottom: 0;
+}
+
+.cart-total-container button {
+    background-color: black;
+    padding: 20px;
+    color: white;
+}
+
+.cart-element-total {
+    font-size: 3rem;
+    text-transform: uppercase;
+}
+
+.cart-element-amt {
+    padding: 0;
+    bottom: -0.6rem;
+    left: 3rem;
+    position: relative;
+}

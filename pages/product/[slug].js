@@ -1,4 +1,5 @@
 import Layout from '../../src/components/Layout';
+import IntroImage from '../../src/components/IntroImage';
 import { useRouter } from 'next/router';
 import client from '../../src/components/ApolloClient';
 import AddToCartButton from '../../src/components/cart/AddToCartButton';
@@ -11,6 +12,7 @@ import Price from "../../src/components/single-product/price";
 import prodstyles from "../../src/styles/product.module.css"
 
 
+
 export default function Product(props) {
 	// const { product } = props;
 
@@ -19,7 +21,7 @@ export default function Product(props) {
     // If the page is not yet generated, this will be displayed
     // initially until getStaticProps() finishes running
     if (router.isFallback) {
-        return <div>Loading...</div>
+        return <IntroImage></IntroImage>
     }
 
     // const products  = props.products.productsData 
@@ -33,54 +35,10 @@ export default function Product(props) {
     // console.log(images)
     // console.log(images)
 
+
+
+   
 	return (
-        // <div>
-            /* <Layout>
-                { product ? (
-                    <div className="single-product container mx-auto my-32 px-4 xl:px-0">
-                        <div className="grid md:grid-cols-2 gap-4">
-                            <div className="product-images">
-
-                                { !isEmpty( product?.galleryImages?.nodes ) && !isEmpty( product?.image )? (
-                                    <div>
-                                        <img
-                                        src={ product?.image?.sourceUrl }
-                                        alt="Product Image"
-                                        width="100%"
-                                        height="auto"
-                                        srcSet={ product?.image?.srcSet }
-                                        />
-                                        <GalleryCarousel gallery={product?.galleryImages?.nodes}/>
-                                    </div>
-                                ) : !isEmpty( product.image ) ? (
-                                    <img
-                                        src={ product?.image?.sourceUrl }
-                                        alt="Product Image"
-                                        width="100%"
-                                        height="auto"
-                                        srcSet={ product?.image?.srcSet }
-                                    />
-                                ) : null }
-                            </div>
-                            <div className="product-info">
-                                <h4 className="products-main-title text-2xl uppercase">{ product.name }</h4>
-                                <div
-
-                                    dangerouslySetInnerHTML={ {
-                                        __html: product.description,
-                                    } }
-                                    className="product-description mb-5"
-                                />
-                                <Price salesPrice={product?.price} regularPrice={product?.regularPrice}/>
-                                <AddToCartButton product={ product }/>
-                            </div>
-                        </div>
-
-                    </div>
-                ) : (
-                    ''
-                ) }
-            </Layout> */
         <Layout categories = {categories} tags = {tags}>
             { product ? (
                 <div className={prodstyles.card}>
@@ -98,8 +56,11 @@ export default function Product(props) {
                         }
                         </div>
                         <div className={prodstyles.rightContainer}>
-                            <h4 className={prodstyles.card_title}>{product.name}</h4>
-                            <div className={prodstyles.card_text} dangerouslySetInnerHTML={{ __html: product.description }} />
+                            <div className="TITLE">
+                                <h4 className="left" className={prodstyles.card_title}>{product.name}</h4>
+                                <h4 className="right" className={prodstyles.card_title}>{product.name}</h4>
+                                <div className={prodstyles.card_text} dangerouslySetInnerHTML={{ __html: product.description }} />
+                            </div>
                             <div className={prodstyles.add_to_cart}>
                                 <AddToCartButton product={product}></AddToCartButton>
                             </div>

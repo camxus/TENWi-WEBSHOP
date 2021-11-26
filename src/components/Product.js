@@ -8,7 +8,7 @@ import {getFloatVal} from '../../src/functions.js'
 const Product = ( props ) => {
 	const { product } = props;
 
-	let currency = product?.price ? product.price[0] : "";
+	let currency = product?.price ? product.price.slice(-1) : "";
 	let price = getFloatVal(product?.price ? product.price : "0");
 
 	return (
