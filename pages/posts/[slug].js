@@ -6,10 +6,11 @@ import {GET_POST_BY_SLUG, POSTS_SLUGS} from '../../src/queries/get-posts';
 import PRODUCTS_AND_CATEGORIES_QUERY from "../../src/queries/product-and-categories";
 import { isEmpty } from 'lodash';
 
+
 import style from "../../src/styles/posts.module.css"
 
 
-export default function Product({post, categories, tags}) {
+export default function Product({post, categories, tags}) {ll
 	// const { product } = props;
 
     const router = useRouter()

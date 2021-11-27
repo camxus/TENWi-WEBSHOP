@@ -9,7 +9,13 @@ import { isEmpty } from 'lodash';
 import GalleryCarousel from "../../src/components/single-product/gallery-carousel";
 import Price from "../../src/components/single-product/price";
 
+// import {Tween, Power3} from 'gsap'
+// import { useRef, useEffect } from 'react'
+import { Controller, Scene } from 'react-scrollmagic';
+import { Tween, Timeline } from 'react-gsap';
 import prodstyles from "../../src/styles/product.module.css"
+
+import { useRef, useEffect} from 'react'
 
 
 
@@ -35,16 +41,23 @@ export default function Product(props) {
     // console.log(images)
     // console.log(images)
 
+    let imageContainer = useRef(null)
+    let changedTitle = []
+    let repeatAmount = 20
+    for (let i = 0; i < repeatAmount; i++){
+        changedTitle.push(product.name)
+    }
 
-
-   
 	return (
         <Layout categories = {categories} tags = {tags}>
             { product ? (
                 <div className={prodstyles.card}>
                     {/* <div className={prodstyles.card_header}>{product.name}</div> */}
                     <div className={prodstyles.card_body}>
-                        <div className={prodstyles.image_container}>
+                        <div 
+                        id="element"
+                        ref={el => {imageContainer = el}}
+                        className={prodstyles.image_container}>
                         { 
                         // !isEmpty(images) ? (
                             images.map( image => 
@@ -56,11 +69,42 @@ export default function Product(props) {
                         }
                         </div>
                         <div className={prodstyles.rightContainer}>
-                            <div className="TITLE">
-                                <h4 className="left" className={prodstyles.card_title}>{product.name}</h4>
-                                <h4 className="right" className={prodstyles.card_title}>{product.name}</h4>
-                                <div className={prodstyles.card_text} dangerouslySetInnerHTML={{ __html: product.description }} />
+                            <div className={prodstyles["TITLE"]}>
+                            <Controller container = "#element">
+                                <Scene duration="100%" triggerElement={imageContainer} >
+                                {/* <Timeline wrapper={<div id="pinContainer" />}> */}
+                                <Tween
+                                    from={{ x: '-100%' }}
+                                    to={{ x: '0%' }}
+                                >
+                                    <h4 className={prodstyles["left"]} className={prodstyles.card_title}  >
+                                    { changedTitle.map( name =>
+                                    product.name + "  "
+                                    )}
+                                    </h4>
+                                </Tween>
+                                </Scene>
+                            </Controller>
+                            <Controller container = "#element">
+                                <Scene duration="100%" triggerElement={imageContainer} 
+                                // indicators
+                                 >
+                                <Tween
+                                    from={{ x: '0%' }}
+                                    to={{ x: '-100%' }}
+                                >
+                                    <h4 className={`${prodstyles["card_title"]} ${prodstyles["right"]}`}  >
+                                    { changedTitle.map( name =>
+                                    product.name + "  "
+                                    )}  
+                                    </h4>
+                                </Tween>
+                                {/* </Timeline> */}
+                                </Scene>
+                            </Controller>
+                            
                             </div>
+                                <div className={prodstyles.card_text} dangerouslySetInnerHTML={{ __html: product.description }} />
                             <div className={prodstyles.add_to_cart}>
                                 <AddToCartButton product={product}></AddToCartButton>
                             </div>

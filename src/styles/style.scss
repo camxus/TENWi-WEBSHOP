@@ -119,3 +119,20 @@
     border-radius: 4px;
   }
 }
+@font-face {
+  font-family: 'UniserBold';
+  src: local('Lato'), url(../../public/fonts/landasans-font/LandasansUltraLight-qZ080.otf) format('opentype');
+}
+
+* {
+  font-family: 'UniserBold';
+  font-weight: bold;
+}
+
+:root {
+  --font-size-very-small: 0.9rem;
+  --font-size-small: 1.1rem;
+  --font-size-mid: 3rem;
+  --font-size-large: 5rem;
+  --font-size-very-large: 10rem;
+}

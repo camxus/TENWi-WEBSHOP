@@ -38,6 +38,7 @@
     padding: 0 0 0 0;
     list-style-type: none;
     --textcolor: grey;
+    font-size: calc(0.5rem + var(--font-size-small));
 }
 
 

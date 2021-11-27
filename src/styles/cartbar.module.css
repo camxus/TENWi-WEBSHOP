@@ -17,7 +17,7 @@
 }
 
 .cart-products {
-    font-size: 0.7rem;
+    font-size: var(--font-size-very-small);
     font-weight: bold;
 }
 
@@ -33,7 +33,7 @@
 }
 
 .cart-element-total {
-    font-size: 3rem;
+    font-size: var(--font-size-mid);
     text-transform: uppercase;
 }
 

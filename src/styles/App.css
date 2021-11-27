@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'UniserBold';
+    src: local('Lato'), url(../../public/fonts/uniser-bold-font/UniserBold-2Or58.otf) format('opentype');
+  }
+
+* {
+    font-family: 'UniserBold';
+    font-weight: bold;
+}

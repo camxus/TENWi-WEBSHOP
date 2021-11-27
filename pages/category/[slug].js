@@ -6,7 +6,7 @@ import {PRODUCT_BY_CATEGORY_SLUG, PRODUCT_CATEGORIES_SLUGS} from "../../src/quer
 import PRODUCTS_AND_CATEGORIES_QUERY from "../../src/queries/product-and-categories";
 import {isEmpty} from "lodash";
 import {useRouter} from "next/router";
-import categories from "../../src/styles/categories.module.css"
+import cat from "../../src/styles/categories.module.css"
 import styles from '../../src/styles/style.module.css';
 
 
@@ -25,7 +25,7 @@ export default function CategorySingle( props ) {
     return (
         <Layout categories={categories} tags = {tags}>
             <div>
-                { categoryName ? <h3 className={categories[`header`]}>{ categoryName }</h3> : '' }
+                { categoryName ? <h3 className={cat[`header`]}>{ categoryName }</h3> : '' }
                 <div className={`${styles["product-container"]}`}>
 					{ products.length ? (
 						products.map( product => <Product key={ product.id } product={ product } /> )
