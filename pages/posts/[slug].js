@@ -10,7 +10,7 @@ import { isEmpty } from 'lodash';
 import style from "../../src/styles/posts.module.css"
 
 
-export default function Product({post, categories, tags}) {ll
+export default function Product({post, categories, tags}) {
 	// const { product } = props;
 
     const router = useRouter()
