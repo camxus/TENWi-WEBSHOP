@@ -175,12 +175,15 @@
     }
 
     .nav_items_container {
-        overflow-y: scroll;
-        height: 52%;
         position: relative;
     }
 
     .sub_box {
         height: max-content;
+    }
+
+    .nav_list {
+        height: 36vh;
+        overflow-y: scroll;
     }
 }
