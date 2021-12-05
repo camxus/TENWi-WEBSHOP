@@ -8,8 +8,7 @@ import navbar from '../../src/styles/navbar.module.css'
 const Nav = ({categories, tags}) => {
 	const categoriesList = categories ? Array.from(categories) : []
 	const tagsList = tags ? (Array.from(tags)) : []
-	console.log("LIST",tags)
-	console.log("list", tagsList)
+
 
 	let navBtn = useRef(null)
 	let navContainer = useRef(null)

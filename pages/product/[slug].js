@@ -54,13 +54,14 @@ export default function Product({product, categories, tags, variationName, sizes
                         ref={el => {imageContainer = el}}
                         className={prodstyles.image_container}>
                         { 
-                        // !isEmpty(images) ? (
+                        !isEmpty(images) ? (
                             images.map( image => 
                                 <img
                                 src={image ? image.sourceUrl: ""} alt="Product Image" className={prodstyles.image}
                                 // objectFit="cover"
                                 /> 
                                 ) 
+                            ) : ""
                         }
                         </div>
                         <div className={prodstyles.rightContainer}>

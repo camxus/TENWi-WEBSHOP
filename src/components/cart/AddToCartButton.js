@@ -40,8 +40,7 @@ const AddToCart = ({product, variationName, sizes}) => {
     const [requestError, setRequestError] = useState(null);
 
     const [addrtype, setAddrtype] = useState(sizes) //     options: [ 'XS', 'S', 'M', 'L', 'XL' ],
-    const Size = addrtype.map(Size => Size
-    )
+    const Size = addrtype ? addrtype.map(Size => Size) : ""
     const handleSizeChange = (e) => { selectedSize = addrtype[e.target.value]}
 
         // Get Cart Data.

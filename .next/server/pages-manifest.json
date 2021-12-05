@@ -1,6 +1,14 @@
 {
   "/_app": "pages/_app.js",
+  "/all": "pages/all.js",
+  "/cart": "pages/cart.js",
+  "/category/[slug]": "pages/category/[slug].js",
+  "/checkout": "pages/checkout.js",
+  "/feature/[slug]": "pages/feature/[slug].js",
+  "/": "pages/index.js",
+  "/posts/[slug]": "pages/posts/[slug].js",
+  "/product/[slug]": "pages/product/[slug].js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js"
+  "/404": "pages/404.html"
 }
