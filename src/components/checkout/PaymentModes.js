@@ -17,24 +17,24 @@ const PaymentModes = ( { input, handleOnChange } ) => {
 			{/*Pay with Paypal*/}
 			<div className="form-check payment-input-container mt-2">
 				<label className="form-check-label">
-					<input onChange={ handleOnChange } value="paypal" className="form-check-input mr-3" name="paymentMethod" type="radio" checked={'paypal' === paymentMethod}/>
+					<input onChange={ handleOnChange } value="ppcp-gateway" className="form-check-input mr-3" name="paymentMethod" type="radio" checked={'paypal' === paymentMethod}/>
 					<span className="payment-content">Pay with Paypal</span>
 				</label>
 			</div>
-			{/*Check Payments*/}
-			<div className="form-check payment-input-container mt-2">
+			{/* Check Payments */}
+			{/* <div className="form-check payment-input-container mt-2">
 				<label className="form-check-label">
 					<input onChange={ handleOnChange } value="cheque" className="form-check-input mr-3" name="paymentMethod" type="radio" checked={'cheque' === paymentMethod}/>
 					<span className="payment-content">Check Payments</span>
 				</label>
-			</div>
+			</div> */}
 			{/*Pay with Stripe*/}
-			<div className="form-check payment-input-container mt-2">
+			{/* <div className="form-check payment-input-container mt-2">
 				<label className="form-check-label">
 					<input onChange={ handleOnChange } value="cod" className="form-check-input mr-3" name="paymentMethod" type="radio" checked={'cod' === paymentMethod}/>
 					<span className="payment-content">Cash on Delivery</span>
 				</label>
-			</div>
+			</div> */}
 			{/* <div className="form-check payment-input-container mt-2">
 				<label className="form-check-label">
 					<input onChange={ handleOnChange } value="jccpaymentgatewayredirect" className="form-check-input mr-3" name="paymentMethod" type="radio" checked={'jccpaymentgatewayredirect' === paymentMethod}/>

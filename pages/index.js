@@ -9,7 +9,7 @@ import intro from '../src/styles/intro.module.css';
 import Image from 'next/image'
 
 export default function Categories ( {productCategories, categories, tags} ) {
-
+	console.log(tags)
 
 	return (
 		<Layout categories = {categories} tags = {tags}>

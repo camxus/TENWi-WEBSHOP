@@ -10,21 +10,39 @@ import GET_CART from "../../queries/get-cart";
 import ADD_TO_CART from "../../mutations/add-to-cart";
 import {openNav} from "./CART"
 
-const AddToCart = (props) => {
+const AddToCart = ({product, variationName, sizes}) => {
 
     let viewCart = useRef(null)
+    console.log("sizes", sizes)
 
-    const {product} = props;
-
-    const productQryInput = {
-        clientMutationId: v4(), // Generate a unique id.
-        productId: product.productId,
-    };
+    let selectedSize = null;
+    let productQryInput = {}
+    if (sizes) {
+        productQryInput = {
+            clientMutationId: v4(), // Generate a unique id.
+            productId: product.productId,
+            variation: {
+                attributeName: variationName,
+                attributeValue: selectedSize
+            }
+        };
+    }
+    else {
+        productQryInput = {
+            clientMutationId: v4(), // Generate a unique id.
+            productId: product.productId,
+        };
+    }
     console.log(product.productId)
 
     const [cart, setCart] = useContext(AppContext);
     const [showViewCart, setShowViewCart] = useState(false);
     const [requestError, setRequestError] = useState(null);
+
+    const [addrtype, setAddrtype] = useState(sizes) //     options: [ 'XS', 'S', 'M', 'L', 'XL' ],
+    const Size = addrtype.map(Size => Size
+    )
+    const handleSizeChange = (e) => { selectedSize = addrtype[e.target.value]}
 
         // Get Cart Data.
     const {data, refetch} = useQuery(GET_CART, {
@@ -67,8 +85,8 @@ const AddToCart = (props) => {
         }
     });
 
+
     const handleAddToCartClick = async () => {
-        console.log("run")
         setRequestError(null);
         await addToCart();
     };
@@ -81,7 +99,7 @@ const AddToCart = (props) => {
                        className="px-3 py-1 rounded-sm mr-3 text-sm border-solid border border-current inline-block hover:text-white">
 						BUY NOW
                     </a>
-                ) :
+                ) : 
                 <button
 					disabled={addToCartLoading}
                     onClick={handleAddToCartClick}
@@ -94,6 +112,19 @@ const AddToCart = (props) => {
 					{ addToCartLoading ? 'ADDING TO CART...' : 'ADD TO CART' }
                 </button>
             }
+            { sizes ? (
+            <div className="sizes">
+                < select
+                    onChange={e => handleSizeChange(e)}
+                    className="browser-default custom-select" >
+                    {
+                        Size.map((address, key) => <option key={key}value={key}>{address}</option>)
+                    }
+                </select >
+            </div>
+            ) : ""
+            }
+
             {showViewCart ? (
                 // <Link href="/cart">
                     <button 

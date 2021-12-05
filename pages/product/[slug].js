@@ -19,9 +19,7 @@ import { useRef, useEffect} from 'react'
 
 
 
-export default function Product(props) {
-	// const { product } = props;
-
+export default function Product({product, categories, tags, variationName, sizes}) {
     const router = useRouter()
 
     // If the page is not yet generated, this will be displayed
@@ -31,9 +29,6 @@ export default function Product(props) {
     }
 
     // const products  = props.products.productsData 
-    const { product } = props
-    const { categories } = props
-    const { tags } = props
     // console.log('products', products)
     // const {images} = props
     var images = []
@@ -106,7 +101,7 @@ export default function Product(props) {
                             </div>
                                 <div className={prodstyles.card_text} dangerouslySetInnerHTML={{ __html: product.description }} />
                             <div className={prodstyles.add_to_cart}>
-                                <AddToCartButton product={product}></AddToCartButton>
+                                <AddToCartButton sizes={sizes} variationName={variationName} product={product}></AddToCartButton>
                             </div>
                         </div>
                     </div>
@@ -126,6 +121,12 @@ export async function getStaticProps(context) {
         query: PRODUCT_BY_SLUG_QUERY,
         variables: { slug }
     })
+    var variations = null
+    data.product.localAttributes ? variations = data.product.localAttributes.nodes[0] : "";
+    const sizes = variations?.options
+    const variationName = variations?.name
+    // console.log(data.product.localAttributes)
+    
     var categories = await client.query( {
 		query: PRODUCTS_AND_CATEGORIES_QUERY,
 	} );
@@ -139,6 +140,8 @@ export async function getStaticProps(context) {
             product: data?.product || {},
             categories: categories ? categories : [],
             tags: tags ? tags : [],
+            sizes: sizes ? sizes : null,
+            variationName: variationName ? variationName : null,
         },
         revalidate: 1
     };

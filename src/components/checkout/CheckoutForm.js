@@ -19,6 +19,8 @@ import CheckboxField from "./form-elements/CheckboxField";
 
 import Link from "next/link"
 
+import Paypal from "./Paypal"
+
 // Use this for testing purposes, so you dont have to fill the checkout form over an over again.
 // const defaultCustomerInfo = {
 // 	firstName: 'Imran',
@@ -138,7 +140,6 @@ const CheckoutForm = ({countriesData}) => {
         }
 
         const checkOutData = createCheckoutData(input);
-        console.log("checkout data", check)
         setRequestError(null);
         /**
          *  When order data is set, checkout mutation will automatically be called,
@@ -197,6 +198,13 @@ const CheckoutForm = ({countriesData}) => {
 
     }, [orderData]);
 
+    const initialOptions = {
+        "client-id": `${process.env.PAYPAL_CLIENT}` ,
+        currency: "EUR",
+        intent: "capture",
+        "data-client-token": `email`,
+    };
+    
     return (
         <>
             {cart ? (
@@ -257,7 +265,8 @@ const CheckoutForm = ({countriesData}) => {
                                     Place Order
                                 </button>
                             </div>
-
+                            {/* <Paypal orderData={orderData}/> */}
+                            {/* <Paypal/> */}
                             {/* Checkout Loading*/}
                             {checkoutLoading && <p>Processing Order...</p>}
                             {requestError && <p>Error : {requestError} :( Please try again</p>}

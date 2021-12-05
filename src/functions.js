@@ -277,9 +277,9 @@ export const createCheckoutData = ( order ) => {
 			phone: billingData?.phone,
 			company: billingData?.company,
 		},
-		shipToDifferentAddress: order.billingDifferentThanShipping,
-		paymentMethod: order.paymentMethod,
-		isPaid: false,
+		// shipToDifferentAddress: order.billingDifferentThanShipping,
+		// paymentMethod: order.paymentMethod,
+		isPaid: true,
 	};
 
 	if (order.createAccount) {
