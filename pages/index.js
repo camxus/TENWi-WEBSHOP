@@ -28,7 +28,7 @@ export default function Categories ( {productCategories, categories, tags} ) {
 					{/* image */}
 					<Image 
 						className={styles.image}
-						src={require('../public/assets/images/categories/jackets/Tenwi_Lookbook0078.jpg')}
+						src={category.image.sourceUrl}
 						objectFit="cover"
 						/>
 					<Link href={`/category/${category.slug}`}>
