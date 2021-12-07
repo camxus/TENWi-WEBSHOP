@@ -8,11 +8,10 @@
 }
 
 .product-container img {
-    width: 100%;
-    display: inline-block;
-    object-fit: cover;
-    /* transition: all 1s;
-    transform: scale(1); */
+    width: 100% ! important;
+    display: inline-block ! important;
+    position: absolute ! important;
+    height: auto ! important;
     vertical-align: text-bottom;
 }
 

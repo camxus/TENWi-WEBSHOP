@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styles from '../../src/styles/cards.module.css'
 import AddToCartButton from '../components/cart/AddToCartButton';
 import Price from "./single-product/price";
-import Image from "../image";
+import Image from "next/image";
 import {DEFAULT_PRODUCT_HOME_IMG_URL} from "../constants/urls";
 import {getFloatVal} from '../../src/functions.js'
 const Product = ( props ) => {
@@ -47,17 +47,18 @@ const Product = ( props ) => {
 				href={`/product/${ product.slug }`}>
 					<a>
 						<div className={styles["imagewrapper"]}>
-							<img
+							<Image
 							// src={ product.images[0].src }
 							src={  product?.image?.sourceUrl? product?.image?.sourceUrl : ""  }
 							alt="Product image"
-							loading="lazy"
+							layout="fill"
 							// objectFit="cover"
 							/>
 						</div>
 						<div className={styles["card-main"]}>
 							<h1 className={styles["card-header"]}>{product?.name? product.name : ""}</h1>
 							<h1 className={styles["subtitle"]}>{ currency }{ price }</h1>
+							<h1 className={styles["background"]}></h1>
 
 							{/* <a href="" className="btn btn-secondary">View</a> */}
 						</div>

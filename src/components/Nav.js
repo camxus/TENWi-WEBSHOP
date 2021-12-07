@@ -6,10 +6,13 @@ import navbar from '../../src/styles/navbar.module.css'
 
 
 const Nav = ({categories, tags}) => {
-	const categoriesList = categories ? Array.from(categories) : []
+	var categoriesList = categories ? Array.from(categories) : []
 	const tagsList = tags ? (Array.from(tags)) : []
-
-
+	for ( let i = 0; i < categoriesList.length; i++){
+		if (categoriesList[i].name === "ALL"){
+			categoriesList = categoriesList.filter(item => item !== categoriesList[i])
+		}
+	}
 	let navBtn = useRef(null)
 	let navContainer = useRef(null)
 	let navOverlay = useRef(null)

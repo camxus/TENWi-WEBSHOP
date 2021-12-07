@@ -13,7 +13,6 @@ import styles from '../../src/styles/style.module.css';
 export default function CategorySingle( props ) {
 
     const router = useRouter()
-
     // If the page is not yet generated, this will be displayed
     // initially until getStaticProps() finishes running
     if (router.isFallback) {
@@ -21,7 +20,7 @@ export default function CategorySingle( props ) {
     }
 
     const { categoryName, products, categories, tags } = props;
-
+    console.log(products)
     return (
         <Layout categories={categories} tags = {tags}>
             <div>

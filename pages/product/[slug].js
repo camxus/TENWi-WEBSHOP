@@ -64,46 +64,49 @@ export default function Product({product, categories, tags, variationName, sizes
                             ) : ""
                         }
                         </div>
-                        <div className={prodstyles.rightContainer}>
-                            <div className={prodstyles["TITLE"]}>
-                            <Controller container = "#element">
-                                <Scene duration="100%" triggerElement={imageContainer} >
-                                {/* <Timeline wrapper={<div id="pinContainer" />}> */}
-                                <Tween
-                                    from={{ x: '-100%' }}
-                                    to={{ x: '0%' }}
-                                >
-                                    <h4 className={prodstyles["left"]} className={prodstyles.card_title}  >
-                                    { changedTitle.map( name =>
-                                    product.name + "  "
-                                    )}
-                                    </h4>
-                                </Tween>
-                                </Scene>
-                            </Controller>
-                            <Controller container = "#element">
-                                <Scene duration="100%" triggerElement={imageContainer} 
-                                // indicators
-                                 >
-                                <Tween
-                                    from={{ x: '0%' }}
-                                    to={{ x: '-100%' }}
-                                >
-                                    <h4 className={`${prodstyles["card_title"]} ${prodstyles["right"]}`}  >
-                                    { changedTitle.map( name =>
-                                    product.name + "  "
-                                    )}  
-                                    </h4>
-                                </Tween>
-                                {/* </Timeline> */}
-                                </Scene>
-                            </Controller>
-                            
-                            </div>
-                                <div className={prodstyles.card_text} dangerouslySetInnerHTML={{ __html: product.description }} />
-                            <div className={prodstyles.add_to_cart}>
-                                <AddToCartButton sizes={sizes} variationName={variationName} product={product}></AddToCartButton>
-                            </div>
+                        <div className={`${prodstyles["right-wrapper"]}`}>
+                            <div className={prodstyles.rightContainer}>
+                                <div className={prodstyles["TITLE"]}>
+                                <Controller container = "#element">
+                                    <Scene duration="1000%" triggerElement={imageContainer} >
+                                    {/* <Timeline wrapper={<div id="pinContainer" />}> */}
+                                    <Tween
+                                        
+                                        from={{ x: '0%' }}
+                                        to={{ x: '-100%' }}
+                                    >
+                                        <h4 className={prodstyles["left"]} className={prodstyles.card_title}  >
+                                        { changedTitle.map( name =>
+                                        product.name + "  "
+                                        )}
+                                        </h4>
+                                    </Tween>
+                                    </Scene>
+                                </Controller>
+                                <Controller container = "#element">
+                                    <Scene duration="1000%" triggerElement={imageContainer} 
+                                    // indicators
+                                    >
+                                    <Tween
+                                        from={{ x: '-100%' }}
+                                        to={{ x: '0%' }}
+                                    >
+                                        <h4 className={`${prodstyles["card_title"]} ${prodstyles["right"]}`}  >
+                                        { changedTitle.map( name =>
+                                        product.name + "  "
+                                        )}  
+                                        </h4>
+                                    </Tween>
+                                    {/* </Timeline> */}
+                                    </Scene>
+                                </Controller>
+                                
+                                </div>
+                                    <div className={prodstyles.card_text} dangerouslySetInnerHTML={{ __html: product.description }} />
+                            </div> 
+                                <div className={prodstyles.add_to_cart}>
+                                    <AddToCartButton sizes={sizes} variationName={variationName} product={product}></AddToCartButton>
+                                </div>
                         </div>
                     </div>
                 </div>

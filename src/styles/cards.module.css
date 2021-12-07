@@ -1,9 +1,24 @@
 .card {
-    border: 1px dotted black;
+    border: 1px solid black;
+    border-left: 0;
+    border-top: 0;
     position: relative;
     height: auto;
-    width: calc(100vw/3);
+    width: calc(100vw/4);
+    overflow: hidden;
 }
+
+.card:hover 
+.background,
+.card-header,
+.subtitle {
+    background-color:black;
+}
+
+.card:hover{
+    color:white;
+}
+
 
 @media only screen and (max-width: 768px) {
     .card {
@@ -14,31 +29,45 @@
 
 .card-main {
     display: inline-block;
-    position: absolute;
+    position: relative;
     width: 100%;
-    height: 8.3%;
-    bottom: 0;
+    height: 4.5vh;
+    /* bottom: 0; */
+    border-top: 1px solid black;
     background-color: #ebebeb;
 }
 
-.card-header {
+.card-header,
+.subtitle{
+    background-color: transparent;
 	display: inline-block;
     position: absolute;
-    top: 50%;
+    top: 53%;
     transform: translateY(-50%);
-    left: 0;
-    padding-left: 7%;
+    font-weight: bold;
     font-size: var(--font-size-small);
     margin: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.card-header {
+    left: 0;
+    padding-left: 7%;  
 }
 
 .subtitle {
-	display: inline-block;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
     right: 0;
     padding-right: 7%;
-    font-size: var(--font-size-small);
-    margin: 0;
+}
+
+.imagewrapper {
+    position: relative;
+    padding-top: 133.25%;
+}
+
+.background {
+    width: 100%;
+    height: 120%;
+    background-color: #ebebeb;    
+    transition: all 0.5s ease-in-out;
 }

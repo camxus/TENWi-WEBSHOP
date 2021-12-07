@@ -9,7 +9,6 @@ import intro from '../src/styles/intro.module.css';
 import Image from 'next/image'
 
 export default function Categories ( {productCategories, categories, tags} ) {
-	console.log(tags)
 
 	return (
 		<Layout categories = {categories} tags = {tags}>
@@ -23,13 +22,14 @@ export default function Categories ( {productCategories, categories, tags} ) {
 					</div>
 				</div>
 			</div>
-			{categories ? categories.map( category => (
+			{productCategories ? productCategories.map( category => (
 				<div className={`${styles['category-wrapper']}`}>
 					{/* image */}
 					<Image 
 						className={styles.image}
-						src={category.image.sourceUrl}
+						src={category.image?.sourceUrl ? category.image.sourceUrl : require('../public/assets/images/categories/jackets/Tenwi_Lookbook0078.jpg')}
 						objectFit="cover"
+						layout="fill"
 						/>
 					<Link href={`/category/${category.slug}`}>
 						<a>
