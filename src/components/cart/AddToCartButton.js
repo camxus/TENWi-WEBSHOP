@@ -11,6 +11,8 @@ import ADD_TO_CART from "../../mutations/add-to-cart";
 import {openNav} from "./CART"
 import Select from 'react-select'
 
+import styles from '../../styles/product.module.css'
+
 
 const AddToCart = ({product, variationName, sizes}) => {
 
@@ -19,9 +21,6 @@ const AddToCart = ({product, variationName, sizes}) => {
     let selectedSize = null;
     let productQryInput = {}
     
-    
-    
-    console.log(product.productId)
 
     const [cart, setCart] = useContext(AppContext);
     const [showViewCart, setShowViewCart] = useState(false);
@@ -128,8 +127,8 @@ const AddToCart = ({product, variationName, sizes}) => {
           borderTop: '1px solid grey',
           borderLeft: '0',
           borderRight: '0',
-          color: state.isSelected ? 'white' : 'black',
-          backgroundColor: state.isSelected ? 'black' : 'white',
+          color: state.isSelected ? 'black' : 'black',
+          backgroundColor: state.isSelected ? 'lightgray' : 'white',
           borderRadius: "0",
           textAlign: 'center',
           padding: "2% 0",
@@ -252,7 +251,7 @@ const AddToCart = ({product, variationName, sizes}) => {
                     <button 
                     onClick={openNav}
                     ref={el => {viewCart = el}}
-                        className="px-3 py-1 rounded-sm text-sm border-solid border border-current inline-block">VIEW CART
+                        className={`${styles["view-cart"]}`}>VIEW CART
                     </button>
                 // </Link>
             ) : ''}
