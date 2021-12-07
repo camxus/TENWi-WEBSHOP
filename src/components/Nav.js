@@ -69,11 +69,17 @@ const Nav = ({categories, tags}) => {
 								</a>
 						<ul className={navbar.nav_list}>
 							
-							<li className={`${navbar.nav_item} ${navbar.head}`}>
-								<a className={navbar.nav_link} 
-								href="/all"
-								>ALL</a>
-							</li>
+							<a className={navbar.nav_link} 
+								href="category/all">
+								<li className={`${navbar.nav_item} ${navbar.head}`}>
+									ALL
+								</li>
+								<div className={`${navbar.reveal} ${navbar.head}`}>
+									<li>
+										ALL
+									</li>
+								</div>
+							</a>
 							<li className={`${navbar.nav_item} ${navbar.head}`}>
 								<p className={navbar.nav_link} 
 								// href=""
@@ -82,7 +88,18 @@ const Nav = ({categories, tags}) => {
 							<div className={`${navbar.nav_item} ${navbar.sub_box}`}>
 								{ categoriesList !== undefined && categoriesList.length ?(
 									categoriesList.map( category => 
-									<li className={navbar.nav_item}> <a className={`${navbar.nav_link} ${navbar.sub}`} href={`/category/${category.slug}`}>{ category.name }</a></li>
+									<div>
+										<a className={`${navbar.nav_link} ${navbar.sub}`} href={`/category/${category.slug}`}>
+											<li className={navbar.nav_item}> 
+													{ category.name }
+											</li>
+											<div className={`${navbar.reveal} ${navbar.head}`}>
+												<li>
+													{ category.name }
+												</li>
+											</div>
+										</a>
+									</div>
 									//  {console.log('category', category.slug)}
 									)
 									): ''}
@@ -94,7 +111,20 @@ const Nav = ({categories, tags}) => {
 							</li>
 							<div className={`${navbar.nav_item} ${navbar.sub_box}`}>
 								{  tagsList !== undefined && tagsList.length ? (
-									tagsList.map( tag => <li className={navbar.nav_item}> <a className={`${navbar.nav_link} ${navbar.sub}`} href={`/feature/${tag.slug}`}>{ tag.name }</a></li> )
+									tagsList.map( tag => 
+									<div>
+										<a className={`${navbar.nav_link} ${navbar.sub}`} href={`/feature/${tag.slug}`}>
+											<li className={navbar.nav_item}>
+													{ tag.name }
+											</li> 
+											<div className={`${navbar.reveal} ${navbar.head}`}>
+												<li>
+													{ tag.name }
+												</li>
+											</div>
+										</a>
+									</div>
+										)
 								): ''}
 							</div>
 
