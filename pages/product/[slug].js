@@ -16,6 +16,7 @@ import { Tween, Timeline } from 'react-gsap';
 import prodstyles from "../../src/styles/product.module.css"
 
 import { useRef, useEffect} from 'react'
+import Image from "next/image"
 
 
 
@@ -56,9 +57,10 @@ export default function Product({product, categories, tags, variationName, sizes
                         { 
                         !isEmpty(images) ? (
                             images.map( image => 
-                                <img
+                                <Image
                                 src={image ? image.sourceUrl: ""} alt="Product Image" className={prodstyles.image}
                                 // objectFit="cover"
+                                layout="fill"
                                 /> 
                                 ) 
                             ) : ""
