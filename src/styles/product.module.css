@@ -49,6 +49,7 @@
     overflow: scroll;
     overflow-x: hidden;
     grid-area: left;
+    border-right: 1px solid black;
 }
 .image_container::-webkit-scrollbar {
     display: none;
@@ -56,6 +57,7 @@
 
 .image {
     width: 100%;
+    border-bottom: 1px solid black;
 }
 
 .card_text {
