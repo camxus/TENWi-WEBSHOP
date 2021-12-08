@@ -52,6 +52,8 @@ const AddToCart = ({product, variationName, sizes}) => {
         let tempSize = {value: size, label: size}; 
         options.push(tempSize);
     })     
+	: "";
+
         // Get Cart Data.
     const {data, refetch} = useQuery(GET_CART, {
             notifyOnNetworkStatusChange: true,
