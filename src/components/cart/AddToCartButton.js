@@ -47,7 +47,8 @@ const AddToCart = ({product, variationName, sizes}) => {
     let options = []
 
     //HYDRATE OPTIONS
-    Size.map(size => {
+    sizes?
+    sizes.map(size => {
         let tempSize = {value: size, label: size}; 
         options.push(tempSize);
     })     
