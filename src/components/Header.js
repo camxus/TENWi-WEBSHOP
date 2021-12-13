@@ -2,8 +2,11 @@ import Nav from "./Nav";
 import header from "../styles/header.module.css";
 import Image from 'next/image';
 import CART from './cart/CART'
+import {forwardRef} from 'react'
 
 const Header = (props) => {
+	console.log("header", props);
+
 	return (
 	<div>
 		<Nav {...props}></Nav>

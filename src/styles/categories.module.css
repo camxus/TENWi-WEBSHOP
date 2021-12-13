@@ -3,8 +3,8 @@
 }
 
 .category-name{
-    font-size: var(--font-size-small);
-    font-weight: bold;
+    font-size: var(--font-size-very-small);
+    font-weight: normal;
     color: black;
     display: block;
     background-color: #ebebeb;

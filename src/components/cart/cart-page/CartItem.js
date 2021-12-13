@@ -68,12 +68,12 @@ const CartItem = ( {
 					<Cross/>
 				</span>
 			</th>
-			<td className={[`cart-element`]} >
+			<td className={cartbar[`cart-element`]} >
 				<img width="64" src={ item.image.sourceUrl } srcSet={ item.image.srcSet } alt={ item.image.title }/>
 			</td>
 			<a href={`/product/${item?.slug? item.slug: ""}`}>
-			<td className={[`cart-element`]}>{ item.name }</td>
-			<td className={[`cart-element`]}>{ ( 'string' !== typeof item.price ) ? item.price.toFixed( 2 ) : item.price }</td>
+			<td className={cartbar[`cart-element`]}>{ item.name }</td>
+			<td className={cartbar[`cart-element`]}>{ ( 'string' !== typeof item.price ) ? item.price.toFixed( 2 ) : item.price }</td>
 			</a>
 
 			{/* Qty Input */ }
@@ -88,7 +88,7 @@ const CartItem = ( {
 					onChange={ ( event ) => handleQtyChange( event, item.cartKey ) }
 				/>
 			</td>
-			<td className={[`cart-element`]}>
+			<td className={cartbar[`cart-element`]}>
 				{ ( 'string' !== typeof item.totalPrice ) ? item.totalPrice.toFixed( 2 ) : item.totalPrice }
 			</td>
 		</tr>

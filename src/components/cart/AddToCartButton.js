@@ -1,4 +1,4 @@
-import {useState, useContext, useRef} from "react";
+import {useState, useContext, useRef, forwardRef} from "react";
 import {useQuery, useMutation} from '@apollo/client';
 import Link from "next/link";
 import {v4} from 'uuid';
@@ -8,15 +8,13 @@ import {AppContext} from "../context/AppContext";
 import {getFormattedCart} from "../../functions";
 import GET_CART from "../../queries/get-cart";
 import ADD_TO_CART from "../../mutations/add-to-cart";
-import {openNav} from "./CART"
 import Select from 'react-select'
 
 import styles from '../../styles/product.module.css'
 
 
-const AddToCart = ({product, variationName, sizes}) => {
-
-    let viewCart = useRef(null)
+const AddToCart = ({product, variationName, sizes}, ref) => {
+    console.log("ADCB", ref)
 
     let selectedSize = null;
     let productQryInput = {}
@@ -206,7 +204,8 @@ const AddToCart = ({product, variationName, sizes}) => {
           })
       }
     
-      
+     
+
     return (
         <div>
             {/*	Check if its an external product then put its external buy link */}
@@ -251,13 +250,14 @@ const AddToCart = ({product, variationName, sizes}) => {
 
             {showViewCart ? (
                 // <Link href="/cart">
+            <a href="/cart">
                     <button 
-                    onClick={openNav}
-                    ref={el => {viewCart = el}}
+                    // onClick={openNav()}
+                    // ref={ref}
                         className={`${styles["view-cart"]}`}>VIEW CART
                     </button>
-                // </Link>
-            ) : ''}
+                </a>
+            ) : ''}     
         </div>
     );
 };

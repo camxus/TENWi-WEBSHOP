@@ -128,8 +128,8 @@ const CartItemsContainer = () => {
 									<th className="cart-heading-el" scope="col"/>
 									<th className="cart-heading-el" scope="col"/>
 									<th className="cart-heading-el" scope="col">Product</th>
-									<th className="cart-heading-el" scope="col">Price</th>
 									<th className="cart-heading-el" scope="col">Quantity</th>
+									<th className="cart-heading-el" scope="col">Price</th>
 									<th className="cart-heading-el" scope="col">Total</th>
 								</tr>
 								</thead>
@@ -166,7 +166,7 @@ const CartItemsContainer = () => {
 									</tbody>
 								</table>
 								<Link href="/checkout">
-									<button className="bg-purple-600 text-white px-5 py-3 rounded-sm w-auto xl:w-full">
+									<button className="bg-black text-white px-5 py-3 rounded-sm w-auto xl:w-full">
 										<span className="cart-checkout-txt">Proceed to Checkout</span>
 										<i className="fas fa-long-arrow-alt-right"/>
 									</button>
@@ -182,7 +182,7 @@ const CartItemsContainer = () => {
 				<div className="container mx-auto my-32 px-4 xl:px-0">
 					<h2 className="text-2xl mb-5">YOUR CART IS EMPTY</h2>
 					<Link href="/">
-						<button className="bg-purple-600 text-white px-5 py-3 rounded-sm">
+						<button className="bg-black text-white px-5 py-3 rounded-sm">
 							<span className="cart-checkout-txt">ADD NEW PRODUCTS</span>
 							<i className="fas fa-long-arrow-alt-right"/>
 						</button>

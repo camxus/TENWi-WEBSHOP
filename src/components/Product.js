@@ -9,7 +9,7 @@ const Product = ( props ) => {
 	const { product } = props;
 
 	let currency = product?.price ? product.price.slice(-1) : "";
-	let price = getFloatVal(product?.price ? product.price : "0");
+	let price = getFloatVal(product?.price ? product.price : "SOLD OUT");
 
 	return (
 		// @TODO Need to handle Group products differently.
@@ -56,10 +56,10 @@ const Product = ( props ) => {
 							/>
 						</div>
 						<div className={styles["card-main"]}>
-							<h1 className={styles["card-header"]}>{product?.name? product.name : ""}</h1>
-							<h1 className={styles["subtitle"]}>{ currency }{ price }</h1>
-							<h1 className={styles["background"]}></h1>
-
+							<div className={styles["card-header-wrapper"]}>
+								<h1 className={styles["card-header"]}>{product?.name? product.name : ""}</h1>
+								<h1 className={styles["subtitle"]}>{ currency }{ price }</h1>
+							</div>
 							{/* <a href="" className="btn btn-secondary">View</a> */}
 						</div>
 					</a>

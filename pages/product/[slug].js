@@ -5,6 +5,7 @@ import client from '../../src/components/ApolloClient';
 import AddToCartButton from '../../src/components/cart/AddToCartButton';
 import {PRODUCT_BY_SLUG_QUERY, PRODUCT_SLUGS} from '../../src/queries/product-by-slug';
 import PRODUCTS_AND_CATEGORIES_QUERY from "../../src/queries/product-and-categories";
+import RELATED_ITEMS_QUERY from "../../src/queries/related-items.js";
 import { isEmpty } from 'lodash';
 import GalleryCarousel from "../../src/components/single-product/gallery-carousel";
 import Price from "../../src/components/single-product/price";
@@ -18,9 +19,11 @@ import prodstyles from "../../src/styles/product.module.css"
 import { useRef, useEffect} from 'react'
 import Image from "next/image"
 
+import Product from '../../src/components/Product' 
 
 
-export default function Product({product, categories, tags, variationName, sizes}) {
+
+export default function product({product, categories, tags, variationName, sizes, relatedItems}) {
     const router = useRouter()
 
     // If the page is not yet generated, this will be displayed
@@ -43,10 +46,12 @@ export default function Product({product, categories, tags, variationName, sizes
     for (let i = 0; i < repeatAmount; i++){
         changedTitle.push(product.name)
     }
+    
 
 	return (
         <Layout categories = {categories} tags = {tags}>
             { product ? (
+            <div>
                 <div className={prodstyles.card}>
                     {/* <div className={prodstyles.card_header}>{product.name}</div> */}
                     <div className={prodstyles.card_body}>
@@ -57,7 +62,7 @@ export default function Product({product, categories, tags, variationName, sizes
                         { 
                         !isEmpty(images) ? (
                             images.map( image => 
-                                <Image
+                                <img
                                 src={image ? image.sourceUrl: ""} alt="Product Image" className={prodstyles.image}
                                 // objectFit="cover"
                                 layout="fill"
@@ -107,11 +112,27 @@ export default function Product({product, categories, tags, variationName, sizes
                                     <div className={prodstyles.card_text} dangerouslySetInnerHTML={{ __html: product.description }} />
                             </div> 
                                 <div className={prodstyles.add_to_cart}>
-                                    <AddToCartButton sizes={sizes} variationName={variationName} product={product}></AddToCartButton>
+                                    <AddToCartButton sizes={sizes} variationName={variationName} product={product}/>
                                 </div>
                         </div>
                     </div>
                 </div>
+                                        <div>
+                                            {relatedItems ?<div>
+                                            <div className={`${prodstyles["related-items-header"]}`}>
+                                                <h1>
+                                                RELATED ITEMS
+                                                </h1>
+                                                </div>
+                                            <div className={`${prodstyles["related-items"]}`}>
+                                            {relatedItems.map(item => 
+                                                <Product key={ item.id } product={ item.node } /> 
+                                            ) }
+                                            </div>
+                                            </div>
+                                            : ""}
+                                        </div>
+            </div>
                 ): ''
             }
         </Layout>
@@ -127,6 +148,15 @@ export async function getStaticProps(context) {
         query: PRODUCT_BY_SLUG_QUERY,
         variables: { slug }
     })
+
+    let id = data.product.productId
+    const relatedItems = await client.query({
+        query: RELATED_ITEMS_QUERY,
+        variables: {input : id}
+    })
+
+    console.log("relatedItems", relatedItems.data.product.related.edges)
+
     var variations = null
     data.product.localAttributes ? variations = data.product.localAttributes.nodes[0] : "";
     const sizes = variations?.options
@@ -148,6 +178,7 @@ export async function getStaticProps(context) {
             tags: tags ? tags : [],
             sizes: sizes ? sizes : null,
             variationName: variationName ? variationName : null,
+            relatedItems: relatedItems ? relatedItems.data.product.related.edges : null,
         },
         revalidate: 1
     };

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, forwardRef } from 'react';
 import Image from 'next/image';
 import cart from '../../../src/styles/cart.module.css'
 import CartItemsContainer from "./cart-page/CartItemsContainerSIDE";
@@ -8,9 +8,8 @@ import CartItemsContainer from "./cart-page/CartItemsContainerSIDE";
 const CART = () => {
 
 	let navBtn = useRef(null)
-	let viewCart = useRef(null)
-	let cartContainer = useRef(null)
 	let cartOverlay = useRef(null)
+	let cartContainer = useRef(null)
 
 	
 	var statement = false
@@ -35,7 +34,7 @@ const CART = () => {
 	return (
 		<div>
 			<div 
-			ref={el => {cartContainer = el}}
+			ref={cartContainer}
 			className={cart.nav_container}>
 				<div
 				ref={el => {navBtn = el}}

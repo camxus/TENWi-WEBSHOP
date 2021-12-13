@@ -13,7 +13,7 @@ const Nav = ({categories, tags}) => {
 			categoriesList = categoriesList.filter(item => item !== categoriesList[i])
 		}
 	}
-	let navBtn = useRef(null)
+	
 	let navContainer = useRef(null)
 	let navOverlay = useRef(null)
 
@@ -32,7 +32,24 @@ const Nav = ({categories, tags}) => {
 	// 		statement = true
 	// }
 	}
+	// useEffect(() => {
+	// 	
+	// }, []);
 
+	const openNavMobile = () => {
+		console.log("run")
+		if (navContainer.style.height !== "70vh" && statement === true)
+		{
+			navContainer.style.height = "70vh";
+			navOverlay.style.opacity = "70%";
+			statement = false
+		}
+		else {
+			navContainer.style.height = "0vh";
+			navOverlay.style.opacity = "0%";
+			statement = true
+	}
+	}
 	const [ isMenuVisible, setMenuVisibility ] = useState(false);
 
 
@@ -43,12 +60,17 @@ const Nav = ({categories, tags}) => {
 		<div 
 		ref={el => {navContainer = el}}
 		className={navbar.nav_container}>
-			<div
+			<div 
+			className={navbar.mobile_nav_btn_wrapper}
+			onClick={openNavMobile}>
+				<div className={navbar.mobile_nav_btn}/>
+			</div>
+			{/* <div
 			ref={el => {navBtn = el}}
 			
 			className={navbar.nav_btn}>
 				<div className={navbar.dot}></div>
-			</div>
+			</div> */}
 			<div className={navbar.navbody}>
 				<div className={navbar.nav_items_container}>
 					<div className={navbar.nav_items}>
@@ -70,8 +92,8 @@ const Nav = ({categories, tags}) => {
 						<ul className={navbar.nav_list}>
 							
 							<a className={navbar.nav_link} 
-								href="category/all">
-								<li className={`${navbar.nav_item} ${navbar.head}`}>
+								href="/category/all">
+								<li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
 									ALL
 								</li>
 								<div className={`${navbar.reveal} ${navbar.head}`}>
@@ -80,10 +102,8 @@ const Nav = ({categories, tags}) => {
 									</li>
 								</div>
 							</a>
-							<li className={`${navbar.nav_item} ${navbar.head}`}>
-								<p className={navbar.nav_link} 
-								// href=""
-								>UNISEXWEAR</p>
+							<li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
+								UNISEXWEAR
 							</li>
 							<div className={`${navbar.nav_item} ${navbar.sub_box}`}>
 								{ categoriesList !== undefined && categoriesList.length ?(
@@ -104,10 +124,8 @@ const Nav = ({categories, tags}) => {
 									)
 									): ''}
 							</div>
-							<li className={`${navbar.nav_item} ${navbar.head}`}>
-								<p className={navbar.nav_link} 
-								// href=""
-								>FEATURES</p>
+							<li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
+								FEATURES
 							</li>
 							<div className={`${navbar.nav_item} ${navbar.sub_box}`}>
 								{  tagsList !== undefined && tagsList.length ? (
@@ -134,6 +152,7 @@ const Nav = ({categories, tags}) => {
 			</div>
 		</div>
 		<div 
+		onClick={openNavMobile}
 		ref ={el => {navOverlay = el}}
 		className={navbar.overlay}></div>
 	</div>

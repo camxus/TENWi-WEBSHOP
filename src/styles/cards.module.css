@@ -9,7 +9,7 @@
 }
 
 .card:hover 
-.background,
+.card-header-wrapper ,
 .card-header,
 .subtitle {
     background-color:black;
@@ -28,46 +28,43 @@
 
 
 .card-main {
-    display: inline-block;
+    display: block;
     position: relative;
     width: 100%;
-    height: 4.5vh;
+    height: max-content;
     /* bottom: 0; */
     border-top: 1px solid black;
-    background-color: #ebebeb;
+    background-color: #fafafa;
 }
 
 .card-header,
 .subtitle{
     background-color: transparent;
-	display: inline-block;
-    position: absolute;
-    top: 53%;
-    transform: translateY(-50%);
-    font-weight: bold;
-    font-size: var(--font-size-small);
+    display: block;
+    position: relative;
+    padding-left: 7%;
+    /* font-weight: bold; */
+    font-size: var(  --font-size-very-small);
     margin: 0;
-    transition: all 0.5s ease-in-out;
+    /* transition: all 0.5s ease-in-out; */
 }
 
 .card-header {
     left: 0;
-    padding-left: 7%;  
+    font-weight: bold;
 }
 
+.card-header-wrapper {
+    padding: 3% 0;
+    background-color: rgb(244, 244, 244);
+    transition: all 0.5s ease-in-out;
+}
 .subtitle {
-    right: 0;
-    padding-right: 7%;
+    /* right: 0;
+    padding-right: 7%; */
 }
 
 .imagewrapper {
     position: relative;
     padding-top: 133.25%;
-}
-
-.background {
-    width: 100%;
-    height: 120%;
-    background-color: #ebebeb;    
-    transition: all 0.5s ease-in-out;
 }

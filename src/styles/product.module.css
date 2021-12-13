@@ -12,25 +12,15 @@
     grid-template-areas: "left right";
 }
 
-@media only screen and (max-width: 768px){
-    .card_body {
-        display: block;
-    }
-    .image_container {
-        height: 73vh;
-    }
 
-    .rightContainer{
-        padding-top: 0%;
-        transform: translate(-50%,30%);
-    }
-}
 .card_title {
     grid-area: right;
     white-space: nowrap;
     font-size: var(--font-size-very-large);
     letter-spacing: -2px;
-    line-height: 7.4rem;}
+    line-height: 7.4rem;
+    font-weight: bold;
+}
 
 .right {
     color: transparent;
@@ -41,6 +31,7 @@
     height: 100vh;
     width: 50vw;
     overflow-y: auto;
+    border-bottom: 1px solid black;
 }
 
 .image_container {
@@ -50,6 +41,7 @@
     overflow-x: hidden;
     grid-area: left;
     border-right: 1px solid black;
+    border-bottom: 1px solid black;
 }
 .image_container::-webkit-scrollbar {
     display: none;
@@ -72,13 +64,14 @@
     padding: 15% 0;
     transform: translate(-50%, -50%);
     position: relative;
+    min-height: 56vh;
     height: max-content;
     width: 70%;
 }
 
 .add_to_cart{
     position: relative;
-    padding: 0 0 50% 0;
+    /* padding: 0 0 50% 0; */
 }
 
 .add_to_cart button{
@@ -110,22 +103,57 @@
 }
 
 
+
+.view-cart{
+    border-top: 0 ! important;
+    border-left: 0;
+    border-right: 0;
+}
+
+
+.related-items{
+    display:flex;
+}
+
+.related-items-header {
+    height: 5vh;
+    min-height: 40px;
+    position: relative;
+    border-bottom: 1px solid black;
+}
+
+.related-items-header h1 {
+    transform: translate(33%, -50%);
+    position: absolute;
+    top: 50%;
+    font-size: var(--font-size-mid);
+}
+
 @media only screen and (max-width: 768px){
+    .card_body {
+        display: block;
+    }
+    .image_container {
+        height: 73vh;
+    }
+
     .TITLE {
         width: 82vw;
         transform: translateX(-50%);
         left: 50%;
     }
 
-    .right_container {
-        padding: 3% 0;
-        transform: translateX(-50%);
+    .right-wrapper{
+        width: 100vw;
+        height: max-content;
     }
-}
-
-
-.view-cart{
-    border-top: 0 ! important;
-    border-left: 0;
-    border-right: 0;
+    .image_container{
+        height: 67vh;
+    }
+    .card{
+        height: max-content;
+    }
+    .related-items{
+        display: block;
+    }
 }
