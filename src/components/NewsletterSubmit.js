@@ -44,6 +44,8 @@ const NewsletterSubmit = () => {
 
 
     return(
+	<div className={styles['email-group']}>
+		<div className={styles.newsletter_header}>SUBSCRIBE FOR PRE-ACCESS ON 17TH OF DECEMBER 6PM (CET)</div>
 			<form onSubmit={register} className={styles['email']}>
 				<input
 					onChange={handler}
@@ -56,6 +58,7 @@ const NewsletterSubmit = () => {
 					value={ registerLoading ? "SUBMITTING" ? registerLoading === "done": "SUBMITTED" : "SUBMIT" }
 				/>
 			</form>
+	</div>
     )
 }
 

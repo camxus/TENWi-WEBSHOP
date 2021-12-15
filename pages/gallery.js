@@ -31,6 +31,7 @@ export default function Gallery ( {images} ) {
               <Image
               src={image.node.sourceUrl}
               layout="fill"
+              objectFit="cover"
               ></Image>
             </div>
             )}

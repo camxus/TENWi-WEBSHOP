@@ -90,6 +90,7 @@ export default function Categories ( {productCategories, categories, tags} ) {
     <Image
     src={require("../public/assets/gif/IMG_3319.GIF")}
     layout="fill"
+    objectFit="cover"
     />
   </div>
   <div class="after"></div>
