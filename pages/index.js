@@ -86,7 +86,12 @@ export default function Categories ( {productCategories, categories, tags} ) {
     <LayoutStart>
     <div>
     <main id="main">
-  <div class="before"></div>
+  <div class="before">
+    <Image
+    src={require("../public/assets/gif/IMG_3319.GIF")}
+    layout="fill"
+    />
+  </div>
   <div class="after"></div>
   <div class="notification-wrapper">
     {NotificationsStruct && NotificationsStruct.map( item =>
