@@ -1,0 +1,37 @@
+.email {
+    opacity: 0;
+    position: absolute;
+    left: 50%;
+    bottom: 10%;
+    transform: translateX(-50%);
+    width: fit-content;
+    font-size: var(--font-size-very-small);
+    white-space: nowrap;
+    animation:  1s fadeIn 2s ease-in-out forwards
+}
+
+.email input {
+    padding: 0;
+    line-height: inherit;
+    color: inherit;
+    border-radius: 100px;
+    padding: 0% 4%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgb(98, 97, 97);
+}
+
+.email input[type="text"] {
+    width: 200px;
+}
+
+.email input[type="submit"] {
+    position: relative;
+    left: 3%;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  @keyframes fadeIn {
+	0%{opacity: 0;}
+	100%{opacity: 1;}
+}

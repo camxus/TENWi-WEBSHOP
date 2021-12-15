@@ -181,7 +181,7 @@ const CartItemsContainer = () => {
 			) : (
 				<div className="container mx-auto my-32 px-4 xl:px-0">
 					<h2 className="text-2xl mb-5">YOUR CART IS EMPTY</h2>
-					<Link href="/">
+					<Link href="/shop">
 						<button className="bg-black text-white px-5 py-3 rounded-sm">
 							<span className="cart-checkout-txt">ADD NEW PRODUCTS</span>
 							<i className="fas fa-long-arrow-alt-right"/>

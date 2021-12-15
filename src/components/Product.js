@@ -9,7 +9,7 @@ const Product = ( props ) => {
 	const { product } = props;
 
 	let currency = product?.price ? product.price.slice(-1) : "";
-	let price = getFloatVal(product?.price ? product.price : "SOLD OUT");
+	let price = product?.price ? getFloatVal(product.price) : "SOLD OUT" ;
 
 	return (
 		// @TODO Need to handle Group products differently.

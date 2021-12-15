@@ -3,6 +3,7 @@ import Product from "../src/components/Product";
 import client from '../src/components/ApolloClient';
 import ParentCategoriesBlock from "../src/components/category/category-block/ParentCategoriesBlock";
 import PRODUCTS_AND_CATEGORIES_QUERY from "../src/queries/product-and-categories";
+import GALLERY_IMAGES from "../src/queries/gallery-images";
 import HeroCarousel from "../src/components/home/hero-carousel";
 import styles from '../src/styles/style.module.css';
 
@@ -29,6 +30,9 @@ export async function getStaticProps () {
 	} );
 	var categories = await client.query( {
 		query: PRODUCTS_AND_CATEGORIES_QUERY,
+	} );
+	var gallery = await client.query( {
+		query: GALLERY_IMAGES,
 	} );
 
 

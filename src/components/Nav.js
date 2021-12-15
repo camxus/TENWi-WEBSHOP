@@ -79,7 +79,7 @@ const Nav = ({categories, tags}) => {
 									src={require('../public/assets/gif/tenwi_c4d_big_rh.gif')}
 									className='nav_header'
 									></img> */}
-									<Link href="/">
+									<Link href="/shop">
 										<a>
 											<Image 
 											className={navbar.header_image}

@@ -14,7 +14,6 @@ import styles from '../../styles/product.module.css'
 
 
 const AddToCart = ({product, variationName, sizes}, ref) => {
-    console.log("ADCB", ref)
 
     let selectedSize = null;
     let productQryInput = {}
@@ -30,7 +29,6 @@ const AddToCart = ({product, variationName, sizes}, ref) => {
 
 
     const handleSizeChange = (e) => { selectedSize = addrtype[e.target.value]
-        console.log("sizes", selectedSize)
     }
 
 //
@@ -115,9 +113,6 @@ const AddToCart = ({product, variationName, sizes}, ref) => {
 
     const handleAddToCartClick = async () => {
         setRequestError(null);
-        console.log("selectedSize", valueState)
-        console.log("prodid", product.productId)
-        
         await addToCart();
     };
 

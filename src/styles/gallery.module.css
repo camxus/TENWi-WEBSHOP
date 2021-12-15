@@ -1,0 +1,15 @@
+.image{
+    min-height: 100vh;
+    width: auto;
+    position: relative;
+    border-bottom: 1px solid black;
+}
+
+.image img {
+    position: absolute ! important;
+    display: inline-block ! important;
+    min-width: auto ! important;
+    width: auto ! important;
+    height: 100vh ! important;
+    outline: 1px solid;
+}

@@ -4,6 +4,8 @@ import GET_COUNTRIES from "../src/queries/get-countries";
 import client from "../src/components/ApolloClient";
 import PRODUCTS_AND_CATEGORIES_QUERY from "../src/queries/product-and-categories";
 
+
+
 const Checkout = ({data, categories, tags}) => (
 
 	<Layout categories={categories} tags={tags}>

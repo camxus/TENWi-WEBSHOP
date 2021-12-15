@@ -35,10 +35,12 @@ body {
 .before {
 	z-index: -1;
 	background: #151F33 url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/345377/mojave-night.jpg') no-repeat center center / cover;
+    // animation: fadeIn 1.5s linear
 }
 .after {
 	z-index: -2;
 	background: #B27247 url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/345377/mojave-day.jpg') no-repeat center center / cover;
+    // animation: fadeIn 1.5s linear
 }
 
 // 
@@ -51,7 +53,6 @@ main {
     // animation: fadeIn 1.5s linear
 	.before, .after {
 		position: fixed;
-        // animation: fadeIn 1.5s linear
 	}
 }
 
@@ -153,17 +154,17 @@ ul {
 	}
 }
 
-// @keyframes fadeIn {
-//     0%(opacity: 0}
-//     100%(opacity: 1}
-// }
+@keyframes fadeIn {
+    0%{opacity: 0}
+    100%{opacity: 1}
+}
 
-// @keyframes fadeOut {
-//     0%(opacity: 1}
-//     100%(opacity: 0}
-// }
+@keyframes fadeOut {
+    0%{opacity: 1}
+    100%{opacity: 0}
+}
 
-// @keyframes y-axis {
-//     0%(top: -60px}
-//     100%(top: 0px}
-// }
+@keyframes y-axis {
+    0%{top: -60px}
+    100%{top: 0px}
+}

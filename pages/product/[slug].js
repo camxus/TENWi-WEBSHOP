@@ -109,7 +109,8 @@ export default function product({product, categories, tags, variationName, sizes
                                 </Controller>
                                 
                                 </div>
-                                    <div className={prodstyles.card_text} dangerouslySetInnerHTML={{ __html: product.description }} />
+                                    <div className={prodstyles.card_text} dangerouslySetInnerHTML={{ __html: product.description ? product.description : "" }} />
+                                    <div className={prodstyles.card_price} dangerouslySetInnerHTML={{ __html: product.price ? product.price : "SOLD OUT" }} />
                             </div> 
                                 <div className={prodstyles.add_to_cart}>
                                     <AddToCartButton sizes={sizes} variationName={variationName} product={product}/>
