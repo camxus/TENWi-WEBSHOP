@@ -85,15 +85,23 @@ export default function Categories ( {productCategories, categories, tags} ) {
 	return (
     <LayoutStart>
     <div>
-    <main id="main">
-  <div class="before">
+    <div class="before">
     <Image
     src={require("../public/assets/gif/IMG_3319.GIF")}
     layout="fill"
     objectFit="cover"
     />
+      <div class="after"></div>
   </div>
-  <div class="after"></div>
+    <div class="startpage-wrapper">
+    <main id="main">
+  {/* <div class="before">
+    <Image
+    src={require("../public/assets/gif/IMG_3319.GIF")}
+    layout="fill"
+    objectFit="cover"
+    />
+  </div> */}
   <div class="notification-wrapper">
     {NotificationsStruct && NotificationsStruct.map( item =>
         <ul id="one" class="notification-button">
@@ -135,9 +143,10 @@ export default function Categories ( {productCategories, categories, tags} ) {
       </ul>
     )}
   </div>
+		  	<NewsletterSubmit></NewsletterSubmit>
 </main>		
       </div>
-		  	<NewsletterSubmit></NewsletterSubmit>
+      </div>
       </LayoutStart>
 
 
