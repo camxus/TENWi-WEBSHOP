@@ -1,3 +1,4 @@
+
 .newsletter_header{
     color: white;
     font-size: var(--font-size-very-small);
@@ -51,4 +52,18 @@
   @keyframes fadeIn {
 	0%{opacity: 0;}
 	100%{opacity: 1;}
+}
+
+@media screen and (max-width: 768px){
+	.newsletter_header {
+		padding-bottom: 5px;
+		width: 90vw;
+		text-align: center;
+	}
+
+	.email {
+        font-size: calc(var(--font-size-very-small) - 0.7vw);
+        white-space: normal;
+        
+    }
 }

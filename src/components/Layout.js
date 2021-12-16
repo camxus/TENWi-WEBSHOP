@@ -13,7 +13,6 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 const Layout = (props) => {
-  console.log("layout", props);
   return (
     <AppProvider>
       <ApolloProvider client={client}>
