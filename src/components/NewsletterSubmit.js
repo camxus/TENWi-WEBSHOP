@@ -7,6 +7,7 @@ import styles from "../styles/newsletter.module.css"
 
 const NewsletterSubmit = () => {
 	const [email, setEmail] = useState("");
+	const [errorHandler, setErrorHandler] = useState("");
 	const [requestError, setRequestError] = useState(null);
 
 
@@ -26,13 +27,19 @@ const NewsletterSubmit = () => {
         onError: (error) => {
             if (error) {
                 setRequestError(error?.graphQLErrors?.[0]?.message ?? '');
-				registerLoading = "error"
+				if(error?.graphQLErrors?.[0]?.message  === "Für diese E-Mail-Adresse existiert bereits ein Kundenkonto. <a href=\"#\" class=\"showlogin\">Bitte anmelden.</a>")
+				{
+					setErrorHandler("email-exists")
+				}
+				else{
+					setErrorHandler("error")
+				}
             }
-            console.log("ERROR ", error, "WITH", error?.graphQLErrors?.[0]?.message ?? '')
+            console.log("ERROR ", error, "WITH", error?.graphQLErrors?.[0]?.message ?? '', errorHandler)
 
         },
 		onCompleted: () => {
-		 	registerLoading = "done"
+			setErrorHandler("done")
            console.log("completed with", email)
         }
     });
@@ -43,7 +50,7 @@ const NewsletterSubmit = () => {
 		// console.log("completed with", email)
 	}
 
-
+	
     return(
 	<div className={styles['email-group']}>
 		<div className={styles.newsletter_header}>SUBSCRIBE FOR PRE-ACCESS ON 17TH OF DECEMBER 6PM (CET)</div>
@@ -56,7 +63,7 @@ const NewsletterSubmit = () => {
 				/>
 				<input
 					type="submit"
-					value={ registerLoading ? "SUBMITTING" : registerLoading === "done" ? "SUBMITTED" : "SUBMIT" }
+					value={ registerLoading === true ? "SUBMITTING" : errorHandler === "done" ? "SUBMITTED" : errorHandler === "email-exists" ? "ALREADY REGISTERED" : errorHandler === "error" ? "INVALID E-MAIL" :  "SUBMIT" }
 				/>
 			</form>
 	</div>
