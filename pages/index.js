@@ -49,21 +49,6 @@ export default function Categories ( {productCategories, categories, tags} ) {
 	// ;
     }
 
-    // imagesLoaded(main, {background:true}, () => {
-        useEffect(() => {
-            elems==!null && elems==!undefined ? 
-            elems.map(el => {
-                getTop(el);
-                window.addEventListener("resize", function() {
-                    setTimeout(() => {
-                        getTop(el);
-                    }, 250);
-                });  
-            }): "" ; 
-            elems ? 
-            window.requestAnimationFrame(lightToDark) : ""
-        }, [elems])
-    // });
 
     const NotificationsStruct = [
       // {

@@ -5,7 +5,6 @@ import CART from './cart/CART'
 import {forwardRef} from 'react'
 
 const Header = (props) => {
-	console.log("header", props);
 
 	return (
 	<div>
