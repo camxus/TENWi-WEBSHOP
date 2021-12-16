@@ -26,6 +26,7 @@ const NewsletterSubmit = () => {
         onError: (error) => {
             if (error) {
                 setRequestError(error?.graphQLErrors?.[0]?.message ?? '');
+				registerLoading = "error"
             }
             console.log("ERROR ", error, "WITH", error?.graphQLErrors?.[0]?.message ?? '')
 
@@ -55,7 +56,7 @@ const NewsletterSubmit = () => {
 				/>
 				<input
 					type="submit"
-					value={ registerLoading ? "SUBMITTING" ? registerLoading === "done": "SUBMITTED" : "SUBMIT" }
+					value={ registerLoading ? "SUBMITTING" : registerLoading === "done" ? "SUBMITTED" : "SUBMIT" }
 				/>
 			</form>
 	</div>
