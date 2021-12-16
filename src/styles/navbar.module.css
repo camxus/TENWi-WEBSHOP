@@ -221,7 +221,7 @@
     .nav_container {
         left: 0;
         width: 100vw;
-        height: 100vh;
+        height: 0vh;
         border-bottom: 1px black solid;
         border-right: 0px solid black;
     }
