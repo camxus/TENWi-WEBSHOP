@@ -6,7 +6,6 @@ import client from "./ApolloClient";
 import Router from "next/router";
 import NProgress from "nprogress";
 import { ApolloProvider } from "@apollo/client";
-
 import {forwardRef} from 'react'
 
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -21,6 +20,7 @@ const Layout = (props) => {
         <div>
           <Head>
             <title>TENWi</title>
+            <link rel="icon" href="../../public/assets/gif/tenwi.gif" type="image/gif" ></link>
           </Head>
           <Header {...props}/>
           {props.children}

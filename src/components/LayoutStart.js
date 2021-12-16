@@ -21,6 +21,7 @@ const Layout = (props) => {
         <div>
           <Head>
             <title>TENWi</title>
+            <link rel="icon" href={require("../../public/assets/gif/tenwi.gif")} type="image/gif" ></link>
           </Head>
           <HeaderStart {...props}/>
           {props.children}
