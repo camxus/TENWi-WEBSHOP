@@ -66,4 +66,15 @@
         white-space: normal;
         
     }
+    .email input[type="text"] {
+        transform: translateX(-50%);
+        left: 50%;
+        position: relative;
+    }
+    .email input[type="submit"] {
+        width: 70vw;
+        transform: translateX(-50%);
+        left: 50%;
+        position: relative;
+    }
 }

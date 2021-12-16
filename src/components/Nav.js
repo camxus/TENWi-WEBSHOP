@@ -38,9 +38,9 @@ const Nav = ({categories, tags}) => {
 
 	const openNavMobile = () => {
 		console.log("run")
-		if (navContainer.style.height !== "70vh" && statement === true)
+		if (navContainer.style.height !== "100vh" && statement === true)
 		{
-			navContainer.style.height = "70vh";
+			navContainer.style.height = "100vh";
 			navOverlay.style.opacity = "70%";
 			statement = false
 		}
