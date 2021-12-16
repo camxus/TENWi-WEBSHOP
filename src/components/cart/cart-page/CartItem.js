@@ -71,10 +71,8 @@ const CartItem = ( {
 			<td className={cartbar[`cart-element`]} >
 				<img width="64" src={ item.image.sourceUrl } srcSet={ item.image.srcSet } alt={ item.image.title }/>
 			</td>
-			<a href={`/product/${item?.slug? item.slug: ""}`}>
-			<td className={cartbar[`cart-element`]}>{ item.name }</td>
-			<td className={cartbar[`cart-element`]}>{ ( 'string' !== typeof item.price ) ? item.price.toFixed( 2 ) : item.price }</td>
-			</a>
+			
+			<td className={cartbar[`cart-element`]}><a href={`/product/${item?.slug? item.slug: ""}`}>{ item.name }</a></td>
 
 			{/* Qty Input */ }
 			<td className="cart-element cart-qty">
@@ -88,6 +86,8 @@ const CartItem = ( {
 					onChange={ ( event ) => handleQtyChange( event, item.cartKey ) }
 				/>
 			</td>
+			<td className={cartbar[`cart-element`]}>{ ( 'string' !== typeof item.price ) ? item.price.toFixed( 2 ) : item.price }</td>
+
 			<td className={cartbar[`cart-element`]}>
 				{ ( 'string' !== typeof item.totalPrice ) ? item.totalPrice.toFixed( 2 ) : item.totalPrice }
 			</td>
