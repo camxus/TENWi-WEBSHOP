@@ -105,7 +105,7 @@ const AddToCart = ({product, variationName, sizes}, ref) => {
             if (error) {
                 setRequestError(error?.graphQLErrors?.[0]?.message ?? '');
             }
-
+            addToCartLoading = "error"
             console.log("ERROR ", error, "WITH", error?.graphQLErrors?.[0]?.message ?? '')
         }
     });
@@ -238,7 +238,7 @@ const AddToCart = ({product, variationName, sizes}, ref) => {
                         {'opacity-50 cursor-not-allowed': addToCartLoading}
                     )}
                 >
-					{ addToCartLoading ? 'ADDING TO CART...' : 'ADD TO CART' }
+					{ addToCartLoading ? 'ADDING TO CART...' : addToCartLoading === "error" ? "SOLD OUT" : 'ADD TO CART' }
                 </button>
             }
            

@@ -147,7 +147,7 @@ const Nav = ({categories, tags}) => {
 							</div>
 							</div>
 							<a className={navbar.nav_link} 
-								href="/category/all">
+								href="/cart">
 								<li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
 									CART
 								</li>
