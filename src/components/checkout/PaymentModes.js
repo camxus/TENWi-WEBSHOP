@@ -15,12 +15,12 @@ const PaymentModes = ( { input, handleOnChange } ) => {
 				</label>
 			</div>
 			{/*Pay with Paypal*/}
-			<div className="form-check payment-input-container mt-2">
+			{/* <div className="form-check payment-input-container mt-2">
 				<label className="form-check-label">
 					<input onChange={ handleOnChange } value="ppcp-gateway" className="form-check-input mr-3" name="paymentMethod" type="radio" checked={'ppcp-gateway' === paymentMethod}/>
 					<span className="payment-content">Pay with Paypal</span>
 				</label>
-			</div>
+			</div> */}
 			{/* Check Payments */}
 			{/* <div className="form-check payment-input-container mt-2">
 				<label className="form-check-label">
