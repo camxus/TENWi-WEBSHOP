@@ -90,7 +90,7 @@ const Nav = ({categories, tags}) => {
 									</Link>
 								</a>
 						<ul className={navbar.nav_list}>
-							
+							<div className={navbar.nav_item_box}>
 							<a className={navbar.nav_link} 
 								href="/category/all">
 								<li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
@@ -145,7 +145,18 @@ const Nav = ({categories, tags}) => {
 										)
 								): ''}
 							</div>
-
+							</div>
+							<a className={navbar.nav_link} 
+								href="/category/all">
+								<li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
+									CART
+								</li>
+								<div className={`${navbar.reveal} ${navbar.head}`}>
+									<li>
+									CART
+									</li>
+								</div>
+							</a>
 						</ul>
 					</div>
 				</div>

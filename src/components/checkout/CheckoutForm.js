@@ -65,7 +65,7 @@ const CheckoutForm = ({countriesData}) => {
         createAccount: false,
         orderNotes: '',
         billingDifferentThanShipping: false,
-        paymentMethod: 'cod',
+        paymentMethod: 'bacs',
     };
 
     const [cart, setCart] = useContext(AppContext);
@@ -102,7 +102,7 @@ const CheckoutForm = ({countriesData}) => {
             if (error) {
                 setRequestError(error?.graphQLErrors?.[0]?.message ?? '');
             }
-            console.log("ERROR ", error, "WITH", error?.graphQLErrors?.[0]?.message ?? '')
+            console.log("ERROR ", error, "WITH", error?.graphQLErrors?.[0]?.message ?? '', "WITH", orderData)
 
         }
     });
@@ -192,6 +192,7 @@ const CheckoutForm = ({countriesData}) => {
 
         if (null !== orderData) {
             // Call the checkout mutation when the value for orderData changes/updates.
+            console.log("data",orderData)
             await checkout();
         }
 

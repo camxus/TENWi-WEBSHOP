@@ -277,8 +277,8 @@ export const createCheckoutData = ( order ) => {
 			phone: billingData?.phone,
 			company: billingData?.company,
 		},
-		// shipToDifferentAddress: order.billingDifferentThanShipping,
-		// paymentMethod: order.paymentMethod,
+		shipToDifferentAddress: order.billingDifferentThanShipping,
+		paymentMethod: order.paymentMethod,
 		isPaid: true,
 	};
 
