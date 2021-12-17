@@ -45,185 +45,107 @@ const CART = () => {
 				{/* <CartItemsContainer/> */}
 				<div className={cart.cartText}>
 			
-				<p id="isPasted">
+				<p dir="ltr">
     REFUNDS
 </p>
-<p>
+<p dir="ltr">
     Unfortunately at this moment we cannot offer any refunds. So please choose
     carefully. In order to help you decide, we are happy to assist by answering
-    all your questions. Please send your questions to tenwioffice@gmail.com or
+all your questions. Please send your questions to    <a href="mailto:tenwioffice@gmail.com">tenwioffice@gmail.com</a> or
     Instagram @tenwiofficial
 </p>
-<p>
-    CHRISTMAS EXPRESS SHIPPING
-</p>
-<ul type="disc">
-    <li>
-        29€ EU - countries
-    </li>
-    <li>
-        45€ Non - EU countries
-    </li>
-</ul>
-<p>
-    Order should arrive before Christmas. DREFUNDS
-</p>
-<p>
-    Unfortunately at this moment we cannot offer any refunds. So please choose
-    carefully. In order to help you decide, we are happy to assist by answering
-    all your questions. Please send your questions to tenwioffice@gmail.com or
-    Instagram @tenwiofficial
-</p>
-<p>
-    CHRISTMAS EXPRESS SHIPPING
-</p>
-<ul type="disc">
-    <li>
-        29€ EU - countries
-    </li>
-    <li>
-        45€ Non - EU countries
-    </li>
-    <li>
-        Order should arrive before Christmas. During this busy period, post
-        offices are usually overwhelmed. They are trying their best to make
-        orders arrive on time.
-    </li>
-    <li>
-        If you are located outside the EU, please note that additional customs
-        fees might apply.
-    </li>
-</ul>
-<p>
+<br/>
+<p dir="ltr">
     EU SHIPPING
 </p>
-<ul type="disc">
-    <li>
-        15€
-    </li>
-    <li>
-        FREE SHIPPING ON ORDERS OVER 210€
-    </li>
-    <li>
-        Each order will be delivered within 5 to 12 working days after the
-        client receives the shipping confirmation email.
+<ul>
+    <li dir="ltr">
+        <p dir="ltr">
+            15€
+        </p>
     </li>
 </ul>
-<p>
+<ul>
+    <li dir="ltr">
+        <p dir="ltr">
+            Each order will be delivered within 5 to 12 working days after the
+            client receives the shipping confirmation email.
+        </p>
+    </li>
+</ul>
+<p dir="ltr">
     INTERNATIONAL SHIPPING
 </p>
-<ul type="disc">
-    <li>
-        25€
+<ul>
+    <li dir="ltr">
+        <p dir="ltr">
+            28€
+        </p>
     </li>
-    <li>
-        FREE SHIPPING ON ORDERS OVER 220€
-    </li>
-    <li>
-        If you are located outside the EU, please note that additional customs
-        fees might apply.
-    </li>
-    <li>
-        All orders from America, Asia are subject to 1-2 week delivery
-        (depending on location). An example of INTERNATIONAL SHIPPING would be
-        a US based customer ordering from our EU-based webshop.
+    <li dir="ltr">
+        <p dir="ltr">
+            Our shipping system will charge you with 15€ shipping but if you
+            are located outside of Europe, you will be charged via email with
+            an extra 13€ fee for international order.
+        </p>
     </li>
 </ul>
-<p>
+<ul>
+    <li dir="ltr">
+        <p dir="ltr">
+            If you are located outside the EU, please note that additional
+            customs fees might apply.
+        </p>
+    </li>
+    <li dir="ltr">
+        <br/>
+    </li>
+    <li dir="ltr">
+        <p dir="ltr">
+            All orders from America, Asia are subject to 1-2 week delivery
+            (depending on location). An example of INTERNATIONAL SHIPPING would
+            be a US based customer ordering from our EU-based webshop.
+        </p>
+    </li>
+</ul>
+<br/>
+
+<p dir="ltr">
+    CHRISTMAS EXPRESS SHIPPING
+</p>
+<ul>
+    <li dir="ltr">
+        <p dir="ltr">
+            Due to technical errors we can not provide express shipping at the
+            moment.
+        </p>
+    </li>
+</ul>
+<p dir="ltr">
+    SOLD OUT (PRE-ORDER REQUEST)
+</p>
+<p dir="ltr">
+    - In case your product is sold out: ask for PRE-ORDER by sending an email
+    to tenwioffice@gmail.com. Depending on the situation we are able to make
+    another sample for you - so feel free to send a request.
+</p>
+<p dir="ltr">
+<br/>
     CARE
 </p>
-<p>
+<p dir="ltr">
     Wash your garments at 30 - 40 degrees depending on fabric; easy-care
     washing programme. Do not tumble dry.
 </p>
-<p>
-    PRE-ORDER or MADE-TO-ORDER
-</p>
-<p>
-    Many of our pieces are one-of-a-kind or limited run items, which have been
-    handmade by us. In such cases, the designer may need a few days to finish
-    making your piece, which may extend delivery times. We hope you can bear
-    the wait to receive a truly unique item.
-</p>
-<p>
+<p dir="ltr">
+<br/>
+
     COMMISSIONS &amp; SPECIAL CUSTOM ORDERS
 </p>
-<p>
-    For custom requests and commissions please send email to:
-    tenwioffice@gmail.com
+<p dir="ltr">
+For custom requests and commissions please send email to:    <a href="mailto:tenwioffice@gmail.com">tenwioffice@gmail.com</a>
 </p>
-<p>
-    Follow us on &amp; stay tuned for new projects on Instagram: @tenwiofficial
-</p>
-<ul type="disc">
-    <li>
-        uring this busy period, post offices are usually overwhelmed. They are
-        trying their best to make orders arrive on time.
-    </li>
-    <li>
-        If you are located outside the EU, please note that additional customs
-        fees might apply.
-    </li>
-</ul>
-<p>
-    EU SHIPPING
-</p>
-<ul type="disc">
-    <li>
-        15€
-    </li>
-    <li>
-        FREE SHIPPING ON ORDERS OVER 210€
-    </li>
-    <li>
-        Each order will be delivered within 5 to 12 working days after the
-        client receives the shipping confirmation email.
-    </li>
-</ul>
-<p>
-    INTERNATIONAL SHIPPING
-</p>
-<ul type="disc">
-    <li>
-        25€
-    </li>
-    <li>
-        FREE SHIPPING ON ORDERS OVER 220€
-    </li>
-    <li>
-        If you are located outside the EU, please note that additional customs
-        fees might apply.
-    </li>
-    <li>
-        All orders from America, Asia are subject to 1-2 week delivery
-        (depending on location). An example of INTERNATIONAL SHIPPING would be
-        a US based customer ordering from our EU-based webshop.
-    </li>
-</ul>
-<p>
-    CARE
-</p>
-<p>
-    Wash your garments at 30 - 40 degrees depending on fabric; easy-care
-    washing programme. Do not tumble dry.
-</p>
-<p>
-    PRE-ORDER or MADE-TO-ORDER
-</p>
-<p>
-    Many of our pieces are one-of-a-kind or limited run items, which have been
-    handmade by us. In such cases, the designer may need a few days to finish
-    making your piece, which may extend delivery times. We hope you can bear
-    the wait to receive a truly unique item.
-</p>
-<p>
-    COMMISSIONS &amp; SPECIAL CUSTOM ORDERS
-</p>
-<p>
-    For custom requests and commissions please send email to:
-    tenwioffice@gmail.com
-</p>
-<p>
+<p dir="ltr">
     Follow us on &amp; stay tuned for new projects on Instagram: @tenwiofficial
 </p>
 <br/>

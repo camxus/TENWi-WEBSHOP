@@ -76,6 +76,7 @@ const CheckoutForm = ({countriesData}) => {
     const [isFetchingShippingStates, setIsFetchingShippingStates] = useState(false);
     const [theBillingStates, setTheBillingStates] = useState([]);
     const [isFetchingBillingStates, setIsFetchingBillingStates] = useState(false);
+	const [errorHandler, setErrorHandler] = useState("");
 
     // Get Cart Data.
     const {data} = useQuery(GET_CART, {
@@ -99,9 +100,11 @@ const CheckoutForm = ({countriesData}) => {
             input: orderData
         },
         onError: (error) => {
-            if (error) {
-                setRequestError(error?.graphQLErrors?.[0]?.message ?? '');
-            }
+            if(error?.graphQLErrors?.[0]?.message  === "Für diese E-Mail-Adresse existiert bereits ein Kundenkonto. <a href=\"#\" class=\"showlogin\">Bitte anmelden.</a>")
+				{
+					setErrorHandler("email-exists")
+                    setRequestError(error?.graphQLErrors?.[0]?.message ?? '');
+				}
             console.log("ERROR ", error, "WITH", error?.graphQLErrors?.[0]?.message ?? '', "WITH", orderData)
 
         }
