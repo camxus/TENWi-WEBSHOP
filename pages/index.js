@@ -51,13 +51,13 @@ export default function Categories ( {productCategories, categories, tags} ) {
 
 
     const NotificationsStruct = [
-      {
-      header : "TENWi",
-      timestamp : "Now",
-      sender: "TENWi",
-      message: "WEBSHOP",
-      link: "/shop"
-      },
+      // {
+      // header : "TENWi",
+      // timestamp : "Now",
+      // sender: "TENWi",
+      // message: "WEBSHOP",
+      // link: "/shop"
+      // },
       {
       header : "TENWi",
       timestamp : "Now",
