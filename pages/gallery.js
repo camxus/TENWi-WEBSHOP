@@ -43,8 +43,10 @@ export default function Gallery ( {images} ) {
 
 export async function getStaticProps() {
   const {data} = await client.query( {
-    query: GALLERY_IMAGES
+    query: GALLERY_IMAGES,
+    variables: { search : "gallery" }
     } );
+    console.log(data)
   return {
       props: {
           images: data ? data.mediaItems.edges : [],

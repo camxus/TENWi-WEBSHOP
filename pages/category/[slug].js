@@ -20,7 +20,6 @@ export default function CategorySingle( props ) {
     }
 
     const { categoryName, products, categories, tags } = props;
-    console.log(products)
     return (
         <Layout categories={categories} tags = {tags}>
             <div>
