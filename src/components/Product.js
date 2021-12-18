@@ -8,9 +8,10 @@ import {getFloatVal} from '../../src/functions.js'
 const Product = ( props ) => {
 	const { product } = props;
 
-	let currency = product?.price ? product.price.slice(-1) : "";
-	let price = product?.price ? getFloatVal(product.price) : product?.stockStatus !== "IN_STOCK" ? "SOLD OUT" : "" ;
+	let currency = product?.stockStatus !== "IN_STOCK" ? "" : product?.price ? product.price.slice(-1) : "";
+	let price =  product?.stockStatus !== "IN_STOCK" ? "SOLD OUT" : product?.price ? getFloatVal(product.price) : "" ;
 
+	console.log(product?.name ,product?.stockStatus)
 	return (
 		// @TODO Need to handle Group products differently.
 		undefined !== product && 'GroupProduct' !== product.__typename ? (
