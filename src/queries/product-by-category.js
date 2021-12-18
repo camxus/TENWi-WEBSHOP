@@ -22,11 +22,13 @@ export const PRODUCT_BY_CATEGORY_SLUG = gql` query PRODUCT_BY_CATEGORY_SLUG($slu
 		  ... on SimpleProduct {
 			price
 			regularPrice
+			stockStatus
 			id
 		  }
 		  ... on VariableProduct {
 			price
 			regularPrice
+			stockStatus
 			id
 		  }
 		  ... on ExternalProduct {
