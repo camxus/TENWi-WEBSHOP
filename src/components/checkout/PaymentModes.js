@@ -29,12 +29,12 @@ const PaymentModes = ( { input, handleOnChange } ) => {
 				</label>
 			</div> */}
 			{/*Pay with Stripe*/}
-			{/* <div className="form-check payment-input-container mt-2">
+			<div className="form-check payment-input-container mt-2">
 				<label className="form-check-label">
 					<input onChange={ handleOnChange } value="cod" className="form-check-input mr-3" name="paymentMethod" type="radio" checked={'cod' === paymentMethod}/>
 					<span className="payment-content">Cash on Delivery</span>
 				</label>
-			</div> */}
+			</div>
 			{/* <div className="form-check payment-input-container mt-2">
 				<label className="form-check-label">
 					<input onChange={ handleOnChange } value="jccpaymentgatewayredirect" className="form-check-input mr-3" name="paymentMethod" type="radio" checked={'jccpaymentgatewayredirect' === paymentMethod}/>

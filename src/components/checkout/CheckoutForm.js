@@ -12,10 +12,12 @@ import CHECKOUT_MUTATION from "../../mutations/checkout";
 import Address from "./Address";
 import {
     handleBillingDifferentThanShipping,
-    handleCreateAccount,
+    handleCreateAccount, handleStripeCheckout,
     setStatesForCountry
 } from "../../utils/checkout";
 import CheckboxField from "./form-elements/CheckboxField";
+import CLEAR_CART_MUTATION from "../../mutations/clear-cart";
+
 
 import Link from "next/link"
 
@@ -75,7 +77,9 @@ const CheckoutForm = ({countriesData}) => {
     const [theShippingStates, setTheShippingStates] = useState([]);
     const [isFetchingShippingStates, setIsFetchingShippingStates] = useState(false);
     const [theBillingStates, setTheBillingStates] = useState([]);
+    const [isStripeOrderProcessing, setIsStripeOrderProcessing] = useState(false);
     const [isFetchingBillingStates, setIsFetchingBillingStates] = useState(false);
+    const [createdOrderData, setCreatedOrderData] = useState({});
 	const [errorHandler, setErrorHandler] = useState("");
 
     // Get Cart Data.
@@ -110,6 +114,8 @@ const CheckoutForm = ({countriesData}) => {
         }
     });
 
+    const [ clearCartMutation ] = useMutation( CLEAR_CART_MUTATION );
+
     /*
      * Handle form submit.
      *
@@ -139,6 +145,11 @@ const CheckoutForm = ({countriesData}) => {
             });
 
             return;
+        }
+
+        if ( 'stripe-mode' === input.paymentMethod ) {
+            const createdOrderData = await handleStripeCheckout(input, cart?.products, setRequestError, clearCartMutation, setIsStripeOrderProcessing, setCreatedOrderData);
+        	return null;
         }
 
         const checkOutData = createCheckoutData(input);
@@ -200,6 +211,10 @@ const CheckoutForm = ({countriesData}) => {
         }
 
     }, [orderData]);
+
+
+    // Loading Data
+    const isOrderProcessing = checkoutLoading || isStripeOrderProcessing;
 
     const initialOptions = {
         "client-id": `${process.env.PAYPAL_CLIENT}` ,
@@ -263,7 +278,7 @@ const CheckoutForm = ({countriesData}) => {
                             {/*Payment*/}
                             <PaymentModes input={input} handleOnChange={handleOnChange}/>
                             <div className="place-order-btn-wrap mt-5">
-                                <button className="bg-purple-600 text-white px-5 py-3 rounded-sm w-auto xl:w-full"
+                                <button disabled={isOrderProcessing} className="bg-black-600 text-white px-5 py-3 rounded-sm w-auto xl:w-full"
                                         type="submit">
                                     Place Order
                                 </button>
@@ -271,7 +286,7 @@ const CheckoutForm = ({countriesData}) => {
                             {/* <Paypal orderData={orderData}/> */}
                             {/* <Paypal/> */}
                             {/* Checkout Loading*/}
-                            {checkoutLoading && <p>Processing Order...</p>}
+                            {isOrderProcessing && <p>Processing Order...</p>}
                             {requestError && <p>Error : {requestError} :( Please try again</p>}
                         </div>
                     </div>
