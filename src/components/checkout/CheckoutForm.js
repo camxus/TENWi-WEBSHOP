@@ -278,7 +278,7 @@ const CheckoutForm = ({countriesData}) => {
                             {/*Payment*/}
                             <PaymentModes input={input} handleOnChange={handleOnChange}/>
                             <div className="place-order-btn-wrap mt-5">
-                                <button disabled={isOrderProcessing} className="bg-black-600 text-white px-5 py-3 rounded-sm w-auto xl:w-full"
+                                <button disabled={isOrderProcessing} className="bg-purple-600 text-white px-5 py-3 rounded-sm w-auto xl:w-full"
                                         type="submit">
                                     Place Order
                                 </button>

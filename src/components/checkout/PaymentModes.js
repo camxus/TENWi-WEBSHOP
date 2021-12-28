@@ -31,8 +31,8 @@ const PaymentModes = ( { input, handleOnChange } ) => {
 			{/*Pay with Stripe*/}
 			<div className="form-check payment-input-container mt-2">
 				<label className="form-check-label">
-					<input onChange={ handleOnChange } value="cod" className="form-check-input mr-3" name="paymentMethod" type="radio" checked={'cod' === paymentMethod}/>
-					<span className="payment-content">Cash on Delivery</span>
+					<input onChange={ handleOnChange } value="stripe-mode" className="form-check-input mr-3" name="paymentMethod" type="radio" checked={'stripe-mode' === paymentMethod}/>
+					<span className="payment-content">Pay with Stripe</span>
 				</label>
 			</div>
 			{/* <div className="form-check payment-input-container mt-2">
