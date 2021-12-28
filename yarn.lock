@@ -558,6 +558,16 @@
   "resolved" "https://registry.npmjs.org/@types/zen-observable/-/zen-observable-0.8.1.tgz"
   "version" "0.8.1"
 
+"@woocommerce/woocommerce-rest-api@^1.0.1":
+  "integrity" "sha512-YBk3EEYE0zax/egx6Rhpbu6hcCFyZpYQrjH9JO4NUGU3n3T0W9Edn7oAUbjL/c7Oezcg+UaQluCaKjY/B3zwxg=="
+  "resolved" "https://registry.npmjs.org/@woocommerce/woocommerce-rest-api/-/woocommerce-rest-api-1.0.1.tgz"
+  "version" "1.0.1"
+  dependencies:
+    "axios" "^0.19.0"
+    "create-hmac" "^1.1.7"
+    "oauth-1.0a" "^2.2.6"
+    "url-parse" "^1.4.7"
+
 "@wry/context@^0.5.2":
   "integrity" "sha512-B/JLuRZ/vbEKHRUiGj6xiMojST1kHhu4WcreLfNN7q9DqQFrb97cWgf/kiYsPSUCAMVN0HzfFc8XjJdzgZzfjw=="
   "resolved" "https://registry.npmjs.org/@wry/context/-/context-0.5.2.tgz"
@@ -689,6 +699,13 @@
   "version" "1.0.2"
   dependencies:
     "array-filter" "^1.0.0"
+
+"axios@^0.19.0":
+  "integrity" "sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA=="
+  "resolved" "https://registry.npmjs.org/axios/-/axios-0.19.2.tgz"
+  "version" "0.19.2"
+  dependencies:
+    "follow-redirects" "1.5.10"
 
 "balanced-match@^1.0.0":
   "integrity" "sha1-ibTRmasr7kneFk6gK4nORi1xt2c="
@@ -1249,6 +1266,13 @@
   dependencies:
     "ms" "2.1.2"
 
+"debug@=3.1.0":
+  "integrity" "sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g=="
+  "resolved" "https://registry.npmjs.org/debug/-/debug-3.1.0.tgz"
+  "version" "3.1.0"
+  dependencies:
+    "ms" "2.0.0"
+
 "debug@2":
   "integrity" "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="
   "resolved" "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz"
@@ -1527,6 +1551,13 @@
   "integrity" "sha512-dVsPA/UwQ8+2uoFe5GHtiBMu48dWLTdsuEd7CKGlZlD78r1TTWBvDuFaFGKCo/ZfEr95Uk56vZoX86OsHkUeIg=="
   "resolved" "https://registry.npmjs.org/flatten/-/flatten-1.0.3.tgz"
   "version" "1.0.3"
+
+"follow-redirects@1.5.10":
+  "integrity" "sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ=="
+  "resolved" "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.5.10.tgz"
+  "version" "1.5.10"
+  dependencies:
+    "debug" "=3.1.0"
 
 "foreach@^2.0.5":
   "integrity" "sha1-C+4AUBiusmDQo6865ljdATbsG5k="
@@ -2267,6 +2298,11 @@
   "integrity" "sha1-b2gragJ6Tp3fpFZM0lidHU5mnt4="
   "resolved" "https://registry.npmjs.org/num2fraction/-/num2fraction-1.2.2.tgz"
   "version" "1.2.2"
+
+"oauth-1.0a@^2.2.6":
+  "integrity" "sha512-6bkxv3N4Gu5lty4viIcIAnq5GbxECviMBeKR3WX/q87SPQ8E8aursPZUtsXDnxCs787af09WPRBLqYrf/lwoYQ=="
+  "resolved" "https://registry.npmjs.org/oauth-1.0a/-/oauth-1.0a-2.2.6.tgz"
+  "version" "2.2.6"
 
 "object-assign@^4.0.1", "object-assign@^4.1.1":
   "integrity" "sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM="
@@ -3019,6 +3055,11 @@
   "resolved" "https://registry.npmjs.org/querystring-es3/-/querystring-es3-0.2.1.tgz"
   "version" "0.2.1"
 
+"querystringify@^2.1.1":
+  "integrity" "sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ=="
+  "resolved" "https://registry.npmjs.org/querystringify/-/querystringify-2.2.0.tgz"
+  "version" "2.2.0"
+
 "queue@6.0.2":
   "integrity" "sha512-iHZWu+q3IdFZFX36ro/lKBkSvfkztY5Y7HMiPlOUjhupPcG2JMfst2KKEpu5XndviX/3UhFbRngUPNKtgvtZiA=="
   "resolved" "https://registry.npmjs.org/queue/-/queue-6.0.2.tgz"
@@ -3153,6 +3194,11 @@
   "integrity" "sha512-plpwicqEzfEyTQohIKktWigcLzmNStMGwbOUbykx51/29Z3JOGYldaaNGK7ngNXV+UcoqvIMmloZ48Sr74sd+g=="
   "resolved" "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.13.4.tgz"
   "version" "0.13.4"
+
+"requires-port@^1.0.0":
+  "integrity" "sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8="
+  "resolved" "https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz"
+  "version" "1.0.0"
 
 "resolve-from@^4.0.0":
   "integrity" "sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g=="
@@ -3627,6 +3673,14 @@
   "integrity" "sha1-j97XMk7G6IoP+LkF58CYzcCG1UQ="
   "resolved" "https://registry.npmjs.org/unquote/-/unquote-1.1.1.tgz"
   "version" "1.1.1"
+
+"url-parse@^1.4.7":
+  "integrity" "sha512-ITeAByWWoqutFClc/lRZnFplgXgEZr3WJ6XngMM/N9DMIm4K8zXPCZ1Jdu0rERwO84w1WC5wkle2ubwTA4NTBg=="
+  "resolved" "https://registry.npmjs.org/url-parse/-/url-parse-1.5.4.tgz"
+  "version" "1.5.4"
+  dependencies:
+    "querystringify" "^2.1.1"
+    "requires-port" "^1.0.0"
 
 "use-subscription@1.5.1":
   "integrity" "sha512-Xv2a1P/yReAjAbhylMfFplFKj9GssgTwN7RlcTxBujFQcloStWNDQdc4g4NRWH9xS4i/FDk04vQBptAXoF3VcA=="

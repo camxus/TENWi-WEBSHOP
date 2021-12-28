@@ -80,13 +80,13 @@ export default function Categories ( {productCategories, categories, tags} ) {
   </div>
     <div class="startpage-wrapper">
     <main id="main">
-  <div class="before">
+  {/* <div class="before">
     <Image
     src={require("../public/assets/gif/IMG_3319.GIF")}
     layout="fill"
     objectFit="cover"
     />
-  </div>
+  </div> */}
   <div class="notification-wrapper">
     {NotificationsStruct && NotificationsStruct.map( item =>
         <ul id="one" class="notification-button">

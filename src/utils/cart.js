@@ -28,10 +28,12 @@ export const clearTheCart = async (clearCartMutation, previousRequestError) => {
                 },
             },
         } );
-
+        console.log(data)
         response.cartCleared = data?.removeItemsFromCart?.cartItems.length;
 
     } catch ( err ) {
+        console.log(error, err.message)
+
         response.error = err.message;
     }
 

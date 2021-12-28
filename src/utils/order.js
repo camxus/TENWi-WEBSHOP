@@ -132,6 +132,7 @@ export const createTheOrder = async ( orderData, setOrderFailedError, previousRe
         } );
 
         const result = await request.json();
+        console.log("result ",result)
         if ( result.error ) {
             response.error = result.error
             setOrderFailedError( 'Something went wrong. Order creation failed. Please try again' );
