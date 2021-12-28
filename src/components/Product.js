@@ -5,8 +5,7 @@ import Price from "./single-product/price";
 import Image from "next/image";
 import {DEFAULT_PRODUCT_HOME_IMG_URL} from "../constants/urls";
 import {getFloatVal} from '../../src/functions.js'
-const Product = ( props ) => {
-	const { product } = props;
+const Product = ( {product} ) => {
 
 	let currency = product?.stockStatus !== "IN_STOCK" ? "" : product?.price ? product.price.slice(-1) : "";
 	let price =  product?.stockStatus !== "IN_STOCK" ? "SOLD OUT" : product?.price ? getFloatVal(product.price) : "" ;

@@ -156,7 +156,7 @@ export async function getStaticProps(context) {
         variables: {input : id}
     })
 
-    console.log("relatedItems", relatedItems.data.product.related.edges)
+    // console.log("relatedItems", relatedItems.data.product.related.edges)
 
     var variations = null
     data.product.localAttributes ? variations = data.product.localAttributes.nodes[0] : "";

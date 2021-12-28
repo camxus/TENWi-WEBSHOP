@@ -10,7 +10,7 @@ import cat from "../../src/styles/categories.module.css"
 import styles from '../../src/styles/style.module.css';
 
 
-export default function CategorySingle( props ) {
+export default function CategorySingle( { categoryName, products, categories, tags } ) {
 
     const router = useRouter()
     // If the page is not yet generated, this will be displayed
@@ -19,7 +19,6 @@ export default function CategorySingle( props ) {
         return <IntroImage></IntroImage>
     }
 
-    const { categoryName, products, categories, tags } = props;
     return (
         <Layout categories={categories} tags = {tags}>
             <div>

@@ -123,7 +123,7 @@ const CheckoutForm = ({countriesData}) => {
      *
      * @return {void}
      */
-    const handleFormSubmit = (event) => {
+    const handleFormSubmit = async (event) => {
         event.preventDefault();
 
         /**

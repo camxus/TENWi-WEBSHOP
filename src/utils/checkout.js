@@ -4,8 +4,7 @@ import GET_STATES from "../queries/get-states";
 import {isEmpty, isArray} from 'lodash';
 
 import { loadStripe } from "@stripe/stripe-js";
-import { createCheckoutSession } from 'next-stripe/client' // @see https://github.com/ynnoj/next-stripe
-import { loadStripe } from "@stripe/stripe-js";
+import { createCheckoutSession } from 'next-stripe/client' // @see https://github.com/ynnoj/next-stripe npm i next-stripe@bets
 
 import {createTheOrder, getCreateOrderData} from "./order";
 import {clearTheCart} from "./cart";

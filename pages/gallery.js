@@ -46,7 +46,7 @@ export async function getStaticProps() {
     query: GALLERY_IMAGES,
     variables: { search : "gallery" }
     } );
-    console.log(data)
+    // console.log(data)
   return {
       props: {
           images: data ? data.mediaItems.edges : [],

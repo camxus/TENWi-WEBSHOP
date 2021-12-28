@@ -59,11 +59,13 @@ const PRODUCTS_AND_CATEGORIES_QUERY = gql`query {
         price
         regularPrice
         id
+        stockStatus
       }
       ... on VariableProduct {
         price
         id
         regularPrice
+        stockStatus
       }
       ... on ExternalProduct {
         price

@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 /**
  * GraphQL categories and products query.
  */
-const PRODUCTS_AND_CATEGORIES_QUERY = gql`
+const RELATED_ITEMS_QUERY = gql`
 query RELATED_ITEMS_BY_ID ($input: ID!) {
     product(id: $input, idType: DATABASE_ID) {
         related(first: 4) {
@@ -26,11 +26,13 @@ query RELATED_ITEMS_BY_ID ($input: ID!) {
           price
           regularPrice
           id
+          stockStatus
           }
           ... on VariableProduct {
           price
           regularPrice
           id
+          stockStatus
           }
           ... on ExternalProduct {
           price
@@ -58,4 +60,4 @@ query RELATED_ITEMS_BY_ID ($input: ID!) {
     
 `;
 
-export default PRODUCTS_AND_CATEGORIES_QUERY;
+export default RELATED_ITEMS_QUERY;
