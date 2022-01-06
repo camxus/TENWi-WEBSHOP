@@ -28,11 +28,13 @@ export const PRODUCT_BY_SLUG_QUERY = gql` query Product($slug: ID!) {
 		  price
 		  id
 		  regularPrice
+		  stockStatus
 		}
 		... on VariableProduct {
 		  price
 		  id
 		  regularPrice
+		  stockStatus
 		  localAttributes {
 			nodes {
 				name

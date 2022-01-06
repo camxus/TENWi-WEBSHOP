@@ -25,6 +25,7 @@ const Layout = (props) => {
           {props.children}
           {/* <Footer /> */}
         </div>
+        <Footer/>
       </ApolloProvider>
     </AppProvider>
   );

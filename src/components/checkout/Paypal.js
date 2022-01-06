@@ -1,81 +1,39 @@
-import { useEffect } from "react";
-import {
-    PayPalScriptProvider,
-    PayPalButtons,
-    usePayPalScriptReducer
-} from "@paypal/react-paypal-js";
+import {useRef, useEffect} from 'react'
+import {handlePaypalCheckout} from "../../utils/checkout"
+import styles from "../../styles/paypal.module.css"
 
-// This values are the props in the UI
-const amount = "2";
-const currency = "USD";
-const style = {"layout":"vertical"};
+export default function Paypal({cart, input, products, setRequestError, clearCartMutation,setIsStripeOrderProcessing,setCreatedOrderData}) {
+    const paypal = useRef()
 
-// Custom component to wrap the PayPalButtons and handle currency changes
-const ButtonWrapper = ({ currency, showSpinner }) => {
-    // usePayPalScriptReducer can be use only inside children of PayPalScriptProviders
-    // This is the main reason to wrap the PayPalButtons in a new component
-    const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
-
-    useEffect(() => {
-        dispatch({
-            type: "resetOptions",
-            value: {
-                ...options,
-                currency: currency,
+    useEffect(()=>{
+        window.paypal.Buttons({
+            createOrder: (data, actions, err) =>{
+                return actions.order.create({
+                    intent: "CAPTURE",
+                    purchase_units: [
+                        {
+                            description: "TENWi",
+                            amount: {
+                                currency_code: "EUR",
+                                value: cart.total.replace(",", ".").slice(0, -1)
+                            }
+                        }
+                    ]
+                })
             },
-        });
-    }, [currency, showSpinner]);
-
-
-    return (<>
-            { (showSpinner && isPending) && <div className="spinner" /> }
-            <PayPalButtons
-                style={style}
-                disabled={false}
-                forceReRender={[amount, currency, style]}
-                fundingSource={undefined}
-                createOrder={(data, actions) => {
-                    return actions.order
-                        .create({
-                            purchase_units: [
-                                {
-                                    amount: {
-                                        currency_code: currency,
-                                        value: amount,
-                                    },
-                                },
-                            ],
-                        })
-                        .then((orderId) => {
-                            // Your code here after create the order
-                            return orderId;
-                        });
-                }}
-                onApprove={function (data, actions) {
-                    return actions.order.capture().then(function () {
-                        // Your code here after capture the order
-                    });
-                }}
-            />
-        </>
-    );
-}
-
-export default function Paypal() {
-	return (
-		<div style={{ maxWidth: "750px", minHeight: "200px" }}>
-            <PayPalScriptProvider
-                options={{
-                    "client-id": "test",
-                    components: "buttons",
-                    currency: "USD"
-                }}
-            >
-				<ButtonWrapper
-                    currency={currency}
-                    showSpinner={false}
-                />
-			</PayPalScriptProvider>
-		</div>
-	);
+            onApprove: async (data, actions) => {
+                handlePaypalCheckout(input, products, setRequestError, clearCartMutation,setIsStripeOrderProcessing,setCreatedOrderData)
+                const order = await actions.order.capture()
+                console.log(order)
+            },
+            onError: (err) =>{
+                console.log(err)
+            }
+        }).render(paypal.current)
+    }, [])
+    return (
+        <div>
+            <div ref={paypal} className={`${styles["paylpal-container"]}`}></div>
+        </div>
+    )
 }

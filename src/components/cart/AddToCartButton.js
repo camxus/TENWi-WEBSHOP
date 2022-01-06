@@ -228,18 +228,37 @@ const AddToCart = ({product, variationName, sizes}, ref) => {
                        className="px-3 py-1 rounded-sm mr-3 text-sm border-solid border border-current inline-block hover:text-white">
 						BUY NOW
                     </a>
-                ) : 
+                ) : !requestError ?
                 <button
 					disabled={addToCartLoading}
                     onClick={handleAddToCartClick}
-                    className={cx(
-                        // 'px-3 py-1 rounded-sm mr-3 text-sm border-solid border border-current',
-                        {'hover:text-white': !addToCartLoading},
-                        {'opacity-50 cursor-not-allowed': addToCartLoading}
-                    )}
+                    className={`${styles["add-to-cart-button"]}`
+                    // cx(
+                    //     // 'px-3 py-1 rounded-sm mr-3 text-sm border-solid border border-current',
+                    //     {'hover:text-white': !addToCartLoading},
+                    //     {'opacity-50 cursor-not-allowed': addToCartLoading}
+                    // )
+                }
                 >
 					{ addToCartLoading ? 'ADDING TO CART...' : addToCartLoading === "error" ? "SOLD OUT" : 'ADD TO CART' }
                 </button>
+                : 
+                <a href="/shop">
+                <button
+                    disabled={addToCartLoading}
+                    // onClick={handleAddToCartClick}
+                    className={`${styles["add-to-cart-button-red"]}`
+                    // cx(
+                    //     // 'px-3 py-1 rounded-sm mr-3 text-sm border-solid border border-current',
+                    //     {'hover:text-white': !addToCartLoading},
+                    //     {'opacity-50 cursor-not-allowed': addToCartLoading}
+                    // )
+                }
+                >
+                    ITEM IS ALREADY IN CART OR SOLD OUT
+                    RETURN TO SHOP
+                </button>
+                </a>
             }
            
 

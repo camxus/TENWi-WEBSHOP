@@ -10,7 +10,7 @@ const Product = ( {product} ) => {
 	let currency = product?.stockStatus !== "IN_STOCK" ? "" : product?.price ? product.price.slice(-1) : "";
 	let price =  product?.stockStatus !== "IN_STOCK" ? "SOLD OUT" : product?.price ? getFloatVal(product.price) : "" ;
 
-	console.log(product?.name ,product?.stockStatus)
+	// console.log(product?.name ,product?.stockStatus)
 	return (
 		// @TODO Need to handle Group products differently.
 		undefined !== product && 'GroupProduct' !== product.__typename ? (

@@ -1,14 +1,21 @@
+import {v4} from 'uuid';
+
 import {useState, useContext, useEffect} from 'react';
-import {useMutation, useQuery} from '@apollo/client';
+import {useMutation, useQuery, useLazyQuery} from '@apollo/client';
 
 import YourOrder from "./YourOrder";
 import PaymentModes from "./PaymentModes";
+import ShippingModes from "./ShippingModes";
+import Paypal from "./Paypal";
 import {AppContext} from "../context/AppContext";
 import validateAndSanitizeCheckoutForm from '../../validator/checkout';
-import {getFormattedCart, createCheckoutData} from "../../functions";
+import {getFloatVal, getFormattedCart, createCheckoutData} from "../../functions";
 import OrderSuccess from "./OrderSuccess";
+
 import GET_CART from "../../queries/get-cart";
 import CHECKOUT_MUTATION from "../../mutations/checkout";
+import {POST_SHIPPING_METHOD} from "../../mutations/shipping";
+
 import Address from "./Address";
 import {
     handleBillingDifferentThanShipping,
@@ -53,9 +60,10 @@ const defaultCustomerInfo = {
     errors: null
 }
 
-const CheckoutForm = ({countriesData}) => {
+const CheckoutForm = ({methods, countriesData}) => {
 
     const {billingCountries, shippingCountries} = countriesData || {}
+    const countryCodes = require("../../utils/country_codes.json")
 
     const initialState = {
         billing: {
@@ -81,19 +89,15 @@ const CheckoutForm = ({countriesData}) => {
     const [isFetchingBillingStates, setIsFetchingBillingStates] = useState(false);
     const [createdOrderData, setCreatedOrderData] = useState({});
 	const [errorHandler, setErrorHandler] = useState("");
+    const [ chosenShippingMethod, setChosenShippingMethod ] = useState("Express Shipping")
+    const [ shippingMethod, setShippingMethod ] = useState("free_shipping:16")
+    const [ shippingAmount, setShippingAmount ] = useState(0)
 
-    // Get Cart Data.
-    const {data} = useQuery(GET_CART, {
-        notifyOnNetworkStatusChange: true,
-        onCompleted: () => {
-            // Update cart in the localStorage.
-            const updatedCart = getFormattedCart(data);
-            localStorage.setItem('tenwi-cart', JSON.stringify(updatedCart));
+    const [paypalLoaded, setPaypalLoaded ] = useState(false)
 
-            // Update cart data in React Context.
-            setCart(updatedCart);
-        }
-    });
+    const ShippingMethods = ["Express Shipping", "Standard Shipping"]
+
+    
 
     // Create New order: Checkout Mutation.
     const [checkout, {
@@ -148,8 +152,13 @@ const CheckoutForm = ({countriesData}) => {
         }
 
         if ( 'stripe-mode' === input.paymentMethod ) {
-            const createdOrderData = await handleStripeCheckout(input, cart?.products, setRequestError, clearCartMutation, setIsStripeOrderProcessing, setCreatedOrderData);
+            console.log(shippingAmount)
+            setOrderData(await handleStripeCheckout(input, cart?.products, setRequestError, clearCartMutation, setIsStripeOrderProcessing, setCreatedOrderData));
         	return null;
+        }
+        if ( 'ppcp-gateway' === input.paymentMethod ) {
+            setPaypalLoaded(true)
+            return null;
         }
 
         const checkOutData = createCheckoutData(input);
@@ -158,7 +167,7 @@ const CheckoutForm = ({countriesData}) => {
          *  When order data is set, checkout mutation will automatically be called,
          *  because 'orderData' is added in useEffect as a dependency.
          */
-        setOrderData(checkOutData);
+        // setOrderData(checkOutData);
     };
 
     /*
@@ -171,7 +180,7 @@ const CheckoutForm = ({countriesData}) => {
      * @return {void}
      */
     const handleOnChange = async (event, isShipping = false, isBillingOrShipping = false) => {
-
+        
         const {target} = event || {};
 
         if ('createAccount' === target.name) {
@@ -187,9 +196,11 @@ const CheckoutForm = ({countriesData}) => {
         } else {
             const newState = {...input, [target.name]: target.value};
             setInput(newState);
+            console.log(input)
         }
     };
-
+    
+    
     const handleShippingChange = async (target) => {
         const newState = {...input, shipping: {...input?.shipping, [target.name]: target.value}};
         setInput(newState);
@@ -206,7 +217,7 @@ const CheckoutForm = ({countriesData}) => {
 
         if (null !== orderData) {
             // Call the checkout mutation when the value for orderData changes/updates.
-            console.log("data",orderData)
+            // console.log("data",orderData)
             await checkout();
         }
 
@@ -222,6 +233,23 @@ const CheckoutForm = ({countriesData}) => {
         intent: "capture",
         "data-client-token": `email`,
     };
+
+    // useEffect(()=> {
+    //     cart?.products.push({
+    //         cartKey: "",
+    //         image: 
+    //         {altText: "",        
+    //         sourceUrl: "",        
+    //         srcSet: "",        
+    //         title: ""   
+    //         },   
+    //         name: "Shipping",        
+    //         price: cart.shippingPrice,         
+    //         productId: 9999,        
+    //         qty: 1,        
+    //         slug: "",        
+    //         totalPrice: cart.shippingPrice + "€"})
+    // },[cart])
     
     return (
         <>
@@ -276,13 +304,20 @@ const CheckoutForm = ({countriesData}) => {
                             <YourOrder cart={cart}/>
 
                             {/*Payment*/}
+                            {/* { getFloatVal(cart.totalProductsPrice) < 200 && <ShippingModes methods={ShippingMethods} chosenShippingMethod={chosenShippingMethod} handleOnChange={handleOnShippingChange}/>}                             */}
                             <PaymentModes input={input} handleOnChange={handleOnChange}/>
+                            
                             <div className="place-order-btn-wrap mt-5">
-                                <button disabled={isOrderProcessing} className="bg-purple-600 text-white px-5 py-3 rounded-sm w-auto xl:w-full"
+                                {!paypalLoaded &&
+                                <button disabled={isOrderProcessing} className="bg-black text-white px-5 py-3 rounded-sm w-auto xl:w-full"
                                         type="submit">
                                     Place Order
                                 </button>
-                            </div>
+                                }
+                             
+                                {paypalLoaded &&
+                                 <Paypal cart={cart} input ={ input } products={ cart?.products } setRequestError={setRequestError} clearCartMutation={ clearCartMutation } setIsStripeOrderProcessing={ setIsStripeOrderProcessing} setCreatedOrderData={setCreatedOrderData}/>}
+                            </div> 
                             {/* <Paypal orderData={orderData}/> */}
                             {/* <Paypal/> */}
                             {/* Checkout Loading*/}

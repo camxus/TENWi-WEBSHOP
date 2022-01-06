@@ -25,8 +25,8 @@ const YourOrder = ( { cart } ) => {
 						{/*Total*/}
 						<tr className="bg-gray-200">
 							<td className=""/>
-							<td className="checkout-total font-normal text-xl">Subtotal</td>
-							<td className="checkout-total font-bold text-xl">{ cart.totalProductsPrice }</td>
+							<td className="checkout-total font-normal text-xl">Total</td>
+							<td className="checkout-total font-bold text-xl">{ cart.total }</td>
 						</tr>
 						{/* <tr className="">
 							<td className=""/>

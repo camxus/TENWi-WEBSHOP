@@ -57,7 +57,6 @@ const CartItem = ( {
 
 		}
 	};
-	console.log(item)
 
 	return (
 		<tr className="cart-item" key={ item.productId }>

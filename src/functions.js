@@ -25,6 +25,7 @@ export const addFirstProduct = ( product ) => {
 
 	let newCart = {
 		products: [],
+		shippingPrice,
 		totalProductsCount: 1,
 		totalProductsPrice: productPrice
 	};
@@ -197,7 +198,7 @@ export const removeItemFromCart = ( productId ) => {
  * Returns cart data in the required format.
  * @param {String} data Cart data
  */
-export const getFormattedCart = ( data ) => {
+export const getFormattedCart = ( data, shippingPrice ) => {
 
 	let formattedCart = null;
 
@@ -236,15 +237,18 @@ export const getFormattedCart = ( data ) => {
 		// Push each item into the products array.
 		formattedCart.products.push( product );
 	}
-
+	
+	formattedCart.shippingPrice = shippingPrice ?? '';
 	formattedCart.totalProductsCount = totalProductsCount;
 	formattedCart.totalProductsPrice = data?.cart?.total ?? '';
+	formattedCart.total = (getFloatVal(data?.cart?.total) + shippingPrice).toFixed(2).toString().replace(".", ",") + "€" ?? '';
+
 
 	return formattedCart;
 
 };
 
-export const createCheckoutData = ( order ) => {
+export const createCheckoutData = ( order, shippingPrice ) => {
 
 	// Set the billing Data to shipping, if applicable.
 	const billingData = order.billingDifferentThanShipping ? order.billing : order.shipping;

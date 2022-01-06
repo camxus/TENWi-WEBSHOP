@@ -18,6 +18,7 @@ const api = new WooCommerceRestApi({
  *
  * @return {Promise<{orderId: string, success: boolean, error: string}>}
  */
+
 export default async function handler(req, res) {
 
     const responseData = {

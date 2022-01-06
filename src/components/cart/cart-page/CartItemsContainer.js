@@ -1,36 +1,69 @@
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { AppContext } from "../../context/AppContext";
 import { getFormattedCart, getUpdatedItems } from '../../../functions';
 import CartItem from "./CartItem";
 import { v4 } from 'uuid';
 import { useMutation, useQuery } from '@apollo/client';
 import UPDATE_CART from "../../../mutations/update-cart";
+import {POST_SHIPPING_METHOD} from "../../../mutations/shipping.js";
 import GET_CART from "../../../queries/get-cart";
 import CLEAR_CART_MUTATION from "../../../mutations/clear-cart";
 import {isEmpty} from 'lodash'
 
+import {getFloatVal} from "../../../functions"
 
-const CartItemsContainer = () => {
+import ShippingModes from "../../checkout/ShippingModes"
+import CountrySelection from "../../checkout/CountrySelection"
+import countryCodes from "../../../utils/country_codes.json"
 
+import axios from 'axios'
+
+
+const CartItemsContainer = ({countries}) => {
 
 	// @TODO wil use it in future variations of the project.
 	const [ cart, setCart ] = useContext( AppContext );
-	const [requestError, setRequestError] = useState( null );
+	const [ shippingAmount, setShippingAmount ] = useState( 0 );
+	const [ chosenShippingMethod, setChosenShippingMethod ] = useState( null );
+	const [ shippingMethod, setShippingMethod ] = useState( null );
+	const [ requestError, setRequestError ] = useState( null );
+	const [ countryName, setCountryName ] = useState( null );
+	const [ countryCode, setCountryCode ] = useState( null );
+	
 
-	// Get Cart Data.
-	const { loading, error, data, refetch } = useQuery( GET_CART, {
-		notifyOnNetworkStatusChange: true,
-		onCompleted: () => {
 
-			// Update cart in the localStorage.
-			const updatedCart = getFormattedCart( data );
-			localStorage.setItem( 'tenwi-cart', JSON.stringify( updatedCart ) );
 
-			// Update cart data in React Context.
-			setCart( updatedCart );
+	useEffect( ()=> {
+		const getCC = async () => {
+		axios.get('https://ipapi.co/json/').then((response) => {
+			let data = response.data;
+			setCountryName(data.country_name)
+			setCountryCode(data.country_code)
+		}).catch((error) => {
+			console.log(error);
+		});
+		
 		}
-	} );
+		getCC()
+	}, [])
+
+	
+	// Get Cart Data.
+		const { loading, error, data, refetch } = useQuery( GET_CART, {
+			notifyOnNetworkStatusChange: true,
+			onCompleted: () => {
+
+				// Update cart in the localStorage.
+				const updatedCart = getFormattedCart( data, shippingAmount );
+				localStorage.setItem( 'tenwi-cart', JSON.stringify( updatedCart ) );
+
+				// Update cart data in React Context.
+				console.log(cart)
+				setCart( updatedCart );
+			}
+		} );
+	
 
 	// Update Cart Mutation.
 	const [updateCart, { data: updateCartResponse, loading: updateCartProcessing, error: updateCartError }] = useMutation( UPDATE_CART, {
@@ -105,6 +138,75 @@ const CartItemsContainer = () => {
 		} );
 	}
 
+	const handleOnShippingChange = (event) => {
+		console.log(countryCode)
+        setChosenShippingMethod(event.target.value)
+        if(countryCode !== undefined){
+            console.log("event", countryCode)
+            if (!countryCodes.EU.find(element => element = countryCode)){
+				// INTERNATIONAL
+                if(event.target.value === "Express Shipping"){
+                    setShippingMethod("flat_rate:26");          
+                    setShippingAmount(61)
+                    
+                }
+                else if(event.target.value === "Standard Shipping"){
+                    setShippingMethod("flat_rate:27");          
+                    setShippingAmount(27)
+                }
+            }
+            else if (countryCodes.EU.find(element => element = countryCode)){
+				// EU
+                if(event.target.value === "Express Shipping"){
+                    setShippingMethod("flat_rate:28");             
+                    setShippingAmount(31)
+					console.log("Express Shipping")
+
+                    
+                }
+                if(event.target.value === "Standard Shipping"){
+                    setShippingMethod("flat_rate:29");   
+                    setShippingAmount(16)
+					console.log("Standard Shipping")
+                    
+                }
+            }
+            else if (getFloatVal(cart.totalProductsPrice) > 200){
+				console.log(cart.totalProductsPrice)
+                setShippingMethod("free_shipping:30");                        
+                // await postShipping()
+            }
+        }
+    }
+    useEffect( async () => {
+		console.log(shippingMethod)
+		console.log(shippingAmount)
+		await postShipping()
+    }, [shippingMethod]);
+
+    
+    const [postShipping, { data: postShippingResponse, loading: postShippingProcessing, error: postShippingError }] = useMutation( POST_SHIPPING_METHOD, {
+            variables: {
+                input: {shippingMethods: shippingMethod, clientMutationId: v4()}
+            },
+            onCompleted: () => {
+                refetch();
+                console.log("completed");
+            },
+            onError: ( error ) => {
+                if ( error ) {
+                    const errorMessage = error?.graphQLErrors?.[ 0 ]?.message ? error.graphQLErrors[ 0 ].message : '';
+                    setRequestError( errorMessage );
+                }
+            }
+        } );
+		
+		let methods = ["Express Shipping", "Standard Shipping"]
+
+		const handleOnCountryChange = (event) => {
+			event.persist()
+			setCountryCode(event.target.value) 
+		}
 	return (
 		<div className="cart product-cart-container container mx-auto my-32 px-4 xl:px-0">
 			{ cart ? (
@@ -157,8 +259,10 @@ const CartItemsContainer = () => {
 									<tbody>
 									<tr className="table-light flex flex-col">
 										<td className="cart-element-total text-2xl font-normal">Subtotal</td>
-										<td className="cart-element-amt text-2xl font-bold">{ ( 'string' !== typeof cart.totalProductsPrice ) ? cart.totalProductsPrice.toFixed(2) : cart.totalProductsPrice }</td>
+										<td className="cart-element-amt text-2xl font-bold">{ ( 'string' !== typeof cart.total ) ? cart.total : cart.total }</td>
 									</tr>
+									{!countryCode && <CountrySelection input="" handleOnChange={handleOnCountryChange} countries={countries} isShipping=""/>}
+									{ countryCode && (getFloatVal(cart.totalProductsPrice) < 200) && <ShippingModes methods={methods} chosenShippingMethod={chosenShippingMethod} handleOnChange={handleOnShippingChange}/>}                            
 									{/* <tr className="table-light">
 										<td className="cart-element-total">Total</td>
 										<td className="cart-element-amt">{ ( 'string' !== typeof cart.totalProductsPrice ) ? cart.totalProductsPrice.toFixed(2) : cart.totalProductsPrice }</td>

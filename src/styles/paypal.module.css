@@ -1,0 +1,7 @@
+.paypal-container{
+    padding: 10px 0;
+    opacity: 0;
+    animation: 0.3s fadeIn ease-in-out forwards
+}
+
+/* keyframe in starpage global */

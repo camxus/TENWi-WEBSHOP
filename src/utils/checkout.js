@@ -71,15 +71,18 @@ export const handleCreateAccount = ( input, setInput, target ) => {
  * @param setIsStripeOrderProcessing
  *
  */
- export const handleStripeCheckout = async (input, products, setRequestError, clearCartMutation, setIsStripeOrderProcessing, setCreatedOrderData) => {
+ export const handleStripeCheckout = async (input, products, setRequestError, clearCartMutation, setIsStripeOrderProcessing, setCreatedOrderData ) => {
+     
     setIsStripeOrderProcessing(true);
-    const orderData = getCreateOrderData( input, products );
+    const orderData = getCreateOrderData( input, products, system = "stripe" );
     const createCustomerOrder = await createTheOrder( orderData, setRequestError,  '' );
     const cartCleared = await clearTheCart( clearCartMutation, createCustomerOrder?.error );
     setIsStripeOrderProcessing(false);
 
-
-    if ( isEmpty( createCustomerOrder?.orderId ) || cartCleared?.error ) {
+    if ( isEmpty( createCustomerOrder?.orderId )
+     || 
+    cartCleared?.error
+     ) {
         console.log( 'came in' );
         setRequestError('Clear cart failed')
     	return null;
@@ -89,6 +92,29 @@ export const handleCreateAccount = ( input, setInput, target ) => {
     setCreatedOrderData(createCustomerOrder)
     await createCheckoutSessionAndRedirect( products, input, createCustomerOrder?.orderId );
 
+    return createCustomerOrder;
+}
+ export const handlePaypalCheckout = async (input, products, setRequestError, clearCartMutation, setIsStripeOrderProcessing, setCreatedOrderData ) => {
+     
+    setIsStripeOrderProcessing(true);
+    const orderData = getCreateOrderData( input, products, system = "paypal" );
+    const createCustomerOrder = await createTheOrder( orderData, setRequestError,  '' );
+    const cartCleared = await clearTheCart( clearCartMutation, createCustomerOrder?.error );
+    setIsStripeOrderProcessing(false);
+
+    if ( isEmpty( createCustomerOrder?.orderId )
+     || 
+    cartCleared?.error
+     ) {
+        console.log( 'came in' );
+        setRequestError('Clear cart failed')
+    	return null;
+    }
+
+    // On success show stripe form.
+    
+    // await createCheckoutSessionAndRedirect( products, input, createCustomerOrder?.orderId );
+    setCreatedOrderData(createCustomerOrder)
     return createCustomerOrder;
 }
 

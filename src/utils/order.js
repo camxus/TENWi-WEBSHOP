@@ -41,7 +41,7 @@ export const getCreateOrderLineItems = (products) => {
 
     console.log( 'products', products );
 
-    return products?.map(
+    let props = products?.map(
         ({productId, qty: quantity}) => {
             return {
                 quantity,
@@ -50,6 +50,9 @@ export const getCreateOrderLineItems = (products) => {
             };
         },
     );
+    console.log(props)
+
+    return props
 }
 
 /**
@@ -59,7 +62,8 @@ export const getCreateOrderLineItems = (products) => {
  * @param products
  * @return {{shipping: {country: *, city: *, phone: *, address_1: (string|*), address_2: (string|*), postcode: (string|*), last_name: (string|*), company: *, state: *, first_name: (string|*), email: *}, payment_method_title: string, line_items: (*[]|*), payment_method: string, billing: {country: *, city: *, phone: *, address_1: (string|*), address_2: (string|*), postcode: (string|*), last_name: (string|*), company: *, state: *, first_name: (string|*), email: *}}}
  */
-export const getCreateOrderData = (order, products) => {
+export const getCreateOrderData = (order, products, system) => {
+    const systemTitle = system.charAt(0).toUpperCase() + string.slice(1)
     // Set the billing Data to shipping, if applicable.
     const billingData = order.billingDifferentThanShipping ? order.billing : order.shipping;
 
@@ -91,8 +95,8 @@ export const getCreateOrderData = (order, products) => {
             phone: billingData?.phone,
             company: billingData?.company,
         },
-        payment_method: 'stripe',
-        payment_method_title: 'Stripe',
+        payment_method: system,
+        payment_method_title: systemTitle,
         line_items: getCreateOrderLineItems( products ),
     };
 }
@@ -114,6 +118,7 @@ export const createTheOrder = async ( orderData, setOrderFailedError, previousRe
         error: ''
     };
 
+
     // Don't proceed if previous request has error.
     if ( previousRequestError ) {
         response.error = previousRequestError;
@@ -132,13 +137,12 @@ export const createTheOrder = async ( orderData, setOrderFailedError, previousRe
         } );
 
         const result = await request.json();
-        console.log("result ",result)
         if ( result.error ) {
             response.error = result.error
             setOrderFailedError( 'Something went wrong. Order creation failed. Please try again' );
         }
         response.orderId = result?.orderId ?? '';
-        response.total = result.total ?? '';
+        response.total = result.total ?? '';;
         response.currency = result.currency ?? '';
 
     } catch ( error ) {

@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 const GET_CART = gql`
 query GET_CART {
-  cart {
+  cart (recalculateTotals: true){
     contents {
       nodes {
         key
@@ -81,6 +81,14 @@ query GET_CART {
     feeTotal
     discountTax
     discountTotal
+    chosenShippingMethods
+    availableShippingMethods {
+      rates {
+        cost
+        id
+        label
+      }
+    }
   }
 }
 `;
