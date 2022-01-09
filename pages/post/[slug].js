@@ -5,7 +5,7 @@ import client from '../../src/components/ApolloClient';
 import {GET_POST_BY_SLUG, POSTS_SLUGS} from '../../src/queries/get-posts';
 import PRODUCTS_AND_CATEGORIES_QUERY from "../../src/queries/product-and-categories";
 import { isEmpty } from 'lodash';
-
+import {useState} from "react"
 
 import style from "../../src/styles/posts.module.css"
 
@@ -14,11 +14,14 @@ export default function Product({post, categories, tags}) {
 	// const { product } = props;
 
     const router = useRouter()
+    const [loading, setLoading] = useState(false)
 
     // If the page is not yet generated, this will be displayed
     // initially until getStaticProps() finishes running
     if (router.isFallback) {
         return <IntroImage></IntroImage>
+        // setLoading(true)
+        // return <></>
     }
 
     // const products  = props.products.productsData 
@@ -26,13 +29,14 @@ export default function Product({post, categories, tags}) {
 
 	return (
         <Layout categories = {categories} tags = {tags}>
-            { post ? (
-                <div className={style[`post-container`]}>
-                    <div className={style[`post-title`]}>{post.title}</div>
-                    <div className={style[`post-content`]}>{post.content}</div>
+            { post && (
+                <div className={style[`post-wrapper`]}>
+                    <div className={style[`post-container`]}>
+                        <div className={style[`post-title`]}>{post.title}</div>
+                        <div className={style[`post-content`]} dangerouslySetInnerHTML={{ __html: post.content }}></div>
+                    </div>
                 </div>
-                ): ''
-            }
+            )}
         </Layout>
 	);
 };

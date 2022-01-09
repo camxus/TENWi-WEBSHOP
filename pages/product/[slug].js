@@ -31,6 +31,7 @@ export default function product({product, categories, tags, variationName, sizes
     // initially until getStaticProps() finishes running
     if (router.isFallback) {
         return <IntroImage></IntroImage>
+        // return <></>
     }
 
     // const products  = props.products.productsData 

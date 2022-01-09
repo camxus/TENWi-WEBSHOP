@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { AppProvider } from "./context/AppContext";
+import { FooterProvider } from "./context/FooterContext";
 import Header from "./Header";
 import Footer from "./Footer";
 import client from "./ApolloClient";
@@ -14,20 +15,22 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 const Layout = (props) => {
   return (
-    <AppProvider>
-      <ApolloProvider client={client}>
-        <div>
-          <Head>
-            <title>TENWi</title>
-            <link rel="icon" href="../../public/assets/gif/tenwi.gif" type="image/gif" ></link>
-          </Head>
-          <Header {...props}/>
-          {props.children}
-          {/* <Footer /> */}
-        </div>
-        <Footer/>
-      </ApolloProvider>
-    </AppProvider>
+    <FooterProvider>
+      <AppProvider>
+        <ApolloProvider client={client}>
+          <div>
+            <Head>
+              <title>TENWi</title>
+              <link rel="icon" href="../../public/assets/gif/tenwi.gif" type="image/gif" ></link>
+            </Head>
+            <Header {...props}/>
+            {props.children}
+            {/* <Footer /> */}
+          </div>
+          <Footer/>
+        </ApolloProvider>
+      </AppProvider>
+    </FooterProvider>
   );
 };
 

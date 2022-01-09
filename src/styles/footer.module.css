@@ -1,0 +1,41 @@
+@media only screen and (max-width: 768px){
+    .footerContainer {
+        display: block;
+        position: relative;
+        height: max-content;
+    }
+    
+}
+
+.footerContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "left right";
+    height: 13vh;
+    width: 100%;
+}
+
+.footerContainer li {
+    display: block;
+}
+
+.leftContainer{
+    grid-area: left;
+    position: relative;
+    height: 100%;
+    width: 100%
+}
+
+.rightContainer{
+    grid-area: right;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    border-left: 1px solid white;
+
+}
+
+.leftContent,
+.rightContent{
+    padding: 20px;
+}

@@ -13,7 +13,7 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-const Layout = (props) => {
+const LayoutStart = (props) => {
   // console.log("layout", props);
   return (
     <AppProvider>
@@ -32,4 +32,4 @@ const Layout = (props) => {
   );
 };
 
-export default Layout;
+export default LayoutStart;

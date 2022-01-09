@@ -17,6 +17,8 @@ export default function CategorySingle( { categoryName, products, categories, ta
     // initially until getStaticProps() finishes running
     if (router.isFallback) {
         return <IntroImage></IntroImage>
+        // return <></>
+
     }
 
     return (

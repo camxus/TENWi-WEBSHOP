@@ -23,3 +23,17 @@ export const POSTS_SLUGS = gql`query POSTS {
   }
 }
 `;
+
+export const GET_POSTS_BY = gql`query POSTS ($categoryName: String!) {
+  posts(where: {categoryName: $categoryName}) {
+    edges {
+      node {
+        id
+        title
+        slug
+        content
+      }
+    }
+  }
+}
+`;

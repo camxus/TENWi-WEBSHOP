@@ -69,69 +69,69 @@ export default function Categories ( {productCategories, categories, tags} ) {
 
 	return (
     <LayoutStart>
-    <div>
-    <div class="before">
-    <Image
-    src={require("../public/assets/gif/IMG_3319.GIF")}
-    layout="fill"
-    objectFit="cover"
-    />
-      <div class="after"></div>
-  </div>
-    <div class="startpage-wrapper">
-    <main id="main">
-  {/* <div class="before">
-    <Image
-    src={require("../public/assets/gif/IMG_3319.GIF")}
-    layout="fill"
-    objectFit="cover"
-    />
-  </div> */}
-  <div class="notification-wrapper">
-    {NotificationsStruct && NotificationsStruct.map( item =>
-        <ul id="one" class="notification-button">
-        <li class="one">
-          <div class="container">
-          <a href={item.link}>
-            <div class="notification">
-              <span class="before"></span>
-              <span class="after"></span>
-              <header>
-                <h2>{item.header}</h2>
-                <span class="timestamp">{item.timestamp}</span>
-              </header>
-              <div class="content">
-                <span class="sender">{item.sender}</span>
-                <span class="message">{item.message}</span>
-                <span class="more">2 more messages from {item.sender}</span>
+      <div>
+      <div class="before">
+      <Image
+      src={require("../public/assets/gif/IMG_3319.GIF")}
+      layout="fill"
+      objectFit="cover"
+      />
+        <div class="after"></div>
+    </div>
+      <div class="startpage-wrapper">
+      <main id="main">
+    {/* <div class="before">
+      <Image
+      src={require("../public/assets/gif/IMG_3319.GIF")}
+      layout="fill"
+      objectFit="cover"
+      />
+    </div> */}
+    <div class="notification-wrapper">
+      {NotificationsStruct && NotificationsStruct.map( item =>
+          <ul id="one" class="notification-button">
+          <li class="one">
+            <div class="container">
+            <a href={item.link}>
+              <div class="notification">
+                <span class="before"></span>
+                <span class="after"></span>
+                <header>
+                  <h2>{item.header}</h2>
+                  <span class="timestamp">{item.timestamp}</span>
+                </header>
+                <div class="content">
+                  <span class="sender">{item.sender}</span>
+                  <span class="message">{item.message}</span>
+                  <span class="more">2 more messages from {item.sender}</span>
+                </div>
+              </div>
+              </a>
+            </div>
+          </li>
+          <li class="two">
+            <div class="container">
+              <div class="notification">
+                <span class="before"></span>
+                <span class="after"></span>
               </div>
             </div>
-            </a>
-          </div>
-        </li>
-        <li class="two">
-          <div class="container">
-            <div class="notification">
-              <span class="before"></span>
-              <span class="after"></span>
+          </li>
+          <li class="three">
+            <div class="container">
+              <div class="notification">
+                <span class="before"></span>
+                <span class="after"></span>
+              </div>
             </div>
-          </div>
-        </li>
-        <li class="three">
-          <div class="container">
-            <div class="notification">
-              <span class="before"></span>
-              <span class="after"></span>
-            </div>
-          </div>
-        </li>
-      </ul>
-    )}
-  </div>
-		  	<NewsletterSubmit></NewsletterSubmit>
-</main>		
-      </div>
-      </div>
+          </li>
+        </ul>
+      )}
+    </div>
+          <NewsletterSubmit></NewsletterSubmit>
+  </main>		
+        </div>
+        </div>
       </LayoutStart>
 
 
