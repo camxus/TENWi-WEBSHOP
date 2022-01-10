@@ -1,17 +1,9 @@
-@media only screen and (max-width: 768px){
-    .footerContainer {
-        display: block;
-        position: relative;
-        height: max-content;
-    }
-    
-}
 
 .footerContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas: "left right";
-    height: 13vh;
+    /* height: 13vh; */
     width: 100%;
 }
 
@@ -19,23 +11,31 @@
     display: block;
 }
 
-.leftContainer{
+.leftContainer,
+.rightContainer{
     grid-area: left;
     position: relative;
     height: 100%;
-    width: 100%
+    width: 100%;
+    min-height: 20vh;
 }
 
 .rightContainer{
-    grid-area: right;
-    position: relative;
-    height: 100%;
-    width: 100%;
     border-left: 1px solid white;
-
 }
 
 .leftContent,
 .rightContent{
     padding: 20px;
+}
+
+@media only screen and (max-width: 768px){
+    .footerContainer {
+        display: block;
+        position: relative;
+        height: max-content;
+    }
+    .rightContainer{
+        border-left: 0px solid white;
+    }
 }
