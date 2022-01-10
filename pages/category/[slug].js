@@ -9,6 +9,8 @@ import {useRouter} from "next/router";
 import cat from "../../src/styles/categories.module.css"
 import styles from '../../src/styles/style.module.css';
 
+import {motion, AnimatePresence} from "framer-motion"
+
 
 export default function CategorySingle( { categoryName, products, categories, tags } ) {
 
@@ -21,13 +23,31 @@ export default function CategorySingle( { categoryName, products, categories, ta
 
     }
 
+    const variants = {
+        visible: i => ({
+          opacity: 1,
+          transition: {
+            delay: i * 0.3,
+          },
+        }),
+        hidden: { opacity: 0 },
+      }
+
     return (
         <Layout categories={categories} tags = {tags}>
             <div>
                 { categoryName ? <h3 className={cat[`header`]}>{ categoryName }</h3> : '' }
                 <div className={`${styles["product-container"]}`}>
 					{ products.length ? (
-						products.map( product => <Product key={ product.id } product={ product } /> )
+						products.map( (product, i) => (
+                        <motion.div
+                            custom={i}
+                            animate="visible"
+                            variants={variants}
+                        >
+                        <Product key={ product.id } product={ product } />
+                        </motion.div>
+                        ) )
 					) : ''}
 				</div>
             </div>

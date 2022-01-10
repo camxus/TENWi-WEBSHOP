@@ -14,16 +14,17 @@ Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
 function MyApp({ Component, pageProps, router }) {
+  const variants = { 
+    hidden: { opactiy: 0 },
+    visible:{ opacity: 1 },
+    exit:{
+      backgroundColor: "white", 
+      opacity: 0
+    }
+  }
   return (
   <AnimatePresence>
-    <motion.div key={router.route} initial="init" animate="animation" exit="exit" variants={{ 
-      init: { opactiy: 0 },
-      animation:{opacity: 1},
-      exit:{
-        backgroundColor: "white", 
-        opacity: 0
-      }
-    }}>
+    <motion.div key={router.route} initial="hidden" animate="visible" exit="exit" variants={variants}>
       <Component {...pageProps} />
       </motion.div>
     </AnimatePresence>

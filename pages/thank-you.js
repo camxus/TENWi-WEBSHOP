@@ -5,7 +5,7 @@ import axios from "axios";
 import Layout from "../src/components/Layout";
 import {AppContext} from "../src/components/context/AppContext";
 import Loading from "../src/components/icons/Loading";
-import ShoppingCart from "../src/components/icons/ShoppingCart";
+import ShoppingCart from "../src/components/icons/ShoppingCart.js";
 
 const ThankYouContent = () => {
     const [cart, setCart] = useContext(AppContext);
