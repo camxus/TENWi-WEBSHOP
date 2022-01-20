@@ -25,7 +25,6 @@ const Layout = (props) => {
             </Head>
             <Header {...props}/>
             {props.children}
-            {/* <Footer /> */}
           </div>
           <Footer/>
         </ApolloProvider>

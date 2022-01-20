@@ -30,7 +30,7 @@
 .card-main {
     display: block;
     position: relative;
-    width: 100%;
+    width: 100vw;
     height: max-content;
     /* bottom: 0; */
     border-top: 1px solid black;
@@ -42,7 +42,7 @@
     background-color: transparent;
     display: block;
     position: relative;
-    padding-left: 7%;
+    padding-left: 3%;
     /* font-weight: bold; */
     font-size: var(  --font-size-very-small);
     margin: 0;
@@ -55,7 +55,7 @@
 }
 
 .card-header-wrapper {
-    padding: 3% 0;
+    padding: 1% 0;
     background-color: rgb(244, 244, 244);
     transition: all 0.5s ease-in-out;
 }

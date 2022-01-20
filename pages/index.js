@@ -1,7 +1,7 @@
 import LayoutStart from "../src/components/LayoutStart";
 import client from '../src/components/ApolloClient';
 import ParentCategoriesBlock from "../src/components/category/category-block/ParentCategoriesBlock";
-import GET_CATEGORIES_QUERY from "../src/queries/get-categories";
+import {GET_POST_CATEGORIES} from "../src/queries/get-posts";
 import PRODUCTS_AND_CATEGORIES_QUERY from "../src/queries/product-and-categories";
 import Link from 'next/link'
 // import styles from '../src/styles/startpage.module.css'
@@ -11,8 +11,9 @@ import Image from 'next/image'
 import NewsletterSubmit from  "../src/components/NewsletterSubmit.js";
 
 import {useRef, useEffect} from 'react'
+import { functionsIn } from "lodash";
 
-export default function Categories ( {productCategories, categories, tags} ) {
+export default function Categories ( {NotificationsStruct} ) {
 
     const main = useRef(null)
     const elems = useRef(null)
@@ -50,23 +51,7 @@ export default function Categories ( {productCategories, categories, tags} ) {
     }
 
 
-    const NotificationsStruct = [
-      {
-      header : "TENWi",
-      timestamp : "Now",
-      sender: "TENWi",
-      message: "WEBSHOP",
-      link: "/shop"
-      },
-      {
-      header : "TENWi",
-      timestamp : "Now",
-      sender: "TENWi",
-      message: "GALLERY",
-      link: "/gallery"
-      },
-    ]
-
+    
 	return (
     <LayoutStart>
       <div>
@@ -138,3 +123,49 @@ export default function Categories ( {productCategories, categories, tags} ) {
       
 	)
 }
+
+export async function getStaticProps() {
+	// console.log(client)
+  const NotificationsStruct = [
+    {
+    header : "TENWi",
+    timestamp : "Now",
+    sender: "TENWi",
+    message: "WEBSHOP",
+    link: "/shop"
+    },
+    {
+    header : "TENWi",
+    timestamp : "Now",
+    sender: "TENWi",
+    message: "GALLERY",
+    link: "/gallery"
+    },
+  ]
+
+	const {data} = await client.query({
+		query: GET_POST_CATEGORIES,
+	});
+  data.posts.nodes.map(category => {
+    let slug = category.categories.edges[0].node.slug
+    function createNotificationStruct(){
+      let Struct = {
+        header : "TENWi",
+        timestamp : "Now",
+        sender: "TENWi",
+        message: category.categories.edges[0].node.name,
+        link: `portfolio/${category.categories.edges[0].node.slug}`
+        }
+      return Struct
+    }
+    slug !== "footer-left" && slug !== "footer-right" && slug !== "uncategorized" && NotificationsStruct.push(createNotificationStruct())
+  })
+  console.log(NotificationsStruct)
+	return {
+		props: {
+			NotificationsStruct: NotificationsStruct ? NotificationsStruct : [],
+		},
+		revalidate: 1
+	}
+
+};

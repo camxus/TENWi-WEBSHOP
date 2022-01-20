@@ -18,8 +18,8 @@ export default function CategorySingle( { categoryName, products, categories, ta
     // If the page is not yet generated, this will be displayed
     // initially until getStaticProps() finishes running
     if (router.isFallback) {
-        return <IntroImage></IntroImage>
-        // return <></>
+        // return <IntroImage></IntroImage>
+        return <></>
 
     }
 
@@ -27,7 +27,7 @@ export default function CategorySingle( { categoryName, products, categories, ta
         visible: i => ({
           opacity: 1,
           transition: {
-            delay: i * 0.3,
+            delay: i * 0.1,
           },
         }),
         hidden: { opacity: 0 },
@@ -42,6 +42,7 @@ export default function CategorySingle( { categoryName, products, categories, ta
 						products.map( (product, i) => (
                         <motion.div
                             custom={i}
+                            initial="hidden"
                             animate="visible"
                             variants={variants}
                         >

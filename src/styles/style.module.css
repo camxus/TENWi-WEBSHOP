@@ -3,7 +3,8 @@
     display: flex;
     flex-flow: wrap;
     padding: 0px;
-    width: 100%;
+    width: 100vw;
+    min-height: 80vh;
     /* left: 3vw;*/
 }
 

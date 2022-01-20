@@ -10,6 +10,8 @@ query GALLERY_IMAGES($search: String = "") {
       node {
         id
         title(format: RENDERED)
+        caption
+        description
         sourceUrl
       }
     }

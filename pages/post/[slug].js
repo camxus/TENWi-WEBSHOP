@@ -9,35 +9,35 @@ import {useState} from "react"
 
 import style from "../../src/styles/posts.module.css"
 
+import {motion} from "framer-motion"
+
 
 export default function Product({post, categories, tags}) {
 	// const { product } = props;
 
     const router = useRouter()
-    const [loading, setLoading] = useState(false)
 
     // If the page is not yet generated, this will be displayed
     // initially until getStaticProps() finishes running
     if (router.isFallback) {
-        return <IntroImage></IntroImage>
+        // return <IntroImage></IntroImage>
         // setLoading(true)
-        // return <></>
+        return <></>
     }
 
     // const products  = props.products.productsData 
   
-
 	return (
-        <Layout categories = {categories} tags = {tags}>
-            { post && (
-                <div className={style[`post-wrapper`]}>
-                    <div className={style[`post-container`]}>
-                        <div className={style[`post-title`]}>{post.title}</div>
-                        <div className={style[`post-content`]} dangerouslySetInnerHTML={{ __html: post.content }}></div>
+            <Layout categories = {categories} tags = {tags}>
+                { post && (
+                    <div className={style[`post-wrapper`]}>
+                        <div className={style[`post-container`]}>
+                            <div className={style[`post-title`]}>{post.title}</div>
+                            <div className={style[`post-content`]} dangerouslySetInnerHTML={{ __html: post.content }}></div>
+                        </div>
                     </div>
-                </div>
-            )}
-        </Layout>
+                )}
+            </Layout>
 	);
 };
 
@@ -69,18 +69,19 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths () {
-    const { data } = await client.query({
-        query: POSTS_SLUGS
-    })
+    // const { data } = await client.query({
+    //     query: POSTS_SLUGS
+    // })
 
     const pathsData = []
 
-    data?.products?.nodes && data?.products?.nodes.map((product) => {
-        if (!isEmpty(product?.slug)) {
-            pathsData.push({ params: { slug: product?.slug } })
-        }
-    })
-
+    // data?.products?.nodes && data?.products?.nodes.map((product) => {
+    //     if (!isEmpty(product?.slug)) {
+    //         pathsData.push({ params: { slug: product?.slug } })
+    //     }
+    // })
+    console.log("data", pathsData)
+    // console.log(data)
     return {
         paths: pathsData,
         fallback: true

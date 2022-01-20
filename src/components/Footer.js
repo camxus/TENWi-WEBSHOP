@@ -41,7 +41,7 @@ const Footer = () => {
 						{/* <li><a href="https://www.facebook.com/codeytek" className="fa fa-facebook" target="_blank"><Facebook/></a></li> */}
 						<li className="ml-2 mt-1"><a href="https://twitter.com/tenwiarchive" target="_blank"><Twitter/></a></li>
 						<li className="ml-2 mt-1"><a href="https://www.youtube.com/channel/UCvqRwEJd3kUlFzb98HnxuKQ" className="fa fa-youtube" target="_blank"><Youtube/></a></li>
-						<li className="ml-2"><a href="https://www.instagram.com/tenwiarchive/" className="fa fa-instagram" target="_blank"><Instagram/></a></li>
+						<li className="ml-2"><a href="https://www.instagram.com/tenwiofficial/" className="fa fa-instagram" target="_blank"><Instagram/></a></li>
 					</ul>
 				</div>
 				

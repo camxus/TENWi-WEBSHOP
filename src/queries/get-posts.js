@@ -10,6 +10,7 @@ export const GET_POST_BY_SLUG = gql`query POSTS ($slug: ID!){
   }
 }
 `;
+
   
 export const POSTS_SLUGS = gql`query POSTS {
   posts {
@@ -22,6 +23,24 @@ export const POSTS_SLUGS = gql`query POSTS {
     }
   }
 }
+`;
+export const GET_POST_CATEGORIES = gql`query GET_POST_CATEGORIES {
+  posts {
+    nodes {
+      categories {
+        edges {
+          node {
+            id
+            name
+            slug
+          }
+        }
+      }
+    }
+  }
+}
+
+
 `;
 
 export const GET_POSTS_BY = gql`query POSTS ($categoryName: String!) {

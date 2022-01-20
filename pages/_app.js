@@ -1,6 +1,7 @@
 import "../src/styles/style.scss";
 import "../src/styles/main.scss";
 import '../src/styles/startpage.css'
+import "../src/styles/swiper.css"
 
 
 import Router from 'next/router';
@@ -23,9 +24,9 @@ function MyApp({ Component, pageProps, router }) {
     }
   }
   return (
-  <AnimatePresence>
-    <motion.div key={router.route} initial="hidden" animate="visible" exit="exit" variants={variants}>
-      <Component {...pageProps} />
+    <AnimatePresence exitBeforeEnter>
+      <motion.div key={router.route} initial="hidden" animate="visible" exit="exit" variants={variants}>
+        <Component {...pageProps} />
       </motion.div>
     </AnimatePresence>
   )}
