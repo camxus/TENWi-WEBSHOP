@@ -15,7 +15,7 @@ const Checkout = ({data, categories, tags, methods}) => {
 			<CheckoutForm methods = {methods} countriesData={data?.wooCountries ?? {}}/>
 		</div>
 		<script
-            src="https://www.paypal.com/sdk/js?currency=EUR&client-id=AZLto7F9YhOqVZXQoPA-z0fEUwn7Bdv46P6KIJhSo_CO1zqMj1uQVTQLBfHWxtdQokpmQ-PB7h01VYFR"></script>
+            src="https://www.paypal.com/sdk/js?currency=EUR&client-id=AW1ahVNWQpj-bQMZwxDk1DX-EdBz5hbqxBAC5dwHIGMKyoHpt9NQdoOa_r4g77FqdKPr0mfo-4FutmRC"></script>
 	</Layout>
 	)
 

@@ -9,11 +9,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/scrollbar"
-
+import "swiper/css/navigation"
 
 // import Swiper from "swiper-babel"
 import SwiperCore, {
-    Scrollbar
+    Autoplay,Navigation,Scrollbar
   } from 'swiper';
 
 export default function Product({images}) {
@@ -35,8 +35,8 @@ export default function Product({images}) {
     // });
     
     // install Swiper modules
-    SwiperCore.use([Scrollbar]);
-    console.log("gallery", images)
+    SwiperCore.use([Autoplay,Navigation,Scrollbar]);
+
 	return (
         <>
             {/* {images ?
@@ -90,7 +90,7 @@ export default function Product({images}) {
                 }} autoplay={{
                     "delay": 2500,
                     "disableOnInteraction": false
-                  }} className="mySwiper">
+                  }} navigation={true} className="mySwiper">
                     {images.map(image => (
                         image.gallery == true &&
                             <>
