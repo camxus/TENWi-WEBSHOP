@@ -33,6 +33,7 @@
     background-size: cover;
     height: max-content;
 }
+
 .post-description-container:nth-of-type(5n-3){
     background-image: url("../../public/assets/gif/IMG_3316.GIF");
     background-repeat: no-repeat;
@@ -263,4 +264,10 @@
     width: 100%;
     overflow: hidden;
     z-index: 1;
+}
+
+@media only screen and (max-width: 768px) {
+    .post-description-container{
+        display: block;
+    }
 }

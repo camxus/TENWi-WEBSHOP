@@ -32,7 +32,7 @@ export default function Product({images, post}) {
 
     // const [activeCount, setActiveCount] = useState(0)
     let activeCount = 0
-    console.log("image",images)
+    // console.log("image",images)
 	return (
             <LayoutPortfolio>
                 <Gallery images={images}></Gallery>
@@ -107,7 +107,7 @@ export async function getStaticProps(context) {
             let gallery = null
             caption.toLowerCase().includes(data.post.title.toLowerCase()) &&
                 (caption.includes("active") ? active = true : active = false) &&
-                    (caption.includes("gallery") ? gallery = true : gallery = false) && 
+                    (caption.includes("slide") ? gallery = true : gallery = false) && 
                     imageslist.push({"node": image.node, "active": active, "gallery": gallery}) 
                     // console.log("caption", imageslist)
 
