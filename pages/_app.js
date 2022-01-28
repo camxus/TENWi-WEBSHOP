@@ -17,7 +17,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 function MyApp({ Component, pageProps, router }) {
   const variants = { 
     hidden: { opactiy: 0 },
-    visible:{ opacity: 1 },
+    visible:{ opacity: 1, transition: {duration: .6} },
     exit:{
       backgroundColor: "white", 
       opacity: 0
@@ -25,8 +25,8 @@ function MyApp({ Component, pageProps, router }) {
   }
   return (
     <AnimatePresence exitBeforeEnter>
-      <motion.div key={router.route} initial="hidden" animate="visible" exit="exit" variants={variants}>
-        <Component {...pageProps} />
+      <motion.div initial="hidden" animate="visible" exit="exit" variants={variants}>
+        <Component {...pageProps} key={router.route} />
       </motion.div>
     </AnimatePresence>
   )}

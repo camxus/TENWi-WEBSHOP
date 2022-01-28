@@ -136,3 +136,9 @@
   --font-size-large: 5rem;
   --font-size-very-large: 10rem;
 }
+
+body {
+  width: 100vw;
+  overflow-x: hidden;
+  margin: 0;
+}

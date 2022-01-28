@@ -35,10 +35,10 @@ export default function Product({images, post}) {
     // console.log("image",images)
 	return (
             <LayoutPortfolio>
-                <Gallery images={images}></Gallery>
-                <div className={`${style["post-title"]}`}>
+                <Gallery images={images} title={post.title}></Gallery>
+                {/* <div className={`${style["post-title"]}`}>
                     {post.title}
-                </div>
+                </div> */}
                 <div className={`${style["post-content"]}`} dangerouslySetInnerHTML={{ __html: post.content }}>
 
                 </div>

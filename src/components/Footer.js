@@ -1,4 +1,4 @@
-import {Facebook, Instagram, Twitter, Youtube} from "./icons";
+import {Facebook, Instagram, Twitter, Youtube, TikTok} from "./icons";
 import {useContext} from "react"
 import {FooterContext} from "../components/context/FooterContext";
 
@@ -8,7 +8,6 @@ const Footer = () => {
 	const [footerLeft,setFooterLeft, footerRight,setFooterRight] = useContext(FooterContext)
 	return(
 	<div className="footer bg-black p-6 text-white">
-		{console.log(footerLeft)}
 		<div className="container mx-auto">
 			{/* <div className="footer-text flex-none md:flex items-center justify-between">
 				<p>© Codeytek Academy 2020</p>
@@ -42,6 +41,7 @@ const Footer = () => {
 						<li className="ml-2 mt-1"><a href="https://twitter.com/tenwiarchive" target="_blank"><Twitter/></a></li>
 						<li className="ml-2 mt-1"><a href="https://www.youtube.com/channel/UCvqRwEJd3kUlFzb98HnxuKQ" className="fa fa-youtube" target="_blank"><Youtube/></a></li>
 						<li className="ml-2"><a href="https://www.instagram.com/tenwiofficial/" className="fa fa-instagram" target="_blank"><Instagram/></a></li>
+						<li className="ml-2"><a href="https://www.instagram.com/tenwiofficial/" className="fa fa-tiktok" target="_blank"><TikTok/></a></li>
 					</ul>
 				</div>
 				
