@@ -98,9 +98,9 @@ export const handleCreateAccount = ( input, setInput, target ) => {
     setIsStripeOrderProcessing(true);
     let system  = "paypal" 
     const orderData = getCreateOrderData( input, products, system);
-    console.log("here")
     const createCustomerOrder = await createTheOrder( orderData, setRequestError,  '' );
     const cartCleared = await clearTheCart( clearCartMutation, createCustomerOrder?.error );
+    console.log("here")
     setIsStripeOrderProcessing(false);
 
     if ( isEmpty( createCustomerOrder?.orderId )

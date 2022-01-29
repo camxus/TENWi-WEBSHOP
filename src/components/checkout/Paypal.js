@@ -17,7 +17,8 @@ export default function Paypal({cart, input, products, setRequestError, clearCar
                                 description: "TENWi",
                                 amount: {
                                     currency_code: "EUR",
-                                    value: cart.total.replace(",", ".").slice(0, -1)
+                                    // value: cart.total.replace(",", ".").slice(0, -1)
+                                    value: 1
                                 }
                             }
                         ]
