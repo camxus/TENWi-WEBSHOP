@@ -282,7 +282,7 @@ const CartItemsContainer = ({countries}) => {
 					</div>
 
 					{/* Display Errors if any */}
-					{ requestError ? <div className="row cart-total-container mt-5"> { requestError } </div> : '' }
+					{/* { requestError ? <div className="row cart-total-container mt-5"> { requestError } </div> : '' } */}
 				</div>
 			) : (
 				<div className="container mx-auto my-32 px-4 xl:px-0">

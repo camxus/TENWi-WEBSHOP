@@ -35,6 +35,7 @@ export default function Paypal({cart, input, products, setRequestError, clearCar
                 }
             }).render(paypal.current)
         }
+        window.location.replace("/checkout");
     }, [paypal])
     return (
         <div>
