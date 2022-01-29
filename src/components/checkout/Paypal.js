@@ -6,31 +6,33 @@ export default function Paypal({cart, input, products, setRequestError, clearCar
     const paypal = useRef()
     
     useEffect(()=>{
-        console.log(paypal)
-        window.paypal.Buttons({
-            createOrder: (data, actions, err) =>{
-                return actions.order.create({
-                    intent: "CAPTURE",
-                    purchase_units: [
-                        {
-                            description: "TENWi",
-                            amount: {
-                                currency_code: "EUR",
-                                value: cart.total.replace(",", ".").slice(0, -1)
+        if (paypal.current) {
+            console.log(paypal)
+            window.paypal.Buttons({
+                createOrder: (data, actions, err) =>{
+                    return actions.order.create({
+                        intent: "CAPTURE",
+                        purchase_units: [
+                            {
+                                description: "TENWi",
+                                amount: {
+                                    currency_code: "EUR",
+                                    value: cart.total.replace(",", ".").slice(0, -1)
+                                }
                             }
-                        }
-                    ]
-                })
-            },
-            onApprove: async (data, actions) => {
-                await handlePaypalCheckout(input, products, setRequestError, clearCartMutation,setIsStripeOrderProcessing,setCreatedOrderData)
-                const order = await actions.order.capture()
-                console.log("done", order)
-            },
-            onError: (err) =>{
-                console.log("error", err)
-            }
-        }).render(paypal.current)
+                        ]
+                    })
+                },
+                onApprove: async (data, actions) => {
+                    await handlePaypalCheckout(input, products, setRequestError, clearCartMutation,setIsStripeOrderProcessing,setCreatedOrderData)
+                    const order = await actions.order.capture()
+                    console.log("done", order)
+                },
+                onError: (err) =>{
+                    console.log("error", err)
+                }
+            }).render(paypal.current)
+        }
     }, [paypal])
     return (
         <div>
