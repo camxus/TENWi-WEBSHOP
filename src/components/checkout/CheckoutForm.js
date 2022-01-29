@@ -316,7 +316,8 @@ const CheckoutForm = ({methods, countriesData}) => {
                                 }
                              
                                 {paypalLoaded &&
-                                 <Paypal cart={cart} input ={ input } products={ cart?.products } setRequestError={setRequestError} clearCartMutation={ clearCartMutation } setIsStripeOrderProcessing={ setIsStripeOrderProcessing} setCreatedOrderData={setCreatedOrderData}/>}
+                                 <Paypal cart={cart} input ={ input } products={ cart?.products } setRequestError={setRequestError} clearCartMutation={ clearCartMutation } setIsStripeOrderProcessing={ setIsStripeOrderProcessing} setCreatedOrderData={setCreatedOrderData}/>
+                                  } 
                             </div> 
                             {/* <Paypal orderData={orderData}/> */}
                             {/* <Paypal/> */}

@@ -16,6 +16,9 @@ module.exports = {
       width: {
         '308px': '19.25rem',
       },
+      margin: {
+        '-2px': '-2px',
+      }
     },
   },
   variants: {},
