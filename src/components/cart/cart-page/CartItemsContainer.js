@@ -269,12 +269,14 @@ const CartItemsContainer = ({countries}) => {
 									</tr> */}
 									</tbody>
 								</table>
+								{ (((getFloatVal(cart.totalProductsPrice) < 200) && chosenShippingMethod ) || (getFloatVal(cart.totalProductsPrice) > 200) ) && 
 								<Link href="/checkout">
 									<button className="bg-black text-white px-5 py-3 rounded-sm w-auto xl:w-full">
 										<span className="cart-checkout-txt">Proceed to Checkout</span>
 										<i className="fas fa-long-arrow-alt-right"/>
 									</button>
 								</Link>
+								}
 							</div>
 						</div>
 					</div>
