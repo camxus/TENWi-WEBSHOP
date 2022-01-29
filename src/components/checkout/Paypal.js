@@ -4,8 +4,9 @@ import styles from "../../styles/paypal.module.css"
 
 export default function Paypal({cart, input, products, setRequestError, clearCartMutation,setIsStripeOrderProcessing,setCreatedOrderData}) {
     const paypal = useRef()
-
+    
     useEffect(()=>{
+        console.log(paypal)
         window.paypal.Buttons({
             createOrder: (data, actions, err) =>{
                 return actions.order.create({
@@ -22,15 +23,15 @@ export default function Paypal({cart, input, products, setRequestError, clearCar
                 })
             },
             onApprove: async (data, actions) => {
-                handlePaypalCheckout(input, products, setRequestError, clearCartMutation,setIsStripeOrderProcessing,setCreatedOrderData)
+                await handlePaypalCheckout(input, products, setRequestError, clearCartMutation,setIsStripeOrderProcessing,setCreatedOrderData)
                 const order = await actions.order.capture()
-                console.log(order)
+                console.log("done", order)
             },
             onError: (err) =>{
-                console.log(err)
+                console.log("error", err)
             }
         }).render(paypal.current)
-    }, [])
+    }, [paypal])
     return (
         <div>
             <div ref={paypal} className={`${styles["paylpal-container"]}`}></div>

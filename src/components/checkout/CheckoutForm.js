@@ -128,6 +128,7 @@ const CheckoutForm = ({methods, countriesData}) => {
      * @return {void}
      */
     const handleFormSubmit = async (event) => {
+        console.log(event)
         event.preventDefault();
 
         /**
@@ -160,14 +161,14 @@ const CheckoutForm = ({methods, countriesData}) => {
             setPaypalLoaded(true)
             return null;
         }
-
         const checkOutData = createCheckoutData(input);
+        console.log(checkOutData)
         setRequestError(null);
         /**
          *  When order data is set, checkout mutation will automatically be called,
          *  because 'orderData' is added in useEffect as a dependency.
          */
-        // setOrderData(checkOutData);
+        setOrderData(checkOutData);
     };
 
     /*
@@ -217,7 +218,7 @@ const CheckoutForm = ({methods, countriesData}) => {
 
         if (null !== orderData) {
             // Call the checkout mutation when the value for orderData changes/updates.
-            // console.log("data",orderData)
+            console.log("data",orderData)
             await checkout();
         }
 
@@ -319,8 +320,7 @@ const CheckoutForm = ({methods, countriesData}) => {
                                  <Paypal cart={cart} input ={ input } products={ cart?.products } setRequestError={setRequestError} clearCartMutation={ clearCartMutation } setIsStripeOrderProcessing={ setIsStripeOrderProcessing} setCreatedOrderData={setCreatedOrderData}/>
                                   } 
                             </div> 
-                            {/* <Paypal orderData={orderData}/> */}
-                            {/* <Paypal/> */}
+                 
                             {/* Checkout Loading*/}
                             {isOrderProcessing && <p>Processing Order...</p>}
                             {requestError && <p>Error : {requestError} :( Please try again</p>}

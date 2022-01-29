@@ -95,9 +95,10 @@ export const handleCreateAccount = ( input, setInput, target ) => {
     return createCustomerOrder;
 }
  export const handlePaypalCheckout = async (input, products, setRequestError, clearCartMutation, setIsStripeOrderProcessing, setCreatedOrderData ) => {
-     
     setIsStripeOrderProcessing(true);
-    const orderData = getCreateOrderData( input, products, system = "paypal" );
+    let system  = "paypal" 
+    const orderData = getCreateOrderData( input, products, system);
+    console.log("here")
     const createCustomerOrder = await createTheOrder( orderData, setRequestError,  '' );
     const cartCleared = await clearTheCart( clearCartMutation, createCustomerOrder?.error );
     setIsStripeOrderProcessing(false);

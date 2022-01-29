@@ -63,7 +63,8 @@ export const getCreateOrderLineItems = (products) => {
  * @return {{shipping: {country: *, city: *, phone: *, address_1: (string|*), address_2: (string|*), postcode: (string|*), last_name: (string|*), company: *, state: *, first_name: (string|*), email: *}, payment_method_title: string, line_items: (*[]|*), payment_method: string, billing: {country: *, city: *, phone: *, address_1: (string|*), address_2: (string|*), postcode: (string|*), last_name: (string|*), company: *, state: *, first_name: (string|*), email: *}}}
  */
 export const getCreateOrderData = (order, products, system) => {
-    const systemTitle = system.charAt(0).toUpperCase() + string.slice(1)
+    console.log(system)
+    const systemTitle = system.charAt(0).toUpperCase() + system.slice(1)
     // Set the billing Data to shipping, if applicable.
     const billingData = order.billingDifferentThanShipping ? order.billing : order.shipping;
 
@@ -95,7 +96,7 @@ export const getCreateOrderData = (order, products, system) => {
             phone: billingData?.phone,
             company: billingData?.company,
         },
-        payment_method: system,
+        payment_method: system? system : [],
         payment_method_title: systemTitle,
         line_items: getCreateOrderLineItems( products ),
     };
