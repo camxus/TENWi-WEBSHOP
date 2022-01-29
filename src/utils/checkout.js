@@ -116,6 +116,7 @@ export const handleCreateAccount = ( input, setInput, target ) => {
     
     // await createCheckoutSessionAndRedirect( products, input, createCustomerOrder?.orderId );
     setCreatedOrderData(createCustomerOrder)
+    console.log(createCustomerOrder)
     return createCustomerOrder;
 }
 

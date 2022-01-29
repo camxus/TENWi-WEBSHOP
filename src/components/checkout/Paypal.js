@@ -17,8 +17,8 @@ export default function Paypal({cart, input, products, setRequestError, clearCar
                                 description: "TENWi",
                                 amount: {
                                     currency_code: "EUR",
-                                    // value: cart.total.replace(",", ".").slice(0, -1)
-                                    value: 1
+                                    value: cart.total.replace(",", ".").slice(0, -1)
+                                    // value: 1
                                 }
                             }
                         ]
@@ -28,6 +28,7 @@ export default function Paypal({cart, input, products, setRequestError, clearCar
                     await handlePaypalCheckout(input, products, setRequestError, clearCartMutation,setIsStripeOrderProcessing,setCreatedOrderData)
                     const order = await actions.order.capture()
                     console.log("done", order)
+                    window.location.replace("/shop");
                 },
                 onError: (err) =>{
                     console.log("error", err)
