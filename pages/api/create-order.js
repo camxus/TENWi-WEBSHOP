@@ -35,7 +35,7 @@ export default async function handler(req, res) {
     }
 
     const data = req.body;
-    data.status = 'pending';
+    data.status = 'PROCESSING';
     data.set_paid = false;
 
     try {

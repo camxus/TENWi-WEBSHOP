@@ -150,6 +150,6 @@ export const createTheOrder = async ( orderData, setOrderFailedError, previousRe
         // @TODO to be handled later.
         console.warn( 'Handle create order error', error?.message );
     }
-
+    console.log(response)
     return response;
 }

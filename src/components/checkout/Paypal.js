@@ -7,7 +7,7 @@ export default function Paypal({cart, input, products, setRequestError, clearCar
     
     useEffect(()=>{
         if (window.paypal.Buttons !== undefined) {
-            console.log(paypal)
+            console.log("runnning", paypal)
             window.paypal.Buttons({
                 createOrder: (data, actions, err) =>{
                     return actions.order.create({
