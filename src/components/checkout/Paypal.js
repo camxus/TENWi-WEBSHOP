@@ -28,7 +28,7 @@ export default function Paypal({cart, input, products, setRequestError, clearCar
                     await handlePaypalCheckout(input, products, setRequestError, clearCartMutation,setIsStripeOrderProcessing,setCreatedOrderData)
                     const order = await actions.order.capture()
                     console.log("done", order)
-                    window.location.replace("/shop");
+                    window.location.replace("/thank-you");
                 },
                 onError: (err) =>{
                     console.log("error", err)
@@ -37,8 +37,8 @@ export default function Paypal({cart, input, products, setRequestError, clearCar
         }
         }, [paypal])
     if (window.paypal?.Buttons === undefined){
-        // window.location.replace("/checkout");
-        paypal = useRef()
+        window.location.replace("/checkout");
+        // paypal = useRef()
     }
     return (
         <div>
