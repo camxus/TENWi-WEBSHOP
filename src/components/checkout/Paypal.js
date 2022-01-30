@@ -5,8 +5,8 @@ import styles from "../../styles/paypal.module.css"
 export default function Paypal({cart, input, products, setRequestError, clearCartMutation,setIsStripeOrderProcessing,setCreatedOrderData}) {
     const paypal = useRef()
     
-    if (window.paypal?.Buttons !== undefined) {
     useEffect(()=>{
+        if (window.paypal?.Buttons !== undefined) {
             console.log("runnning", paypal)
             window.paypal.Buttons({
                 createOrder: (data, actions, err) =>{
@@ -34,9 +34,9 @@ export default function Paypal({cart, input, products, setRequestError, clearCar
                     console.log("error", err)
                 }
             }).render(paypal.current)
+        }
         }, [paypal])
-    }
-    else{
+    if (window.paypal?.Buttons === undefined){
         // window.location.replace("/checkout");
         paypal = useRef()
     }
