@@ -42,12 +42,20 @@ export const getCreateOrderLineItems = (products) => {
     console.log( 'products', products );
 
     let props = products?.map(
-        ({productId, qty: quantity}) => {
+        ({productId, qty: quantity, variations}) => {
+            if (variations !== null){
             return {
                 quantity,
                 product_id: productId,
-                // variation_id: '', // @TODO to be added.
-            };
+                variation_id: variations?.databaseId ? variations.databaseId : [],  // from functions.js
+                
+            };}
+            else {
+                return {
+                    quantity,
+                    product_id: productId,
+                };
+            }
         },
     );
     console.log(props)

@@ -8,6 +8,16 @@ query GET_CART {
         key
         product {
           node {
+            ... on VariableProduct {
+              variations {
+                nodes {
+                  id
+                  name
+                  databaseId
+                }
+              }
+            }
+          
             id
             productId: databaseId
             name
