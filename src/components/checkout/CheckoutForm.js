@@ -75,7 +75,7 @@ const CheckoutForm = ({methods, countriesData}) => {
         createAccount: false,
         orderNotes: '',
         billingDifferentThanShipping: false,
-        paymentMethod: 'bacs',
+        paymentMethod: 'pcpp-gateway',
     };
 
     const [cart, setCart] = useContext(AppContext);
@@ -89,8 +89,8 @@ const CheckoutForm = ({methods, countriesData}) => {
     const [isFetchingBillingStates, setIsFetchingBillingStates] = useState(false);
     const [createdOrderData, setCreatedOrderData] = useState({});
 	const [errorHandler, setErrorHandler] = useState("");
-    const [ chosenShippingMethod, setChosenShippingMethod ] = useState("Express Shipping")
-    const [ shippingMethod, setShippingMethod ] = useState("free_shipping:16")
+    // const [ chosenShippingMethod, setChosenShippingMethod ] = useState("Express Shipping")
+    // const [ shippingMethod, setShippingMethod ] = useState("free_shipping:16")
     const [ shippingAmount, setShippingAmount ] = useState(0)
 
     const [paypalLoaded, setPaypalLoaded ] = useState(false)
@@ -113,6 +113,9 @@ const CheckoutForm = ({methods, countriesData}) => {
 					setErrorHandler("email-exists")
                     setRequestError(error?.graphQLErrors?.[0]?.message ?? '');
 				}
+            else{
+                setRequestError(error?.graphQLErrors?.[0]?.message ?? '');
+            }
             console.log("ERROR ", error, "WITH", error?.graphQLErrors?.[0]?.message ?? '', "WITH", orderData)
 
         }
@@ -306,7 +309,7 @@ const CheckoutForm = ({methods, countriesData}) => {
 
                             {/*Payment*/}
                             {/* { getFloatVal(cart.totalProductsPrice) < 200 && <ShippingModes methods={ShippingMethods} chosenShippingMethod={chosenShippingMethod} handleOnChange={handleOnShippingChange}/>}                             */}
-                            <PaymentModes input={input} handleOnChange={handleOnChange}/>
+                            {/* <PaymentModes input={input} handleOnChange={handleOnChange}/> */}
                             
                             <div className="place-order-btn-wrap mt-5">
                                 {!paypalLoaded &&
@@ -323,7 +326,7 @@ const CheckoutForm = ({methods, countriesData}) => {
                  
                             {/* Checkout Loading*/}
                             {isOrderProcessing && <p>Processing Order...</p>}
-                            {requestError && <p>Error : {requestError} :( Please try again</p>}
+                            {requestError && <p>Error : {requestError}</p>}
                         </div>
                     </div>
                 </form>

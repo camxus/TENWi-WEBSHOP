@@ -22,6 +22,9 @@ const Layout = (props) => {
             <Head>
               <title>TENWi</title>
               <link rel="icon" href="../../public/assets/gif/tenwi.gif" type="image/gif" ></link>
+              <meta name="description" content="By Wirat Tengchiang - A sublime melange of masculinity and femininity whilst tackling cross-cultural issues such as gender, identity, spirituality and environmentalism, through the creation of eccentric unisex looks"/>
+              <meta name="keywords" content="TENWi, Vienna, Austria, Fashion, Clothes
+            , Shop, Artist, Unisex"/>
             </Head>
             <Header {...props}/>
             {props.children}
