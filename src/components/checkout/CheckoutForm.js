@@ -162,7 +162,6 @@ const CheckoutForm = ({methods, countriesData}) => {
         }
         if ( 'ppcp-gateway' === input.paymentMethod ) {
             setPaypalLoaded(true)
-            console.log("set")
             return null;
         }
         const checkOutData = createCheckoutData(input);
