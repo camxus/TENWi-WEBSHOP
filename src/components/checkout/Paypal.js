@@ -28,7 +28,7 @@ export default function Paypal({cart, input, products, setRequestError, clearCar
                     const wooresult = await handlePaypalCheckout(input, products, setRequestError, clearCartMutation,setIsStripeOrderProcessing,setCreatedOrderData)
                     const order = await actions.order.capture()
                     console.log("done", order)
-                    window.location.replace(`/thank-you?session_id={CHECKOUT_SESSION_ID}&order_id=${wooresult.orderId}`);
+                    window.location.replace(`/thank-you?order_id=${wooresult.orderId}`);
                 },
                 onError: (err) =>{
                     console.log("error", err)

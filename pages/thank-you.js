@@ -12,11 +12,17 @@ const ThankYouContent = () => {
     const [isSessionFetching, setSessionFetching] = useState(false);
     const [sessionData, setSessionData] = useState({});
     const session_id = process.browser ? Router.query.session_id : null;
+    const order_id = process.browser ? Router.query.order_id : null;
 
+    if (process.browser) {
+        localStorage.removeItem('tenwi-cart');
+        setCart(null);
+    }
+    
     useEffect(() => {
         setSessionFetching(true);
         if (process.browser) {
-            localStorage.removeItem('woo-next-cart');
+            localStorage.removeItem('tenwi-cart');
             setCart(null);
 
             if (session_id) {
@@ -40,7 +46,9 @@ const ThankYouContent = () => {
                 {isSessionFetching ? <Loading/> : (
                     <>
                         <h2 className="mb-6 text-xl"><ShoppingCart className="inline-block mr-1"/> <span>Thank you for placing the order.</span></h2>
-                        <p>Your payment is successful and your order details are: </p>
+                        <p>Your payment is successful
+                             {/* and your order details are: */}
+                              </p>
                         <table className="table-auto w-full text-left whitespace-no-wrap mb-8">
                             <thead>
                             <tr>
@@ -50,17 +58,17 @@ const ThankYouContent = () => {
                             </thead>
                             <tbody>
                             <tr>
-                                <td className="px-4 py-3">Order#</td>
-                                <td className="px-4 py-3">{sessionData?.metadata?.orderId}</td>
+                                <td className="px-4 py-3">ORDER NO.</td>
+                                <td className="px-4 py-3">{order_id}</td>
                             </tr>
-                            <tr>
-                                <td className="px-4 py-3">Email</td>
+                            {/* <tr>
+                                <td className="px-4 py-3">EMAIL</td>
                                 <td className="px-4 py-3">{sessionData?.customer_email}</td>
-                            </tr>
+                            </tr> */}
                             </tbody>
                         </table>
                         <Link href="/shop">
-                            <a className="bg-purple-600 text-white px-5 py-3 rounded-sm w-auto">Shop more</a>
+                            <a className="bg-purple-600 text-white px-5 py-3 rounded-sm w-auto">SHOP MORE</a>
                         </Link>
                     </>
                 )}
