@@ -37,17 +37,16 @@ const Nav = ({categories, tags}) => {
 	// }, []);
 
 	const openNavMobile = () => {
-		console.log("run")
-		if (navContainer.style.height !== "100vh" && statement === true)
+		if (navContainer.style.height !== "100vh" && statement === false)
 		{
 			navContainer.style.height = "100vh";
 			navOverlay.style.opacity = "70%";
-			statement = false
+			statement = true
 		}
 		else {
 			navContainer.style.height = "0vh";
 			navOverlay.style.opacity = "0%";
-			statement = true
+			statement = false
 	}
 	}
 	const [ isMenuVisible, setMenuVisibility ] = useState(false);
