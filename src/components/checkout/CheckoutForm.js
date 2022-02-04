@@ -83,6 +83,7 @@ const CheckoutForm = ({methods, countriesData}) => {
     };
 
     const [cart, setCart] = useContext(AppContext);
+    const [ user, setUser ] = useContext(UserContext)
     const [input, setInput] = useState(initialState);
     const [orderData, setOrderData] = useState(null);
     const [requestError, setRequestError] = useState(null);
@@ -101,7 +102,7 @@ const CheckoutForm = ({methods, countriesData}) => {
 
     const ShippingMethods = ["Express Shipping", "Standard Shipping"]
 
-    
+    useEffect(() =>  { user && setInput(user) }  ,[user])
 
     // Create New order: Checkout Mutation.
     const [checkout, {
@@ -135,7 +136,6 @@ const CheckoutForm = ({methods, countriesData}) => {
      * @return {void}
      */
     const handleFormSubmit = async (event) => {
-        console.log(event)
         event.preventDefault();
 
         /**
@@ -261,7 +261,6 @@ const CheckoutForm = ({methods, countriesData}) => {
     //         totalPrice: cart.shippingPrice + "€"})
     // },[cart])
     
-    const [ user, setUser ] = useContext(UserContext)
     return (
         <>
             {cart ? (
@@ -274,7 +273,8 @@ const CheckoutForm = ({methods, countriesData}) => {
                                 <Address
                                     states={theShippingStates}
                                     countries={shippingCountries}
-                                    input={user.shipping ??input?.shipping}
+                                    // input={user.shipping ??input?.shipping}
+                                    input={input?.shipping}
                                     handleOnChange={(event) => handleOnChange(event, true, true)}
                                     isFetchingStates={isFetchingShippingStates}
                                     isShipping
@@ -298,7 +298,8 @@ const CheckoutForm = ({methods, countriesData}) => {
                                     <Address
                                         states={theBillingStates}
                                         countries={billingCountries}
-                                        input={user.billing ?? input?.billing}
+                                        // input={user.billing ?? input?.billing}
+                                        input={input?.billing}
                                         handleOnChange={(event) => handleOnChange(event, false, true)}
                                         isFetchingStates={isFetchingBillingStates}
                                         isShipping={false}
