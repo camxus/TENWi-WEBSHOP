@@ -42,10 +42,13 @@ const ThankYouContent = () => {
 
     return (
         <div className="h-almost-screen">
-            <div className="w-600px mt-10 m-auto">
-                {isSessionFetching ? <Loading/> : (
+            <div className="p-20 w-600px mt-10 m-auto">
+                {
+                // isSessionFetching ? <Loading/> : (
                     <>
-                        <h2 className="mb-6 text-xl"><ShoppingCart className="inline-block mr-1"/> <span>Thank you for placing the order.</span></h2>
+                        <h2 className="mb-6 text-xl">
+                            {/* <ShoppingCart className="inline-block mr-1"/> */}
+                            <span>Thank you for placing the order.</span></h2>
                         <p>Your payment is successful
                              {/* and your order details are: */}
                               </p>
@@ -71,7 +74,8 @@ const ThankYouContent = () => {
                             <a className="bg-purple-600 text-white px-5 py-3 rounded-sm w-auto">SHOP MORE</a>
                         </Link>
                     </>
-                )}
+                // )
+                }
             </div>
         </div>
     )
