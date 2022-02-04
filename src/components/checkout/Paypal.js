@@ -1,10 +1,10 @@
-import {useRef, useEffect} from 'react'
+import {useRef, useEffect, useState} from 'react'
 import {handlePaypalCheckout} from "../../utils/checkout"
 import styles from "../../styles/paypal.module.css"
 
 export default function Paypal({cart, input, products, setRequestError, clearCartMutation,setIsStripeOrderProcessing,setCreatedOrderData}) {
     const paypal = useRef()
-    
+    const [isLoaded, setIsLoaded] = useState(null)
     useEffect(()=>{
         if (window.paypal?.Buttons !== undefined) {
             console.log("runnning", paypal)
@@ -37,8 +37,9 @@ export default function Paypal({cart, input, products, setRequestError, clearCar
         }
         }, [paypal])
     if (window.paypal?.Buttons === undefined){
-        window.location.replace("/checkout");
+        // window.location.replace("/checkout");
         // paypal = useRef()
+        useEffect(() =>  {setIsLoaded(false)},[isLoaded])
     }
     return (
         <div>
