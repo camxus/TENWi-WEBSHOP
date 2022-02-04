@@ -90,17 +90,18 @@ const Nav = ({categories, tags}) => {
 								</a>
 						<ul className={navbar.nav_list}>
 							<div className={navbar.nav_item_box}>
-							<a className={navbar.nav_link} 
-								href="/category/all">
-								<li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
-									ALL
-								</li>
-								<div className={`${navbar.reveal} ${navbar.head}`}>
-									<li>
-										ALL
-									</li>
-								</div>
-							</a>
+								<Link href="/category/all">
+									<a className={navbar.nav_link} >
+										<li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
+											ALL
+										</li>
+										<div className={`${navbar.reveal} ${navbar.head}`}>
+											<li>
+												ALL
+											</li>
+										</div>
+									</a>
+								</Link>
 							<li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
 								UNISEXWEAR
 							</li>
@@ -108,16 +109,18 @@ const Nav = ({categories, tags}) => {
 								{ categoriesList !== undefined && categoriesList.length ?(
 									categoriesList.map( category => 
 									<div>
-										<a className={`${navbar.nav_link} ${navbar.sub}`} href={`/category/${category.slug}`}>
-											<li className={navbar.nav_item}> 
-													{ category.name }
-											</li>
-											<div className={`${navbar.reveal} ${navbar.head}`}>
-												<li>
-													{ category.name }
+										<Link href={`/category/${category.slug}`}>
+											<a className={`${navbar.nav_link} ${navbar.sub}`}>
+												<li className={navbar.nav_item}> 
+														{ category.name }
 												</li>
-											</div>
-										</a>
+												<div className={`${navbar.reveal} ${navbar.head}`}>
+													<li>
+														{ category.name }
+													</li>
+												</div>
+											</a>
+										</Link>
 									</div>
 									//  {console.log('category', category.slug)}
 									)
@@ -130,23 +133,25 @@ const Nav = ({categories, tags}) => {
 								{  tagsList !== undefined && tagsList.length ? (
 									tagsList.map( tag => 
 									<div>
-										<a className={`${navbar.nav_link} ${navbar.sub}`} href={`/feature/${tag.slug}`}>
-											<li className={navbar.nav_item}>
-													{ tag.name }
-											</li> 
-											<div className={`${navbar.reveal} ${navbar.head}`}>
-												<li>
-													{ tag.name }
-												</li>
-											</div>
-										</a>
+										<Link href={`/feature/${tag.slug}`}>
+											<a className={`${navbar.nav_link} ${navbar.sub}`}>
+												<li className={navbar.nav_item}>
+														{ tag.name }
+												</li> 
+												<div className={`${navbar.reveal} ${navbar.head}`}>
+													<li>
+														{ tag.name }
+													</li>
+												</div>
+											</a>
+										</Link>
 									</div>
 										)
 								): ''}
 							</div>
 							</div>
-							<a className={navbar.nav_link} 
-								href="/cart">
+							<Link href="/cart">
+							<a className={navbar.nav_link} >
 								<li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
 									CART
 								</li>
@@ -156,6 +161,7 @@ const Nav = ({categories, tags}) => {
 									</li>
 								</div>
 							</a>
+							</Link>
 						</ul>
 					</div>
 				</div>

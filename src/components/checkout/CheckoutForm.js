@@ -3,11 +3,15 @@ import {v4} from 'uuid';
 import {useState, useContext, useEffect} from 'react';
 import {useMutation, useQuery, useLazyQuery} from '@apollo/client';
 
+import {AppContext} from "../context/AppContext";
+import {UserContext} from "../context/UserContext.js"
+
 import YourOrder from "./YourOrder";
 import PaymentModes from "./PaymentModes";
 import ShippingModes from "./ShippingModes";
 import Paypal from "./Paypal";
-import {AppContext} from "../context/AppContext";
+
+
 import validateAndSanitizeCheckoutForm from '../../validator/checkout';
 import {getFloatVal, getFormattedCart, createCheckoutData} from "../../functions";
 import OrderSuccess from "./OrderSuccess";
@@ -161,6 +165,8 @@ const CheckoutForm = ({methods, countriesData}) => {
         	return null;
         }
         if ( 'ppcp-gateway' === input.paymentMethod ) {
+            console.log(input)
+            localStorage.setItem( 'user-info', JSON.stringify( input ) );
             setPaypalLoaded(true)
             return null;
         }
@@ -255,6 +261,7 @@ const CheckoutForm = ({methods, countriesData}) => {
     //         totalPrice: cart.shippingPrice + "€"})
     // },[cart])
     
+    const [ user, setUser ] = useContext(UserContext)
     return (
         <>
             {cart ? (
@@ -267,7 +274,7 @@ const CheckoutForm = ({methods, countriesData}) => {
                                 <Address
                                     states={theShippingStates}
                                     countries={shippingCountries}
-                                    input={input?.shipping}
+                                    input={user.shipping ??input?.shipping}
                                     handleOnChange={(event) => handleOnChange(event, true, true)}
                                     isFetchingStates={isFetchingShippingStates}
                                     isShipping
@@ -291,7 +298,7 @@ const CheckoutForm = ({methods, countriesData}) => {
                                     <Address
                                         states={theBillingStates}
                                         countries={billingCountries}
-                                        input={input?.billing}
+                                        input={user.billing ?? input?.billing}
                                         handleOnChange={(event) => handleOnChange(event, false, true)}
                                         isFetchingStates={isFetchingBillingStates}
                                         isShipping={false}

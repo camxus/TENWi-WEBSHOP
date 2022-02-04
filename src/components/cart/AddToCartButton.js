@@ -224,10 +224,12 @@ const AddToCart = ({product, variationName, sizes}, ref) => {
             ) : ""
             }
             {"ExternalProduct" === product.__typename ? (
-                    <a href={product?.externalUrl ?? '/'} target="_blank"
+                <Link href={product?.externalUrl ?? '/'} >
+                    <a target="_blank"
                        className="px-3 py-1 rounded-sm mr-3 text-sm border-solid border border-current inline-block hover:text-white">
 						BUY NOW
                     </a>
+                    </Link>
                 ) : !requestError ?
                 <button
 					disabled={addToCartLoading}
@@ -243,7 +245,8 @@ const AddToCart = ({product, variationName, sizes}, ref) => {
 					{ addToCartLoading ? 'ADDING TO CART...' : addToCartLoading === "error" ? "SOLD OUT" : 'ADD TO CART' }
                 </button>
                 : 
-                <a href="/shop">
+                <Link href="/shop">
+                <a>
                 <button
                     disabled={addToCartLoading}
                     // onClick={handleAddToCartClick}
@@ -259,18 +262,20 @@ const AddToCart = ({product, variationName, sizes}, ref) => {
                     RETURN TO SHOP
                 </button>
                 </a>
+                </Link>
             }
            
 
             {showViewCart ? (
-                // <Link href="/cart">
-            <a href="/cart">
+                <Link href="/cart">
+                <a>
                     <button 
                     // onClick={openNav()}
                     // ref={ref}
                         className={`${styles["view-cart"]}`}>VIEW CART
                     </button>
                 </a>
+                </Link>
             ) : ''}     
         </div>
     );

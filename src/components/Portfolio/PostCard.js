@@ -1,12 +1,15 @@
 import React from 'react'
 import style from "../../styles/postcards.module.css"
 import Image from 'next/image'
+import Link from 'next/link';
 
 
 export default function PostCard({post, image}) {
     return (
         <>
-            {post.slug ? <a href={`/portfolio/post/${post.slug}`}>
+            {post.slug ? 
+            <Link href={`/portfolio/post/${post.slug}`}>
+            <a>
                 <div className={`${style["post-card-container"]}`}>
                     <div className={`${style["post-card-title"]}`}>
                         {post.title}
@@ -17,7 +20,8 @@ export default function PostCard({post, image}) {
                             objectFit="cover"/>
                     </div>
                 </div>
-            </a> :
+            </a>
+            </Link> :
             <div className={`${style["post-card-container"]}`}>
                 <div className={`${style["post-card-title"]} ${style["black"]}`}>
                     {post.title}

@@ -77,7 +77,8 @@ export default function Categories ( {NotificationsStruct} ) {
           <ul id="one" class="notification-button">
           <li class="one">
             <div class="container">
-            <a href={item.link}>
+              <Link href={item.link}>
+            <a>
               <div class="notification">
                 <span class="before"></span>
                 <span class="after"></span>
@@ -92,6 +93,7 @@ export default function Categories ( {NotificationsStruct} ) {
                 </div>
               </div>
               </a>
+              </Link>
             </div>
           </li>
           <li class="two">

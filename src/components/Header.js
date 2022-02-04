@@ -3,13 +3,16 @@ import header from "../styles/header.module.css";
 import Image from 'next/image';
 import CART from './cart/CART'
 import {forwardRef} from 'react'
+import Link from 'next/link';
+
 
 const Header = (props) => {
 
 	return (
 	<div>
 		<Nav {...props}></Nav>
-			<a href="/">
+			<Link href="/">
+			<a>
 			<div className={header.header_image}>
 			
 				<Image 
@@ -19,6 +22,8 @@ const Header = (props) => {
 			</div>
 			{/* <CartIcon/> */}
 			</a>
+			</Link>
+
 		<CART></CART>
 	</div>
 	)

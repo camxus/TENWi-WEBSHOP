@@ -4,6 +4,7 @@ import { getUpdatedItems } from "../../../functions";
 import {Cross, Loading} from "../../icons";
 // import Link from 'next/link'
 import cartbar from '../../../../src/styles/cartbar.module.css'
+import Link from 'next/link';
 
 
 const CartItem = ( {
@@ -71,7 +72,7 @@ const CartItem = ( {
 				<img width="64" src={ item.image.sourceUrl } srcSet={ item.image.srcSet } alt={ item.image.title }/>
 			</td>
 			
-			<td className={cartbar[`cart-element`]}><a href={`/product/${item?.slug? item.slug: ""}`}>{ item.name }</a></td>
+			<td className={cartbar[`cart-element`]}><Link href={`/product/${item?.slug? item.slug: ""}`}><a>{ item.name }</a></Link></td>
 
 			{/* Qty Input */ }
 			<td className="cart-element cart-qty">

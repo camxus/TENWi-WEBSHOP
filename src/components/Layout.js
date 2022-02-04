@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { AppProvider } from "./context/AppContext";
 import { FooterProvider } from "./context/FooterContext";
+import { UserProvider } from "./context/UserContext";
 import Header from "./Header";
 import Footer from "./Footer";
 import client from "./ApolloClient";
@@ -15,6 +16,7 @@ import {forwardRef} from 'react'
 
 const Layout = (props) => {
   return (
+    <UserProvider>
     <FooterProvider>
       <AppProvider>
         <ApolloProvider client={client}>
@@ -33,6 +35,7 @@ const Layout = (props) => {
         </ApolloProvider>
       </AppProvider>
     </FooterProvider>
+    </UserProvider>
   );
 };
 
