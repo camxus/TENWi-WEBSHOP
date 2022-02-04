@@ -71,7 +71,7 @@ const ThankYouContent = () => {
                             </tbody>
                         </table>
                         <Link href="/shop">
-                            <a className="bg-purple-600 text-white px-5 py-3 rounded-sm w-auto">SHOP MORE</a>
+                            <a className="bg-black text-white px-5 py-3 rounded-sm w-auto">SHOP MORE</a>
                         </Link>
                     </>
                 // )
