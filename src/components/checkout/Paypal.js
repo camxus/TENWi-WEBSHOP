@@ -39,7 +39,7 @@ export default function Paypal({cart, input, products, setRequestError, clearCar
     if (window.paypal?.Buttons === undefined){
         // window.location.replace("/checkout");
         // paypal = useRef()
-        useEffect(() =>  {setIsLoaded(false)},[isLoaded])
+        setIsLoaded(false)
     }
     return (
         <div>
