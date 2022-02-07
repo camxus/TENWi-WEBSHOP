@@ -35,11 +35,14 @@ export default function Paypal({cart, input, products, setRequestError, clearCar
                 }
             }).render(paypal.current)
         }
+        {
+            setIsLoaded(false)
+        }
         }, [paypal])
     if (window.paypal?.Buttons === undefined){
         // window.location.replace("/checkout");
         // paypal = useRef()
-        setIsLoaded(false)
+       
     }
     return (
         <div>
