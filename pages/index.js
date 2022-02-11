@@ -129,13 +129,13 @@ export default function Categories ( {NotificationsStruct} ) {
 export async function getStaticProps() {
 	// console.log(client)
   const NotificationsStruct = [
-    {
-    header : "TENWi",
-    timestamp : "Now",
-    sender: "TENWi",
-    message: "WEBSHOP",
-    link: "/shop"
-    },
+    // {
+    // header : "TENWi",
+    // timestamp : "Now",
+    // sender: "TENWi",
+    // message: "WEBSHOP",
+    // link: "/shop"
+    // },
     {
     header : "TENWi",
     timestamp : "Now",
