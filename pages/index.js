@@ -158,7 +158,7 @@ export async function getStaticProps() {
         message: category.categories.edges[0].node.name,
         link: `portfolio/${category.categories.edges[0].node.slug}`
         }
-      return Struct
+      // return Struct
     }
     slug !== "footer-left" && slug !== "footer-right" && slug !== "uncategorized" && NotificationsStruct.push(createNotificationStruct())
   })
