@@ -19,19 +19,18 @@ export default function Product({posts, title}) {
     if (router.isFallback) {
         return <></>
     }
-    console.log("tilte",title)
 	return (
             <LayoutPortfolio>
-                <div className={`${style["posts-body"]}`}>
-                <PostCard post={{title: `${title}`}} image={[]}></PostCard>
-                { posts && (
-                    <div>
-                        { posts.map(post => 
-                            <PostCard post={post.post} image={post.image}></PostCard>
-                        )}
-                        
-                    </div>
-                )}
+                <div className={`border-b border-l border-black ${style["posts-body"]}`}>
+                    <PostCard className="border-t border-r border-black" post={{title: `${title}`}} image={[]}></PostCard>
+                    { posts && (
+                        <div>
+                            { posts.map(post => 
+                                <PostCard className="border-t border-r border-black" post={post.post} image={post.image}></PostCard>
+                            )}
+                            
+                        </div>
+                    )}
                 </div>
             </LayoutPortfolio>
 	);
@@ -54,24 +53,26 @@ export async function getStaticProps(context) {
         variables: { search: slug }
     })
     
-    var caption = null
+    console.log(images.data.mediaItems.edges)
+    let caption = null
+    // console.log(data.posts.edges)
     data.posts.edges.map(post => {
-        images.data.mediaItems.edges.map(image => {
-            caption = image.node.caption.includes("\n") ? image.node.caption.split("\n")[0] : image.node.caption
-            caption = image.node.caption.includes("&") ? 
-                caption.substring(
-                caption.indexOf(">") + 1, 
-                caption.lastIndexOf("&")
-            ) : caption.substring(
-                caption.indexOf(">") + 1, 
-                caption.lastIndexOf("<")
-            )
-            image.node.title === post.node.title && caption === slug? 
-            postsarray.push({post: post.node, image: image.node})
-                : ""
-        })
+        if (images.data.mediaItems.edges.length === 0) {
+            console.log("post", post)
+            postsarray.push({post: post.node, image: []})
+        } else {
+            images.data.mediaItems.edges.map(image => {
+                caption = image.node.caption.includes("\n") ? image.node.caption.split("\n")[0] : image.node.caption
+                if (image.node.caption.includes("&")) {
+                    caption = caption.substring( caption.indexOf(">") + 1, caption.lastIndexOf("&") ) 
+                } else {
+                    caption = caption.substring( caption.indexOf(">") + 1, caption.lastIndexOf("<") )
+                }
+                (image.node.title === post.node.title && caption === slug) && postsarray.push({post: post.node, image: image.node})
+            })
+        }
     })
-    console.log(slug)
+    console.log(postsarray)
         return {
             props: {
                 posts: postsarray ? postsarray : [],

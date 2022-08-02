@@ -18,15 +18,15 @@ const LayoutPortfolio = (props) => {
     <FooterProvider>
       <AppProvider>
         <ApolloProvider client={client}>
-          <div>
+          <div className="flex flex-col" style={{minHeight: "100vh"}}>
             <Head>
               <title>TENWi</title>
               <link rel="icon" href="../../public/assets/gif/tenwi.gif" type="image/gif" ></link>
             </Head>
             {/* <Header {...props}/> */}
             {props.children}
+            <Footer className="mt-auto overflow-hidden" style={{maxHeight: "200px"}}/>
           </div>
-          <Footer/>
         </ApolloProvider>
       </AppProvider>
     </FooterProvider>

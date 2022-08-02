@@ -8,7 +8,7 @@ import Link from 'next/link'
 // import '../src/styles/startpage.scss'
 import intro from '../src/styles/intro.module.css';
 import Image from 'next/image'
-import NewsletterSubmit from  "../src/components/NewsletterSubmit.js";
+// import NewsletterSubmit from  "../src/components/NewsletterSubmit.js";
 
 import {useRef, useEffect} from 'react'
 import { functionsIn } from "lodash";
@@ -115,7 +115,7 @@ export default function Categories ( {NotificationsStruct} ) {
         </ul>
       )}
     </div>
-          <NewsletterSubmit></NewsletterSubmit>
+          {/* <NewsletterSubmit></NewsletterSubmit> */}
   </main>		
         </div>
         </div>
@@ -148,24 +148,25 @@ export async function getStaticProps() {
 	const {data} = await client.query({
 		query: GET_POST_CATEGORIES,
 	});
-  data.posts.nodes.map(category => {
-    let slug = category.categories.edges[0].node.slug
+
+  data.categories.edges.map(category => {
+    let slug = category.node.slug
     function createNotificationStruct(){
       let Struct = {
         header : "TENWi",
         timestamp : "Now",
         sender: "TENWi",
-        message: category.categories.edges[0].node.name,
-        link: `portfolio/${category.categories.edges[0].node.slug}`
-        }
-      // return Struct
+        message: category.node.name,
+        link: `portfolio/${category.node.slug}`
+      }
+      return Struct
     }
-    slug !== "footer-left" && slug !== "footer-right" && slug !== "uncategorized" && NotificationsStruct.push(createNotificationStruct())
+    !slug.includes("footer") && slug !== "uncategorized" && !NotificationsStruct.find(element => element === slug) && NotificationsStruct.push(createNotificationStruct() ?? null)
   })
   console.log(NotificationsStruct)
 	return {
 		props: {
-			NotificationsStruct: NotificationsStruct ? NotificationsStruct : [],
+			NotificationsStruct: NotificationsStruct.length !== 0 ? NotificationsStruct : [],
 		},
 		revalidate: 1
 	}

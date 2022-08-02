@@ -25,16 +25,12 @@ export const POSTS_SLUGS = gql`query POSTS {
 }
 `;
 export const GET_POST_CATEGORIES = gql`query GET_POST_CATEGORIES {
-  posts {
-    nodes {
-      categories {
-        edges {
-          node {
-            id
-            name
-            slug
-          }
-        }
+  categories {
+    edges {
+      node {
+        id
+        name
+        slug
       }
     }
   }

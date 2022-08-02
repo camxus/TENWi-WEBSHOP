@@ -3,7 +3,6 @@
     width: 50vw;
     height: 70vh;
     overflow: hidden;
-    outline: 1px black solid;
 }
 
 .black{color: black ! important}
@@ -44,6 +43,7 @@
 
 .posts-body{
     height: max-content;
-    width: 100vw;
+    width: 101vw;
     display: flex;
+    flex-wrap: wrap;
 }

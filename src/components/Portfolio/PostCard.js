@@ -4,9 +4,9 @@ import Image from 'next/image'
 import Link from 'next/link';
 
 
-export default function PostCard({post, image}) {
+export default function PostCard({post, image, className}) {
     return (
-        <>
+        <div className={className}>
             {post.slug ? 
             <Link href={`/portfolio/post/${post.slug}`}>
             <a>
@@ -28,6 +28,6 @@ export default function PostCard({post, image}) {
                 </div>
             </div>
             }
-        </>
+        </div>
     )
 }

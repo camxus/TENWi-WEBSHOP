@@ -3,11 +3,11 @@ import {useContext} from "react"
 import {FooterContext} from "../components/context/FooterContext";
 
 import styles from "../styles/footer.module.css"
-const Footer = () => {
+const Footer = ({className, style}) => {
 
-	const [footerLeft,setFooterLeft, footerRight,setFooterRight] = useContext(FooterContext)
+	const [footerLeft, setFooterLeft, footerRight, setFooterRight] = useContext(FooterContext)
 	return(
-	<div className="footer bg-black p-6 text-white">
+	<div className={`footer ${className} bg-black p-6 text-white`} style={style}>
 		<div className="container mx-auto">
 			{/* <div className="footer-text flex-none md:flex items-center justify-between">
 				<p>© Codeytek Academy 2020</p>
