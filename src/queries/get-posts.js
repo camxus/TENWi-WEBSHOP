@@ -39,6 +39,18 @@ export const GET_POST_CATEGORIES = gql`query GET_POST_CATEGORIES {
 
 `;
 
+export const GET_POST_CATEGORY_BY = gql`
+  query GET_POST_CATEGORIES($slug: [String] = "") {
+    categories(where: {slug: $slug}) {
+      nodes {
+        name
+        id
+        slug
+      }
+    }
+  }
+`;
+
 export const GET_POSTS_BY = gql`query POSTS ($categoryName: String!) {
   posts(where: {categoryName: $categoryName}) {
     edges {

@@ -35,6 +35,8 @@ export default function Product({images, post}) {
     // console.log("image",images)
 	return (
             <LayoutPortfolio>
+                <div className="relative w-full overflow-x-hidden">
+                
                 <Gallery images={images} title={post.title}></Gallery>
                 {/* <div className={`${style["post-title"]}`}>
                     {post.title}
@@ -58,7 +60,8 @@ export default function Product({images, post}) {
                                         <Image 
                                         src={image.node.sourceUrl}
                                         layout="fill"
-                                        objectFit="cover"/>
+                                        objectFit="contain"
+                                        className='object-center'/>
                                     </div>
                                     <div className={style[`description-image-text-${activeCount}`]}
                                         style={{ transform: `translateY(-${offsetY * 0.12}px)` }} >
@@ -70,6 +73,7 @@ export default function Product({images, post}) {
                         // : ""})
                             ))
                         }
+                </div>
                 </div>
             </LayoutPortfolio>
 	);
@@ -92,33 +96,31 @@ export async function getStaticProps(context) {
     })
     
     images.data.mediaItems.edges.map(image => {                           
-        var caption = image.node.caption.split("\n")[0]
+        let caption = ""
         caption = image.node.caption.includes("\n") ? image.node.caption.split("\n")[0] : image.node.caption
-            caption = image.node.caption.includes("&") ? 
-                caption.substring(
-                caption.indexOf(">") + 1, 
-                caption.lastIndexOf("&")
-            ) : caption.substring(
-                caption.indexOf(">") + 1, 
-                caption.lastIndexOf("<")
-            )
-            
-            let active = null
-            let gallery = null
-            caption.toLowerCase().includes(data.post.title.toLowerCase()) &&
-                (caption.includes("active") ? active = true : active = false) &&
-                    (caption.includes("slide") ? gallery = true : gallery = false) && 
-                    imageslist.push({"node": image.node, "active": active, "gallery": gallery}) 
-                    // console.log("caption", imageslist)
+        if (image.node.caption.includes("&")) {
+            caption = caption.substring( caption.indexOf(">") + 1, caption.lastIndexOf("&") ) 
+        } else {
+            caption = caption.substring( caption.indexOf(">") + 1, caption.lastIndexOf("<") )
+        }
+        
+        let active = null
+        let gallery = null
+        if (caption.toLowerCase().includes(data.post.title.toLowerCase())) {
+            if (caption.includes("active")) { active = true } else { active = false }
+            if (caption.includes("slide")) { gallery = true } else { gallery = false }
+            imageslist.push({node: image.node, active, gallery}) 
+        }
+                // console.log("caption", imageslist)
 
-        })
-        return {
-            props: {
-                images: imageslist ? imageslist : [],
-                post: data.post ? data.post : [],
-            },
-            revalidate: 1
-        };
+    })
+    return {
+        props: {
+            images: imageslist ? imageslist : [],
+            post: data.post ? data.post : [],
+        },
+        revalidate: 1
+    };
 }
 
 export async function getStaticPaths () {

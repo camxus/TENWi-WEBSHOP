@@ -4,7 +4,7 @@ import PostCard from '../../src/components/Portfolio/PostCard';
 import { useRouter } from 'next/router';
 import client from '../../src/components/ApolloClient';
 
-import {GET_POSTS_BY, POSTS_SLUGS} from '../../src/queries/get-posts';
+import {GET_POSTS_BY, GET_POST_CATEGORY_BY, POSTS_SLUGS} from '../../src/queries/get-posts';
 import GALLERY_IMAGES from '../../src/queries/gallery-images';
 
 
@@ -22,7 +22,7 @@ export default function Product({posts, title}) {
 	return (
             <LayoutPortfolio>
                 <div className={`border-b border-l border-black ${style["posts-body"]}`}>
-                    <PostCard className="border-t border-r border-black" post={{title: `${title}`}} image={[]}></PostCard>
+                    <PostCard className="border-t border-r border-black sticky top-0" post={{title: `${title.toUpperCase()}`}} image={[]}></PostCard>
                     { posts && (
                         <div>
                             { posts.map(post => 
@@ -45,6 +45,13 @@ export async function getStaticProps(context) {
         query: GET_POSTS_BY,
         variables: { categoryName: slug }
     })
+
+    const {data: {categories: {nodes: categories}}} = await client.query({
+        query: GET_POST_CATEGORY_BY,
+        variables: { slug: slug }
+    })
+
+    const title = categories[0].name
     var postsarray = []
 
 
@@ -68,7 +75,8 @@ export async function getStaticProps(context) {
                 } else {
                     caption = caption.substring( caption.indexOf(">") + 1, caption.lastIndexOf("<") )
                 }
-                (image.node.title === post.node.title && caption === slug) && postsarray.push({post: post.node, image: image.node})
+                (caption.toLowerCase().includes(post.node.title.toLowerCase()) && (caption.includes("cover")) && caption.toLowerCase().includes(title.toLowerCase())) &&
+                    postsarray.push({post: post.node, image: image.node})
             })
         }
     })
@@ -76,7 +84,7 @@ export async function getStaticProps(context) {
         return {
             props: {
                 posts: postsarray ? postsarray : [],
-                title: slug ? slug.toUpperCase() : [], 
+                title: title ? title : [], 
             },
             revalidate: 1
         };

@@ -15,7 +15,7 @@
     z-index: 10;
     opacity: 0.2;
     font-weight: bold;
-    font-size: 5rem;
+    /* font-size: clamp(1rem, 8vw, 5rem); */
     transition: all 1s ease-in-out;
 }
 /* .post-card-container:nth-of-type(1) .post-card-title{

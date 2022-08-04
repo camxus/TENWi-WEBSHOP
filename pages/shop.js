@@ -7,7 +7,7 @@ import Link from 'next/link'
 import styles from '../src/styles/categories.module.css'
 import intro from '../src/styles/intro.module.css';
 import Image from 'next/image'
-import NewsletterSubmit from  "../src/components/NewsletterSubmit.js";
+// import NewsletterSubmit from  "../src/components/NewsletterSubmit.js";
 
 
 function Categories ( {productCategories, categories, tags} ) {

@@ -11,7 +11,7 @@ export default function PostCard({post, image, className}) {
             <Link href={`/portfolio/post/${post.slug}`}>
             <a>
                 <div className={`${style["post-card-container"]}`}>
-                    <div className={`${style["post-card-title"]}`}>
+                    <div className={`${style["post-card-title"]}`} style={{color: (!image?.sourceUrl) && "black"}}>
                         {post.title}
                     </div>
                     <div className={`${style["post-card-image-wrapper"]}`}>
