@@ -35,6 +35,7 @@
     grid-template-areas: "left right";
     /* background-color: red; */
     padding: 10%;
+    border-bottom: 1px solid black;
 }
 
 .post-description-container:nth-of-type(5n-4){
