@@ -198,7 +198,7 @@ export const removeItemFromCart = ( productId ) => {
  * Returns cart data in the required format.
  * @param {String} data Cart data
  */
-export const getFormattedCart = ( data, shippingPrice ) => {
+export const getFormattedCart = ( data, shippingPrice = 0 ) => {
 
 	let formattedCart = null;
 
@@ -239,7 +239,7 @@ export const getFormattedCart = ( data, shippingPrice ) => {
 		formattedCart.products.push( product );
 	}
 	
-	formattedCart.shippingPrice = shippingPrice ?? '';
+	formattedCart.shippingPrice = shippingPrice;
 	formattedCart.totalProductsCount = totalProductsCount;
 	formattedCart.totalProductsPrice = data?.cart?.total ?? '';
 	formattedCart.total = (getFloatVal(data?.cart?.total) + shippingPrice).toFixed(2).toString().replace(".", ",") + "€" ?? '';

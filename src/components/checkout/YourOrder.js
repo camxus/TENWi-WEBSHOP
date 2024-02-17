@@ -4,9 +4,9 @@ import CheckoutCartItem from "./CheckoutCartItem";
 const YourOrder = ( { cart } ) => {
 
 	return (
-		<Fragment>
+		<>
 			{ cart ? (
-				<Fragment>
+				<>
 					{/*Product Listing*/}
 					<table className="checkout-cart table table-hover w-full mb-10">
 						<thead>
@@ -35,9 +35,9 @@ const YourOrder = ( { cart } ) => {
 						</tr> */}
 						</tbody>
 					</table>
-				</Fragment>
+				</>
 			) : '' }
-		</Fragment>
+		</>
 	)
 };
 

@@ -163,7 +163,6 @@
 .header_image{
     position: relative;
     top: 0;
-    left: 100%;
     transform: translate(0%, 0);
     bottom: 0;
     right: 0;
@@ -398,8 +397,6 @@
     .header_image{
         position: relative;
         top: 0;
-        left: 100%;
-        transform: translate(0%, 0);
         bottom: 0;
         right: 0;
         box-sizing: border-box;

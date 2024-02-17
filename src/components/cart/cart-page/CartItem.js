@@ -1,98 +1,111 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { v4 } from "uuid";
 import { getUpdatedItems } from "../../../functions";
-import {Cross, Loading} from "../../icons";
+import { Cross, Loading } from "../../icons";
 // import Link from 'next/link'
-import cartbar from '../../../../src/styles/cartbar.module.css'
-import Link from 'next/link';
+import cartbar from "../../../../src/styles/cartbar.module.css";
+import Link from "next/link";
 
+const CartItem = ({
+  item,
+  products,
+  updateCartProcessing,
+  handleRemoveProductClick,
+  updateCart,
+}) => {
+  const [productCount, setProductCount] = useState(item.qty);
 
-const CartItem = ( {
-	                   item,
-	                   products,
-					   updateCartProcessing,
-	                   handleRemoveProductClick,
-	                   updateCart,
-                   } ) => {
+  /*
+   * When user changes the qty from product input update the cart in localStorage
+   * Also update the cart in global context
+   *
+   * @param {Object} event event
+   *
+   * @return {void}
+   */
+  const handleQtyChange = (event, cartKey) => {
+    if (process.browser) {
+      event.stopPropagation();
 
-	const [productCount, setProductCount] = useState( item.qty );
+      // If the previous update cart mutation request is still processing, then return.
+      if (updateCartProcessing) {
+        return;
+      }
 
-	/*
-	 * When user changes the qty from product input update the cart in localStorage
-	 * Also update the cart in global context
-	 *
-	 * @param {Object} event event
-	 *
-	 * @return {void}
-	 */
-	const handleQtyChange = ( event, cartKey ) => {
+      // If the user tries to delete the count of product, set that to 1 by default ( This will not allow him to reduce it less than zero )
+      const newQty = event.target.value ? parseInt(event.target.value) : 1;
 
-		if ( process.browser ) {
+      // Set the new qty in state.
+      setProductCount(newQty);
 
-			event.stopPropagation();
+      if (products.length) {
+        const updatedItems = getUpdatedItems(products, newQty, cartKey);
 
-			// If the previous update cart mutation request is still processing, then return.
-			if ( updateCartProcessing ) {
-				return;
-			}
+        updateCart({
+          variables: {
+            input: {
+              clientMutationId: v4(),
+              items: updatedItems,
+            },
+          },
+        });
+      }
+    }
+  };
 
-			// If the user tries to delete the count of product, set that to 1 by default ( This will not allow him to reduce it less than zero )
-			const newQty = ( event.target.value ) ? parseInt( event.target.value ) : 1;
+  return (
+    <tr className="cart-item" key={item.productId}>
+      <th className={`${cartbar[`cart-el-close`]} cart-element cart-el-close`}>
+        {/* Remove item */}
+        <span
+          className="cart-close-icon cursor-pointer"
+          onClick={(event) =>
+            handleRemoveProductClick(event, item.cartKey, products)
+          }
+        >
+          <Cross />
+        </span>
+      </th>
+      <td className={cartbar[`cart-element`]}>
+        <img
+          width="64"
+          src={item.image.sourceUrl}
+          srcSet={item.image.srcSet}
+          alt={item.image.title}
+        />
+      </td>
 
-			// Set the new qty in state.
-			setProductCount( newQty );
+      <td className={cartbar[`cart-element`]}>
+        <Link href={`/product/${item?.slug ? item.slug : ""}`}>
+          {item.name}
+        </Link>
+      </td>
 
-			if ( products.length ) {
+      {/* Qty Input */}
+      <td className="cart-element cart-qty">
+        {/* @TODO Need to update this with graphQL query */}
+        <input
+          type="number"
+          min="1"
+          data-cart-key={item.cartKey}
+          className={`cart-qty-input form-control ${
+            updateCartProcessing ? "opacity-25 cursor-not-allowed" : ""
+          } `}
+          value={productCount}
+          onChange={(event) => handleQtyChange(event, item.cartKey)}
+        />
+      </td>
+      <td className={cartbar[`cart-element`]}>
+        {"string" !== typeof item.price ? item.price.toFixed(2) : item.price}
+      </td>
 
-				const updatedItems = getUpdatedItems( products, newQty, cartKey );
-
-				updateCart( {
-					variables: {
-						input: {
-							clientMutationId: v4(),
-							items: updatedItems
-						}
-					},
-				} );
-			}
-
-		}
-	};
-
-	return (
-		<tr className="cart-item" key={ item.productId }>
-			<th className="cart-element cart-el-close" className={cartbar[`cart-el-close`]}>
-				{/* Remove item */}
-				<span className="cart-close-icon cursor-pointer"
-				      onClick={ ( event ) => handleRemoveProductClick( event, item.cartKey, products ) }>
-					<Cross/>
-				</span>
-			</th>
-			<td className={cartbar[`cart-element`]} >
-				<img width="64" src={ item.image.sourceUrl } srcSet={ item.image.srcSet } alt={ item.image.title }/>
-			</td>
-			
-			<td className={cartbar[`cart-element`]}><Link href={`/product/${item?.slug? item.slug: ""}`}><a>{ item.name }</a></Link></td>
-
-			{/* Qty Input */ }
-			<td className="cart-element cart-qty">
-				{/* @TODO Need to update this with graphQL query */ }
-				<input
-					type="number"
-					min="1"
-					data-cart-key={ item.cartKey }
-					className={ `cart-qty-input form-control ${ updateCartProcessing ? 'opacity-25 cursor-not-allowed' : '' } ` }
-					value={ productCount }
-					onChange={ ( event ) => handleQtyChange( event, item.cartKey ) }
-				/>
-			</td>
-			<td className={cartbar[`cart-element`]}>{ ( 'string' !== typeof item.price ) ? item.price.toFixed( 2 ) : item.price }</td>
-
-			<td className={cartbar[`cart-element`]}>
-				{ ( 'string' !== typeof item.totalPrice ) ? item.totalPrice.toFixed( 2 ) : item.totalPrice }
-			</td>
-		</tr>
-	)
+      <td className={cartbar[`cart-element`]}>
+        {"string" !== typeof item.totalPrice
+          ? item.totalPrice.toFixed(2)
+          : item.totalPrice}
+      </td>
+    </tr>
+  );
 };
 
 export default CartItem;

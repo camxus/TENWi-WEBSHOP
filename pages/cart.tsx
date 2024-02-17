@@ -6,9 +6,9 @@ import {GET_SHIPPING_METHODS} from "../src/queries/shipping";
 import GET_COUNTRIES from "../src/queries/get-countries";
 import client from '../src/components/ApolloClient';
 
-const Cart = ({categories, tags, methods, countries}) => {
+const Cart = ({categories, tags, methods, countries}: any) => {
 	return (
-		<Layout categories={categories} tags={tags}>
+		<Layout>
 			<CartItemsContainer methods={methods} countries={countries}/>
 		</Layout>
 	)
@@ -17,10 +17,6 @@ const Cart = ({categories, tags, methods, countries}) => {
 export default Cart;
 
 export async function getStaticProps () {
-	var categories = await client.query( {
-		query: PRODUCTS_AND_CATEGORIES_QUERY,
-	} );
-
 	var methods = await client.query( {
 		query: GET_SHIPPING_METHODS,
 	} );
@@ -29,15 +25,8 @@ export async function getStaticProps () {
 		query: GET_COUNTRIES,
 	} );
 
-
-	console.log(countries)
-	var tags = categories.data.productTags.nodes
-    categories = categories.data.productCategories.nodes
-
 	return {
 		props: {		
-			categories: categories ? categories : [],
-            tags: tags ? tags : [],
 			methods:  methods.data.cart.availableShippingMethods[0]?.rates ? methods.data.cart.availableShippingMethods[0].rates : [],
 			countries: countries?.data? countries.data.wooCountries.shippingCountries : []
 		},

@@ -1,14 +1,13 @@
 import client from "../components/ApolloClient";
 import GET_STATES from "../queries/get-states";
 
-import {isEmpty, isArray} from 'lodash';
+import { isEmpty, isArray } from "lodash";
 
 import { loadStripe } from "@stripe/stripe-js";
-import { createCheckoutSession } from 'next-stripe/client' // @see https://github.com/ynnoj/next-stripe npm i next-stripe@bets
+import { createCheckoutSession } from "next-stripe/client"; // @see https://github.com/ynnoj/next-stripe npm i next-stripe@bets
 
-import {createTheOrder, getCreateOrderData} from "./order";
-import {clearTheCart} from "./cart";
-
+import { createTheOrder, getCreateOrderData } from "./order";
+import { clearTheCart } from "./cart";
 
 /**
  * Get states
@@ -17,14 +16,14 @@ import {clearTheCart} from "./cart";
  *
  * @returns {Promise<void>}
  */
-export const getStates = async ( countryCode ) => {
-    const { data } = await client.query( {
-        query: GET_STATES,
-        variables: { countryCode: countryCode || '' }
-    } )
+export const getStates = async (countryCode) => {
+  const { data } = await client.query({
+    query: GET_STATES,
+    variables: { countryCode: countryCode || "" },
+  });
 
-    return data?.wooStates?.states ?? [];
-}
+  return data?.wooStates?.states ?? [];
+};
 
 /**
  * Set states for the country.
@@ -35,25 +34,34 @@ export const getStates = async ( countryCode ) => {
  *
  * @return {Promise<void>}
  */
-export const setStatesForCountry = async ( target, setTheStates, setIsFetchingStates ) => {
-    if ( 'country' === target.name ) {
-        setIsFetchingStates(true);
-        const countryCode = target[target.selectedIndex].getAttribute('data-countrycode')
-        const states = await getStates( countryCode );
-        setTheStates( states || [] );
-        setIsFetchingStates(false);
-    }
-}
+export const setStatesForCountry = async (
+  target,
+  setTheStates,
+  setIsFetchingStates
+) => {
+  if ("country" === target.name) {
+    setIsFetchingStates(true);
+    const countryCode = target[target.selectedIndex].getAttribute(
+      "data-countrycode"
+    );
+    const states = await getStates(countryCode);
+    setTheStates(states || []);
+    setIsFetchingStates(false);
+  }
+};
 
-export const handleBillingDifferentThanShipping = ( input, setInput, target ) => {
-    const newState = { ...input, [target.name]: ! input.billingDifferentThanShipping };
-    setInput( newState );
-}
+export const handleBillingDifferentThanShipping = (input, setInput, target) => {
+  const newState = {
+    ...input,
+    [target.name]: !input.billingDifferentThanShipping,
+  };
+  setInput(newState);
+};
 
-export const handleCreateAccount = ( input, setInput, target ) => {
-    const newState = { ...input, [target.name]: ! input.createAccount };
-    setInput( newState );
-}
+export const handleCreateAccount = (input, setInput, target) => {
+  const newState = { ...input, [target.name]: !input.createAccount };
+  setInput(newState);
+};
 
 /**
  * Handle Stripe checkout.
@@ -71,92 +79,120 @@ export const handleCreateAccount = ( input, setInput, target ) => {
  * @param setIsStripeOrderProcessing
  *
  */
- export const handleStripeCheckout = async (input, products, setRequestError, clearCartMutation, setIsStripeOrderProcessing, setCreatedOrderData ) => {
-     
-    setIsStripeOrderProcessing(true);
-    const orderData = getCreateOrderData( input, products, system = "stripe" );
-    const createCustomerOrder = await createTheOrder( orderData, setRequestError,  '' );
-    const cartCleared = await clearTheCart( clearCartMutation, createCustomerOrder?.error );
-    setIsStripeOrderProcessing(false);
+export const handleStripeCheckout = async (
+  input,
+  products,
+  setRequestError,
+  clearCartMutation,
+  setIsStripeOrderProcessing,
+  setCreatedOrderData
+) => {
+  setIsStripeOrderProcessing(true);
+  const orderData = getCreateOrderData(input, products, (system = "stripe"));
+  const createCustomerOrder = await createTheOrder(
+    orderData,
+    setRequestError,
+    ""
+  );
+  const cartCleared = await clearTheCart(
+    clearCartMutation,
+    createCustomerOrder?.error
+  );
+  setIsStripeOrderProcessing(false);
 
-    if ( isEmpty( createCustomerOrder?.orderId )
-     || 
-    cartCleared?.error
-     ) {
-        console.log( 'came in' );
-        setRequestError('Clear cart failed')
-    	return null;
+  if (isEmpty(createCustomerOrder?.orderId) || cartCleared?.error) {
+    console.log("came in");
+    setRequestError("Clear cart failed");
+    return null;
+  }
+
+  // On success show stripe form.
+  setCreatedOrderData(createCustomerOrder);
+  await createCheckoutSessionAndRedirect(
+    products,
+    input,
+    createCustomerOrder?.orderId
+  );
+
+  return createCustomerOrder;
+};
+export const handlePaypalCheckout = async (
+  input,
+  products,
+  setRequestError,
+  clearCartMutation,
+  setIsStripeOrderProcessing,
+  setCreatedOrderData
+) => {
+  setIsStripeOrderProcessing(true);
+  let system = "paypal";
+  const orderData = getCreateOrderData(input, products, system);
+  const createCustomerOrder = await createTheOrder(
+    orderData,
+    setRequestError,
+    ""
+  );
+  const cartCleared = await clearTheCart(
+    clearCartMutation,
+    createCustomerOrder?.error
+  );
+  setIsStripeOrderProcessing(false);
+
+  if (isEmpty(createCustomerOrder?.orderId) || cartCleared?.error) {
+    setRequestError("Clear cart failed");
+    return null;
+  }
+
+  // On success show stripe form.
+
+  // await createCheckoutSessionAndRedirect( products, input, createCustomerOrder?.orderId );
+  setCreatedOrderData(createCustomerOrder);
+  console.log(createCustomerOrder);
+  return createCustomerOrder;
+};
+
+const createCheckoutSessionAndRedirect = async (products, input, orderId) => {
+  const sessionData = {
+    success_url:
+      window.location.origin +
+      `/thank-you?session_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`,
+    cancel_url: window.location.href,
+    customer_email: input.billingDifferentThanShipping
+      ? input?.billing?.email
+      : input?.shipping?.email,
+    line_items: getStripeLineItems(products),
+    metadata: getMetaData(input, orderId),
+    payment_method_types: ["card"],
+    mode: "payment",
+  };
+  const session = await createCheckoutSession(sessionData);
+  try {
+    const stripe = await loadStripe(
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+    );
+    if (stripe) {
+      stripe.redirectToCheckout({ sessionId: session.id });
     }
-
-    // On success show stripe form.
-    setCreatedOrderData(createCustomerOrder)
-    await createCheckoutSessionAndRedirect( products, input, createCustomerOrder?.orderId );
-
-    return createCustomerOrder;
-}
- export const handlePaypalCheckout = async (input, products, setRequestError, clearCartMutation, setIsStripeOrderProcessing, setCreatedOrderData ) => {
-    setIsStripeOrderProcessing(true);
-    let system  = "paypal" 
-    const orderData = getCreateOrderData( input, products, system);
-    const createCustomerOrder = await createTheOrder( orderData, setRequestError,  '' );
-    const cartCleared = await clearTheCart( clearCartMutation, createCustomerOrder?.error );
-    console.log("here")
-    setIsStripeOrderProcessing(false);
-
-    if ( isEmpty( createCustomerOrder?.orderId )
-     || 
-    cartCleared?.error
-     ) {
-        console.log( 'came in' );
-        setRequestError('Clear cart failed')
-    	return null;
-    }
-
-    // On success show stripe form.
-    
-    // await createCheckoutSessionAndRedirect( products, input, createCustomerOrder?.orderId );
-    setCreatedOrderData(createCustomerOrder)
-    console.log(createCustomerOrder)
-    return createCustomerOrder;
-}
-
-
-const createCheckoutSessionAndRedirect = async ( products, input, orderId ) => {
-    const sessionData = {
-        success_url: window.location.origin + `/thank-you?session_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`,
-        cancel_url: window.location.href,
-        customer_email: input.billingDifferentThanShipping ? input?.billing?.email : input?.shipping?.email,
-        line_items: getStripeLineItems( products ),
-        metadata: getMetaData( input, orderId ),
-        payment_method_types: ['card'],
-        mode: 'payment'
-    }
-    const session = await createCheckoutSession(sessionData)
-    try {
-        const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
-        if (stripe) {
-            stripe.redirectToCheckout({ sessionId: session.id });
-        }
-    } catch (error) {
-        console.log( error );
-    }
-}
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const getStripeLineItems = (products) => {
-    if (isEmpty(products) && !isArray(products)) {
-        return [];
-    }
+  if (isEmpty(products) && !isArray(products)) {
+    return [];
+  }
 
-    return products.map(product => {
-        return {
-            quantity: product?.qty ?? 0,
-            name: product?.name ?? '',
-            images: [product?.image?.sourceUrl ?? ''],
-            amount: Math.round(product?.price * 100),
-            currency: 'eur',
-        }
-    })
-}
+  return products.map((product) => {
+    return {
+      quantity: product?.qty ?? 0,
+      name: product?.name ?? "",
+      images: [product?.image?.sourceUrl ?? ""],
+      amount: Math.round(product?.price * 100),
+      currency: "eur",
+    };
+  });
+};
 
 /**
  * Get meta data.
@@ -166,17 +202,19 @@ const getStripeLineItems = (products) => {
  *
  * @returns {{lineItems: string, shipping: string, orderId, billing: string}}
  */
-export const getMetaData = ( input, orderId ) => {
+export const getMetaData = (input, orderId) => {
+  return {
+    billing: JSON.stringify(input?.billing),
+    shipping: JSON.stringify(
+      input.billingDifferentThanShipping
+        ? input?.billing?.email
+        : input?.shipping?.email
+    ),
+    orderId,
+  };
 
-    return {
-        billing: JSON.stringify(input?.billing),
-        shipping: JSON.stringify(input.billingDifferentThanShipping ? input?.billing?.email : input?.shipping?.email),
-        orderId,
-    };
-
-    // @TODO
-    // if ( customerId ) {
-    //     metadata.customerId = customerId;
-    // }
-
-}
+  // @TODO
+  // if ( customerId ) {
+  //     metadata.customerId = customerId;
+  // }
+};

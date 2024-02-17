@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { AppProvider } from "./context/AppContext";
 import HeaderStart from "./HeaderStart";
-import Footer from "./Footer";
 import client from "./ApolloClient";
 import Router from "next/router";
 // import NProgress from "nprogress";

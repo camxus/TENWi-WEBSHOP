@@ -4,7 +4,7 @@ import { gql } from "@apollo/client";
  * GraphQL categories and products query.
  */
 export const GET_SHIPPING_CLASSES = gql`
-query GET_SHIPPING_CLASSES {
+  query GET_SHIPPING_CLASSES {
     shippingClasses {
       edges {
         node {
@@ -14,22 +14,20 @@ query GET_SHIPPING_CLASSES {
       }
     }
   }
-  
-  
 `;
 
-export const GET_SHIPPING_METHODS = gql`query GET_SHIPPING_METHODS {
-  cart {
-    availableShippingMethods {
-      rates {
-        cost
-        id
-        label
+export const GET_SHIPPING_METHODS = gql`
+  query GET_SHIPPING_METHODS {
+    cart {
+      availableShippingMethods {
+        rates {
+          cost
+          id
+          label
+        }
       }
     }
   }
-}
-
 `;
 // export const GET_SHIPPING_METHODS = gql`query GET_SHIPPING_METHODS {
 //   shippingMethods {
