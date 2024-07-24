@@ -32,8 +32,8 @@ const Layout = (props: ILayout) => {
                   <title>TENWi</title>
                   <link
                     rel="icon"
-                    href="../../public/assets/gif/tenwi.gif"
-                    type="image/gif"
+                    href="../../public/assets/png/tenwi-logo-frontal.png"
+                    type="image/png"
                   ></link>
                   <meta
                     name="description"
@@ -43,6 +43,10 @@ const Layout = (props: ILayout) => {
                     name="keywords"
                     content="TENWi, Vienna, Austria, Fashion, Clothes
             , Shop, Artist, Unisex"
+                  />
+                  <meta
+                    property="og:image"
+                    content="../../public/assets/png/tenwi-logo-frontal.png"
                   />
                 </Head>
                 <Header {...props} />
