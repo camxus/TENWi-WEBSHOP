@@ -3,7 +3,7 @@ import React, { useState, useRef, forwardRef } from "react";
 import Image from "next/image";
 import cart from "../../../src/styles/cart.module.css";
 
-const CART = () => {
+const Sidebar = () => {
   let navBtn = useRef(null);
   let cartOverlay = useRef(null);
   let cartContainer = useRef(null);
@@ -145,4 +145,4 @@ const CART = () => {
     </div>
   );
 };
-export default CART;
+export default Sidebar;

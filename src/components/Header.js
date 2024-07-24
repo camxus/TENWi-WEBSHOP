@@ -1,7 +1,7 @@
 import Nav from "./Nav.tsx";
 import header from "../styles/header.module.css";
 import Image from "next/image";
-import CART from "./cart/CART";
+import Sidebar from "./cart/Sidebar";
 import { forwardRef } from "react";
 import Link from "next/link";
 
@@ -17,10 +17,9 @@ const Header = (props) => {
             objectFit="cover"
           ></Image>
         </div>
-        {/* <CartIcon/> */}
       </Link>
 
-      <CART></CART>
+      <Sidebar></Sidebar>
     </div>
   );
 };

@@ -1,34 +1,92 @@
 import React, { useState, useEffect } from "react";
-import { getFormattedCart } from "../../functions";
+import { getFormattedCart, handleSetCart } from "../../functions";
+import {
+  ApolloQueryResult,
+  OperationVariables,
+  useQuery,
+} from "@apollo/client";
+import GET_CART from "../../queries/get-cart";
 
-type ICart = {
+export type ICart = {
   products: { productId: any }[];
   totalProductsPrice: string;
-  total: number
+  total: number;
 };
 
-export const AppContext = React.createContext<
-  [ICart | null, React.Dispatch<React.SetStateAction<any>>]
->([null, () => {}]);
+export type ShippingMethod = {
+  cost: string;
+  id: string;
+  label: string;
+};
+
+export const AppContext = React.createContext<{
+  cartState: [ICart | null, React.Dispatch<React.SetStateAction<ICart>>];
+  chosenShippingMethodState: [
+    ShippingMethod | undefined | null,
+    React.Dispatch<React.SetStateAction<ShippingMethod | undefined>>
+  ];
+  availableShippingMethods: [] | ShippingMethod[];
+  refetch:
+    | null
+    | ((
+        variables?: Partial<OperationVariables> | undefined
+      ) => Promise<ApolloQueryResult<any>>);
+  loading: boolean;
+}>({
+  loading: false,
+  cartState: [null, () => {}],
+  chosenShippingMethodState: [null, () => {}],
+  refetch: null,
+  availableShippingMethods: [],
+});
 
 export const AppProvider = (props: any) => {
   const [cart, setCart] = useState<any | null>(null);
+  const [
+    chosenShippingMethod,
+    setChosenShippingMethod,
+  ] = useState<ShippingMethod>();
+  const [availableShippingMethods, setAvailableShippingMethods] = useState<
+    ShippingMethod[]
+  >([]);
+
+  const { loading, error, data, refetch } = useQuery(GET_CART, {
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () => {
+      const { cart } = data;
+      const {
+        availableShippingMethods: [methods],
+        chosenShippingMethods,
+      } = cart;
+      const { rates } = methods;
+      const chosenShippingMethod = rates.find(
+        (method: ShippingMethod) => method.id === chosenShippingMethods[0]
+      );
+
+      setCart(handleSetCart(cart));
+      setAvailableShippingMethods(rates);
+      setChosenShippingMethod(chosenShippingMethod);
+    },
+  });
 
   useEffect(() => {
-    let cartData = localStorage.getItem("tenwi-cart");
-    cartData = cartData ? JSON.parse(cartData) : null;
-    setCart(cartData);
+    const cartData = localStorage.getItem("tenwi-cart");
+    setCart(cartData ? JSON.parse(cartData) : null);
   }, []);
 
-  const handleSetCart = (data: any) => {
-    // Update cart in the localStorage.
-    const updatedCart = getFormattedCart(data);
-    localStorage.setItem("tenwi-cart", JSON.stringify(updatedCart));
-    setCart(updatedCart);
-  };
-
   return (
-    <AppContext.Provider value={[cart, handleSetCart]}>
+    <AppContext.Provider
+      value={{
+        cartState: [cart, setCart],
+        refetch,
+        loading,
+        availableShippingMethods: availableShippingMethods,
+        chosenShippingMethodState: [
+          chosenShippingMethod,
+          setChosenShippingMethod,
+        ],
+      }}
+    >
       {props.children}
     </AppContext.Provider>
   );

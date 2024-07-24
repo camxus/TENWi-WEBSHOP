@@ -22,11 +22,11 @@ interface ILayout {
 
 const Layout = (props: ILayout) => {
   return (
-    <UserProvider>
-      <FooterProvider>
-        <AppProvider>
-          <NavProvider>
-            <ApolloProvider client={client}>
+    <ApolloProvider client={client}>
+      <AppProvider>
+        <UserProvider>
+          <FooterProvider>
+            <NavProvider>
               <div>
                 <Head>
                   <title>TENWi</title>
@@ -49,11 +49,11 @@ const Layout = (props: ILayout) => {
                 {props.children}
               </div>
               <Footer />
-            </ApolloProvider>
-          </NavProvider>
-        </AppProvider>
-      </FooterProvider>
-    </UserProvider>
+            </NavProvider>
+          </FooterProvider>
+        </UserProvider>
+      </AppProvider>
+    </ApolloProvider>
   );
 };
 

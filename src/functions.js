@@ -1,4 +1,4 @@
-import { v4 } from 'uuid';
+import { v4 } from "uuid";
 
 /**
  * Extracts and returns float value from a string.
@@ -6,11 +6,11 @@ import { v4 } from 'uuid';
  * @param {string} string String
  * @return {any}
  */
-export const getFloatVal = ( string ) => {
-
-	let floatValue = string.match( /[+-]?\d+(\.\d+)?/g )[0];
-	return ( null !== floatValue ) ? parseFloat( parseFloat( floatValue ).toFixed( 2 ) ) : '';
-
+export const getFloatVal = (string) => {
+  let floatValue = string.match(/[+-]?\d+(\.\d+)?/g)[0];
+  return null !== floatValue
+    ? parseFloat(parseFloat(floatValue).toFixed(2))
+    : "";
 };
 
 /**
@@ -19,23 +19,22 @@ export const getFloatVal = ( string ) => {
  * @param {Object} product Product
  * @return {{totalProductsCount: number, totalProductsPrice: any, products: Array}}
  */
-export const addFirstProduct = ( product ) => {
+export const addFirstProduct = (product) => {
+  let productPrice = getFloatVal(product.price);
 
-	let productPrice = getFloatVal( product.price );
+  let newCart = {
+    products: [],
+    shippingPrice,
+    totalProductsCount: 1,
+    totalProductsPrice: productPrice,
+  };
 
-	let newCart = {
-		products: [],
-		shippingPrice,
-		totalProductsCount: 1,
-		totalProductsPrice: productPrice
-	};
+  const newProduct = createNewProduct(product, productPrice, 1);
+  newCart.products.push(newProduct);
 
-	const newProduct = createNewProduct( product, productPrice, 1 );
-	newCart.products.push( newProduct );
+  localStorage.setItem("tenwi-cart", JSON.stringify(newCart));
 
-	localStorage.setItem( 'tenwi-cart', JSON.stringify( newCart ) );
-
-	return newCart;
+  return newCart;
 };
 
 /**
@@ -46,17 +45,15 @@ export const addFirstProduct = ( product ) => {
  * @param {Integer} qty Quantity
  * @return {{image: *, productId: *, totalPrice: number, price: *, qty: *, name: *}}
  */
-export const createNewProduct = ( product, productPrice, qty ) => {
-
-	return  {
-		productId: product.productId,
-		image: product.image,
-		name: product.name,
-		price: productPrice,
-		qty,
-		totalPrice: parseFloat( ( productPrice * qty ).toFixed( 2 ) )
-	};
-
+export const createNewProduct = (product, productPrice, qty) => {
+  return {
+    productId: product.productId,
+    image: product.image,
+    name: product.name,
+    price: productPrice,
+    qty,
+    totalPrice: parseFloat((productPrice * qty).toFixed(2)),
+  };
 };
 
 /**
@@ -68,29 +65,38 @@ export const createNewProduct = ( product, productPrice, qty ) => {
  * @param {Integer} newQty New Qty to be updated.
  * @return {{totalProductsCount: *, totalProductsPrice: *, products: *}}
  */
-export const updateCart = ( existingCart, product, qtyToBeAdded, newQty = false  ) => {
+export const updateCart = (
+  existingCart,
+  product,
+  qtyToBeAdded,
+  newQty = false
+) => {
+  const updatedProducts = getUpdatedProducts(
+    existingCart.products,
+    product,
+    qtyToBeAdded,
+    newQty
+  );
 
-	const updatedProducts = getUpdatedProducts( existingCart.products , product, qtyToBeAdded, newQty );
+  const addPrice = (total, item) => {
+    total.totalPrice += item.totalPrice;
+    total.qty += item.qty;
 
-	const addPrice = (total, item) => {
-		total.totalPrice += item.totalPrice;
-		total.qty += item.qty;
+    return total;
+  };
 
-		return total;
-	};
+  // Loop through the updated product array and add the totalPrice of each item to get the totalPrice
+  let total = updatedProducts.reduce(addPrice, { totalPrice: 0, qty: 0 });
 
-	// Loop through the updated product array and add the totalPrice of each item to get the totalPrice
-	let total = updatedProducts.reduce( addPrice, { totalPrice: 0, qty: 0 } );
+  const updatedCart = {
+    products: updatedProducts,
+    totalProductsCount: parseInt(total.qty),
+    totalProductsPrice: parseFloat(total.totalPrice),
+  };
 
-	const updatedCart = {
-		products: updatedProducts,
-		totalProductsCount: parseInt( total.qty ),
-		totalProductsPrice: parseFloat( total.totalPrice )
-	};
+  localStorage.setItem("tenwi-cart", JSON.stringify(updatedCart));
 
-	localStorage.setItem( 'tenwi-cart', JSON.stringify( updatedCart ) );
-
-	return updatedCart;
+  return updatedCart;
 };
 
 /**
@@ -104,30 +110,40 @@ export const updateCart = ( existingCart, product, qtyToBeAdded, newQty = false 
  * @param {Integer} newQty New qty of the product (optional)
  * @return {*[]}
  */
-export const getUpdatedProducts = ( existingProductsInCart, product, qtyToBeAdded, newQty = false ) => {
+export const getUpdatedProducts = (
+  existingProductsInCart,
+  product,
+  qtyToBeAdded,
+  newQty = false
+) => {
+  // Check if the product already exits in the cart.
+  const productExitsIndex = isProductInCart(
+    existingProductsInCart,
+    product.productId
+  );
 
-	// Check if the product already exits in the cart.
-	const productExitsIndex = isProductInCart( existingProductsInCart, product.productId );
+  // If product exits ( index of that product found in the array ), update the product quantity and totalPrice
+  if (-1 < productExitsIndex) {
+    let updatedProducts = existingProductsInCart;
+    let updatedProduct = updatedProducts[productExitsIndex];
 
-	// If product exits ( index of that product found in the array ), update the product quantity and totalPrice
-	if ( -1 < productExitsIndex ) {
-		let updatedProducts = existingProductsInCart;
-		let updatedProduct = updatedProducts[ productExitsIndex ];
+    // If have new qty of the product available, set that else add the qtyToBeAdded
+    updatedProduct.qty = newQty
+      ? parseInt(newQty)
+      : parseInt(updatedProduct.qty + qtyToBeAdded);
+    updatedProduct.totalPrice = parseFloat(
+      (updatedProduct.price * updatedProduct.qty).toFixed(2)
+    );
 
-		// If have new qty of the product available, set that else add the qtyToBeAdded
-		updatedProduct.qty = ( newQty ) ? parseInt( newQty ) : parseInt( updatedProduct.qty + qtyToBeAdded );
-		updatedProduct.totalPrice = parseFloat( ( updatedProduct.price * updatedProduct.qty ).toFixed( 2 ) );
+    return updatedProducts;
+  } else {
+    // If product not found push the new product to the existing product array.
+    let productPrice = getFloatVal(product.price);
+    const newProduct = createNewProduct(product, productPrice, qtyToBeAdded);
+    existingProductsInCart.push(newProduct);
 
-		return  updatedProducts;
-	} else {
-
-		// If product not found push the new product to the existing product array.
-		let productPrice = getFloatVal( product.price );
-		const newProduct = createNewProduct( product, productPrice, qtyToBeAdded );
-		existingProductsInCart.push( newProduct );
-
-		return existingProductsInCart;
-	}
+    return existingProductsInCart;
+  }
 };
 
 /**
@@ -137,18 +153,17 @@ export const getUpdatedProducts = ( existingProductsInCart, product, qtyToBeAdde
  * @param {Integer} productId Product id.
  * @return {number | *} Index Returns -1 if product does not exist in the array, index number otherwise
  */
-const isProductInCart = ( existingProductsInCart, productId ) => {
+const isProductInCart = (existingProductsInCart, productId) => {
+  const returnItemThatExits = (item, index) => {
+    if (productId === item.productId) {
+      return item;
+    }
+  };
 
-	const returnItemThatExits = ( item, index ) => {
-		if ( productId === item.productId ) {
-			return item;
-		}
-	};
+  // This new array will only contain the product which is matched.
+  const newArray = existingProductsInCart.filter(returnItemThatExits);
 
-	// This new array will only contain the product which is matched.
-	const newArray = existingProductsInCart.filter( returnItemThatExits );
-
-	return existingProductsInCart.indexOf( newArray[0] );
+  return existingProductsInCart.indexOf(newArray[0]);
 };
 
 /**
@@ -157,144 +172,149 @@ const isProductInCart = ( existingProductsInCart, productId ) => {
  * @param {Integer} productId Product Id.
  * @return {any | string} Updated cart
  */
-export const removeItemFromCart = ( productId ) => {
+export const removeItemFromCart = (productId) => {
+  let existingCart = localStorage.getItem("tenwi-cart");
+  existingCart = JSON.parse(existingCart);
 
-	let existingCart = localStorage.getItem( 'tenwi-cart' );
-	existingCart = JSON.parse( existingCart );
+  // If there is only one item in the cart, delete the cart.
+  if (1 === existingCart.products.length) {
+    localStorage.removeItem("tenwi-cart");
+    return null;
+  }
 
-	// If there is only one item in the cart, delete the cart.
-	if ( 1 === existingCart.products.length ) {
+  // Check if the product already exits in the cart.
+  const productExitsIndex = isProductInCart(existingCart.products, productId);
 
-		localStorage.removeItem( 'tenwi-cart' );
-		return null;
+  // If product to be removed exits
+  if (-1 < productExitsIndex) {
+    const productTobeRemoved = existingCart.products[productExitsIndex];
+    const qtyToBeRemovedFromTotal = productTobeRemoved.qty;
+    const priceToBeDeductedFromTotal = productTobeRemoved.totalPrice;
 
-	}
+    // Remove that product from the array and update the total price and total quantity of the cart
+    let updatedCart = existingCart;
+    updatedCart.products.splice(productExitsIndex, 1);
+    updatedCart.totalProductsCount =
+      updatedCart.totalProductsCount - qtyToBeRemovedFromTotal;
+    updatedCart.totalProductsPrice =
+      updatedCart.totalProductsPrice - priceToBeDeductedFromTotal;
 
-	// Check if the product already exits in the cart.
-	const productExitsIndex = isProductInCart( existingCart.products, productId );
-
-	// If product to be removed exits
-	if ( -1 < productExitsIndex ) {
-
-		const productTobeRemoved = existingCart.products[ productExitsIndex ];
-		const qtyToBeRemovedFromTotal = productTobeRemoved.qty;
-		const priceToBeDeductedFromTotal = productTobeRemoved.totalPrice;
-
-		// Remove that product from the array and update the total price and total quantity of the cart
-		let updatedCart = existingCart;
-		updatedCart.products.splice( productExitsIndex, 1 );
-		updatedCart.totalProductsCount = updatedCart.totalProductsCount - qtyToBeRemovedFromTotal;
-		updatedCart.totalProductsPrice = updatedCart.totalProductsPrice - priceToBeDeductedFromTotal;
-
-		localStorage.setItem( 'tenwi-cart', JSON.stringify( updatedCart ) );
-		return updatedCart;
-
-	} else {
-		return existingCart;
-	}
+    localStorage.setItem("tenwi-cart", JSON.stringify(updatedCart));
+    return updatedCart;
+  } else {
+    return existingCart;
+  }
 };
 
+export const handleSetCart = (cart, chosenShippingMethod) => {
+  const formattedCart = getFormattedCart(
+    cart,
+    Number(chosenShippingMethod?.cost ?? 0)
+  );
+  localStorage.setItem("tenwi-cart", JSON.stringify(formattedCart));
+  return formattedCart;
+};
 /**
  * Returns cart data in the required format.
  * @param {String} data Cart data
  */
-export const getFormattedCart = ( data, shippingPrice = 0 ) => {
+export const getFormattedCart = (cart, shippingPrice = 0) => {
+  if (!cart || !cart.contents.nodes.length) {
+    return null;
+  }
 
-	let formattedCart = null;
+  const givenProducts = cart.contents.nodes;
 
-	if ( undefined === data || ! data.cart.contents.nodes.length ) {
-		return formattedCart;
-	}
+  // Create an empty object.
+  const formattedCart = {};
+  formattedCart.products = [];
+  let totalProductsCount = 0;
 
-	const givenProducts = data.cart.contents.nodes;
+  for (let i = 0; i < givenProducts.length; i++) {
+    const givenProduct = givenProducts?.[i]?.product?.node;
+    const product = {};
+    const total = getFloatVal(givenProducts[i].total);
 
-	// Create an empty object.
-	formattedCart = {};
-	formattedCart.products = [];
-	let totalProductsCount = 0;
+    product.productId = givenProduct?.productId ?? "";
+    product.cartKey = givenProducts?.[i]?.key ?? "";
+    product.slug = givenProduct?.slug ?? "";
+    product.name = givenProduct?.name ?? "";
+    product.qty = givenProducts?.[i]?.quantity;
+    product.variations = givenProduct?.variations.nodes[0] ?? null;
+    product.price = total / product?.qty;
+    product.totalPrice = givenProducts?.[i]?.total ?? "";
+    product.image = {
+      sourceUrl: givenProduct?.image?.sourceUrl ?? "",
+      srcSet: givenProduct?.image?.srcSet ?? "",
+      title: givenProduct?.image?.title ?? "",
+      altText: givenProduct?.image?.altText ?? "",
+    };
 
-	for( let i = 0; i < givenProducts.length; i++  ) {
-		const givenProduct = givenProducts?.[ i ]?.product?.node;
-		const product = {};
-		const total = getFloatVal( givenProducts[ i ].total );
+    totalProductsCount += givenProducts?.[i]?.quantity;
 
-		product.productId = givenProduct?.productId ?? '';
-		product.cartKey = givenProducts?.[ i ]?.key ?? '';
-		product.slug = givenProduct?.slug ?? '';
-		product.name = givenProduct?.name ?? '';
-		product.qty = givenProducts?.[ i ]?.quantity;
-		product.variations = givenProduct?.variations.nodes[0] ?? null;
-		product.price = total / product?.qty;
-		product.totalPrice = givenProducts?.[ i ]?.total ?? '';
-		product.image = {
-			sourceUrl: givenProduct?.image?.sourceUrl ?? '',
-			srcSet: givenProduct?.image?.srcSet ?? '',
-			title: givenProduct?.image?.title ?? '',
-			altText: givenProduct?.image?.altText ?? ''
-		};
+    // Push each item into the products array.
+    formattedCart.products.push(product);
+  }
 
-		totalProductsCount += givenProducts?.[ i ]?.quantity;
+  formattedCart.shippingPrice = shippingPrice;
+  formattedCart.totalProductsCount = totalProductsCount;
+  formattedCart.totalProductsPrice = cart?.total ?? "";
+  formattedCart.total =
+    (getFloatVal(cart?.total) + shippingPrice)
+      .toFixed(2)
+      .toString()
+      .replace(".", ",") + "€" ?? "";
 
-		// Push each item into the products array.
-		formattedCart.products.push( product );
-	}
-	
-	formattedCart.shippingPrice = shippingPrice;
-	formattedCart.totalProductsCount = totalProductsCount;
-	formattedCart.totalProductsPrice = data?.cart?.total ?? '';
-	formattedCart.total = (getFloatVal(data?.cart?.total) + shippingPrice).toFixed(2).toString().replace(".", ",") + "€" ?? '';
-
-
-	return formattedCart;
-
+  return formattedCart;
 };
 
-export const createCheckoutData = ( order, shippingPrice ) => {
+export const createCheckoutData = (order, shippingPrice) => {
+  // Set the billing Data to shipping, if applicable.
+  const billingData = order.billingDifferentThanShipping
+    ? order.billing
+    : order.shipping;
 
-	// Set the billing Data to shipping, if applicable.
-	const billingData = order.billingDifferentThanShipping ? order.billing : order.shipping;
+  const checkoutData = {
+    clientMutationId: v4(),
+    shipping: {
+      firstName: order?.shipping?.firstName,
+      lastName: order?.shipping?.lastName,
+      address1: order?.shipping?.address1,
+      address2: order?.shipping?.address2,
+      city: order?.shipping?.city,
+      country: order?.shipping?.country,
+      state: order?.shipping?.state,
+      postcode: order?.shipping?.postcode,
+      email: order?.shipping?.email,
+      phone: order?.shipping?.phone,
+      company: order?.shipping?.company,
+    },
+    billing: {
+      firstName: billingData?.firstName,
+      lastName: billingData?.lastName,
+      address1: billingData?.address1,
+      address2: billingData?.address2,
+      city: billingData?.city,
+      country: billingData?.country,
+      state: billingData?.state,
+      postcode: billingData?.postcode,
+      email: billingData?.email,
+      phone: billingData?.phone,
+      company: billingData?.company,
+    },
+    shipToDifferentAddress: order.billingDifferentThanShipping,
+    paymentMethod: order.paymentMethod,
+    isPaid: true,
+  };
 
-	const checkoutData = {
-		clientMutationId: v4(),
-		shipping: {
-			firstName: order?.shipping?.firstName,
-			lastName: order?.shipping?.lastName,
-			address1: order?.shipping?.address1,
-			address2: order?.shipping?.address2,
-			city: order?.shipping?.city,
-			country: order?.shipping?.country,
-			state: order?.shipping?.state,
-			postcode: order?.shipping?.postcode,
-			email: order?.shipping?.email,
-			phone: order?.shipping?.phone,
-			company: order?.shipping?.company,
-		},
-		billing: {
-			firstName: billingData?.firstName,
-			lastName: billingData?.lastName,
-			address1: billingData?.address1,
-			address2: billingData?.address2,
-			city: billingData?.city,
-			country: billingData?.country,
-			state: billingData?.state,
-			postcode: billingData?.postcode,
-			email: billingData?.email,
-			phone: billingData?.phone,
-			company: billingData?.company,
-		},
-		shipToDifferentAddress: order.billingDifferentThanShipping,
-		paymentMethod: order.paymentMethod,
-		isPaid: true,
-	};
+  if (order.createAccount) {
+    checkoutData.account = {
+      username: order.username,
+      password: order.password,
+    };
+  }
 
-	if (order.createAccount) {
-		checkoutData.account = {
-			username: order.username,
-			password: order.password,
-		};
-	}
-
-	return checkoutData;
+  return checkoutData;
 };
 
 /**
@@ -308,32 +328,28 @@ export const createCheckoutData = ( order, shippingPrice ) => {
  * Creates an array in above format with the newQty (updated Qty ).
  *
  */
-export const getUpdatedItems = ( products, newQty, cartKey ) => {
+export const getUpdatedItems = (products, newQty, cartKey) => {
+  // Create an empty array.
+  const updatedItems = [];
 
-	// Create an empty array.
-	const updatedItems = [];
+  // Loop through the product array.
+  products.map((cartItem) => {
+    // If you find the cart key of the product user is trying to update, push the key and new qty.
+    if (cartItem.cartKey === cartKey) {
+      updatedItems.push({
+        key: cartItem.cartKey,
+        quantity: parseInt(newQty),
+      });
 
-	// Loop through the product array.
-	products.map( ( cartItem ) => {
+      // Otherwise just push the existing qty without updating.
+    } else {
+      updatedItems.push({
+        key: cartItem.cartKey,
+        quantity: cartItem.qty,
+      });
+    }
+  });
 
-		// If you find the cart key of the product user is trying to update, push the key and new qty.
-		if ( cartItem.cartKey === cartKey ) {
-
-			updatedItems.push( {
-				key: cartItem.cartKey,
-				quantity: parseInt( newQty )
-			} );
-
-			// Otherwise just push the existing qty without updating.
-		} else {
-			updatedItems.push( {
-				key: cartItem.cartKey,
-				quantity: cartItem.qty
-			} );
-		}
-	} );
-
-	// Return the updatedItems array with new Qtys.
-	return updatedItems;
-
+  // Return the updatedItems array with new Qtys.
+  return updatedItems;
 };

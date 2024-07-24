@@ -1,21 +1,18 @@
-import { useState, useContext, useRef, forwardRef, useEffect } from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import { useState, useContext, useEffect } from "react";
+import { useMutation } from "@apollo/client";
 import Link from "next/link";
 import { v4 } from "uuid";
-import cx from "classnames";
 
 import { AppContext } from "../context/AppContext";
-import { getFormattedCart } from "../../functions";
-import GET_CART from "../../queries/get-cart";
 import ADD_TO_CART from "../../mutations/add-to-cart";
-import Select, { OptionsOrGroups, StylesConfig } from "react-select";
+import Select, { StylesConfig } from "react-select";
 
 import styles from "../../styles/product.module.css";
 
 const AddToCart = ({ product, variationName, sizes }: any) => {
   let selectedSize = null;
 
-  const [, setCart] = useContext(AppContext);
+  const { refetch } = useContext(AppContext);
   const [showViewCart, setShowViewCart] = useState(false);
   const [requestError, setRequestError] = useState<string | null>(null);
 
@@ -28,15 +25,6 @@ const AddToCart = ({ product, variationName, sizes }: any) => {
     const value = event.value;
     setSize(value);
   };
-
-  // Get Cart Data.
-  const { data, refetch } = useQuery(GET_CART, {
-    notifyOnNetworkStatusChange: true,
-    onCompleted: () => {
-      // Update cart data in React Context.
-      setCart(data);
-    },
-  });
 
   useEffect(() => {
     if (sizes) {
@@ -74,7 +62,9 @@ const AddToCart = ({ product, variationName, sizes }: any) => {
     onCompleted: () => {
       // On Success:
       // 1. Make the GET_CART query to update the cart with new values in React context.
-      refetch();
+      if (refetch) {
+        refetch();
+      }
 
       // 2. Show View Cart Button
       setShowViewCart(true);

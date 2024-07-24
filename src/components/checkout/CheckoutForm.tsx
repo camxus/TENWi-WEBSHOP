@@ -1,25 +1,17 @@
 import { useState, useContext, useEffect } from "react";
-import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 
 import { AppContext } from "../context/AppContext";
 import { UserContext } from "../context/UserContext";
 
 import YourOrder from "./YourOrder";
-import PaymentModes from "./PaymentModes";
-import ShippingModes from "./ShippingModes";
 import Paypal from "./Paypal";
 
 import validateAndSanitizeCheckoutForm from "../../validator/checkout";
-import {
-  getFloatVal,
-  getFormattedCart,
-  createCheckoutData,
-} from "../../functions";
+import { createCheckoutData } from "../../functions";
 import OrderSuccess from "./OrderSuccess";
 
-import GET_CART from "../../queries/get-cart";
 import CHECKOUT_MUTATION from "../../mutations/checkout";
-import { POST_SHIPPING_METHOD } from "../../mutations/shipping";
 
 import Address from "./Address";
 import {
@@ -29,7 +21,7 @@ import {
   setStatesForCountry,
 } from "../../utils/checkout";
 import CheckboxField from "./form-elements/CheckboxField";
-import CLEAR_CART_MUTATION from "../../mutations/clear-cart";
+import REMOVE_ITEMS_FROM_CART_MUTATION from "../../mutations/clear-cart";
 
 import Link from "next/link";
 
@@ -72,9 +64,8 @@ const defaultCustomerInfo = {
   errors: null,
 };
 
-const CheckoutForm = ({ methods, countriesData }: any) => {
+const CheckoutForm = ({ countriesData }: any) => {
   const { billingCountries, shippingCountries } = countriesData || {};
-  const countryCodes = require("../../utils/country_codes.json");
 
   const initialState = {
     billing: {
@@ -89,7 +80,9 @@ const CheckoutForm = ({ methods, countriesData }: any) => {
     paymentMethod: "ppcp-gateway",
   };
 
-  const [cart] = useContext(AppContext);
+  const {
+    cartState: [cart],
+  } = useContext(AppContext);
   const [user] = useContext(UserContext);
   const [input, setInput] = useState<IInput & typeof user>(initialState);
   const [orderData, setOrderData] = useState<any>(null);
@@ -103,9 +96,6 @@ const CheckoutForm = ({ methods, countriesData }: any) => {
   const [isFetchingBillingStates, setIsFetchingBillingStates] = useState(false);
   const [createdOrderData, setCreatedOrderData] = useState({});
   const [errorHandler, setErrorHandler] = useState("");
-  // const [ chosenShippingMethod, setChosenShippingMethod ] = useState("Express Shipping")
-  // const [ shippingMethod, setShippingMethod ] = useState("free_shipping:16")
-  const [shippingAmount, setShippingAmount] = useState(0);
 
   const [paypalLoaded, setPaypalLoaded] = useState(false);
 
@@ -144,7 +134,7 @@ const CheckoutForm = ({ methods, countriesData }: any) => {
     },
   });
 
-  const [clearCartMutation] = useMutation(CLEAR_CART_MUTATION);
+  const [clearCartMutation] = useMutation(REMOVE_ITEMS_FROM_CART_MUTATION);
 
   /*
    * Handle form submit.
@@ -188,7 +178,6 @@ const CheckoutForm = ({ methods, countriesData }: any) => {
     }
 
     if ("stripe-mode" === input.paymentMethod) {
-      console.log(shippingAmount);
       setOrderData(
         await handleStripeCheckout(
           input,
@@ -286,30 +275,6 @@ const CheckoutForm = ({ methods, countriesData }: any) => {
   // Loading Data
   const isOrderProcessing = checkoutLoading || isStripeOrderProcessing;
 
-  const initialOptions = {
-    "client-id": `${process.env.PAYPAL_CLIENT}`,
-    currency: "EUR",
-    intent: "capture",
-    "data-client-token": `email`,
-  };
-
-  // useEffect(()=> {
-  //     cart?.products.push({
-  //         cartKey: "",
-  //         image:
-  //         {altText: "",
-  //         sourceUrl: "",
-  //         srcSet: "",
-  //         title: ""
-  //         },
-  //         name: "Shipping",
-  //         price: cart.shippingPrice,
-  //         productId: 9999,
-  //         qty: 1,
-  //         slug: "",
-  //         totalPrice: cart.shippingPrice + "€"})
-  // },[cart])
-
   return (
     <>
       {cart ? (
@@ -361,7 +326,7 @@ const CheckoutForm = ({ methods, countriesData }: any) => {
             <div className="your-orders">
               {/*	Order*/}
               <h2 className="text-xl font-medium mb-4">Your Order</h2>
-              <YourOrder cart={cart} />
+              <YourOrder />
 
               {/*Payment*/}
               {/* { getFloatVal(cart.totalProductsPrice) < 200 && <ShippingModes methods={ShippingMethods} chosenShippingMethod={chosenShippingMethod} handleOnChange={handleOnShippingChange}/>}                             */}

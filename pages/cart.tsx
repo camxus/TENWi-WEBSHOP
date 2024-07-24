@@ -1,36 +1,33 @@
-
 import Layout from "../src/components/Layout";
 import CartItemsContainer from "../src/components/cart/cart-page/CartItemsContainer";
 import PRODUCTS_AND_CATEGORIES_QUERY from "../src/queries/product-and-categories";
-import {GET_SHIPPING_METHODS} from "../src/queries/shipping";
+import { GET_SHIPPING_METHODS } from "../src/queries/shipping";
 import GET_COUNTRIES from "../src/queries/get-countries";
-import client from '../src/components/ApolloClient';
+import client from "../src/components/ApolloClient";
 
-const Cart = ({categories, tags, methods, countries}: any) => {
-	return (
-		<Layout>
-			<CartItemsContainer methods={methods} countries={countries}/>
-		</Layout>
-	)
+const Cart = ({ categories, tags, countries }: any) => {
+  return (
+    <Layout>
+      <CartItemsContainer countries={countries} />
+    </Layout>
+  );
 };
 
 export default Cart;
 
-export async function getStaticProps () {
-	var methods = await client.query( {
-		query: GET_SHIPPING_METHODS,
-	} );
+export async function getStaticProps() {
+  const {
+    data: {
+      wooCountries: { shippingCountries },
+    },
+  } = await client.query({
+    query: GET_COUNTRIES,
+  });
 
-	var countries = await client.query( {
-		query: GET_COUNTRIES,
-	} );
-
-	return {
-		props: {		
-			methods:  methods.data.cart.availableShippingMethods[0]?.rates ? methods.data.cart.availableShippingMethods[0].rates : [],
-			countries: countries?.data? countries.data.wooCountries.shippingCountries : []
-		},
-		revalidate: 1
-	}
-
-};
+  return {
+    props: {
+      countries: shippingCountries || [],
+    },
+    revalidate: 1,
+  };
+}

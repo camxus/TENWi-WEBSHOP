@@ -1,15 +1,19 @@
 import Link from "next/link";
 import { useContext, useState, useEffect } from "react";
-import { AppContext } from "../../context/AppContext";
-import { getFormattedCart, getUpdatedItems } from "../../../functions";
+import { AppContext, ICart, ShippingMethod } from "../../context/AppContext";
+import {
+  getFormattedCart,
+  getUpdatedItems,
+  handleSetCart,
+} from "../../../functions";
 import CartItem from "./CartItem";
 import { v4 } from "uuid";
 import { useMutation, useQuery } from "@apollo/client";
 import UPDATE_CART from "../../../mutations/update-cart";
 import { POST_SHIPPING_METHOD } from "../../../mutations/shipping.js";
 import GET_CART from "../../../queries/get-cart";
-import CLEAR_CART_MUTATION from "../../../mutations/clear-cart";
-import { isEmpty } from "lodash";
+import REMOVE_ITEMS_FROM_CART_MUTATION from "../../../mutations/clear-cart";
+import { isEmpty, method } from "lodash";
 
 import { getFloatVal } from "../../../functions";
 
@@ -20,43 +24,54 @@ import countryCodes from "../../../utils/country_codes.json";
 import axios from "axios";
 
 const CartItemsContainer = ({ countries }: any) => {
-  const [cart, setCart] = useContext(AppContext);
-  const [shippingAmount, setShippingAmount] = useState(0);
-  const [chosenShippingMethod, setChosenShippingMethod] = useState(null);
-  const [shippingMethod, setShippingMethod] = useState<string | null>(null);
-  const [requestError, setRequestError] = useState<string | null>(null);
-  const [countryName, setCountryName] = useState(null);
-  const [countryCode, setCountryCode] = useState(null);
+  const {
+    cartState: [cart, setCart],
+    refetch,
+    availableShippingMethods,
+    chosenShippingMethodState: [chosenShippingMethod, setChosenShippingMethod],
+  } = useContext(AppContext);
+  const [displayedShippingMethods, setDisplayedShippingMethods] = useState<
+    ShippingMethod[] | []
+  >([]);
+
+  const [postShipping, { loading: postShippingLoading }] = useMutation(
+    POST_SHIPPING_METHOD,
+    {
+      variables: {
+        input: {
+          shippingMethods: chosenShippingMethod?.id ?? "",
+          clientMutationId: v4(),
+        },
+      },
+      onCompleted: () => {
+        if (refetch) {
+          refetch();
+        }
+      },
+    }
+  );
 
   useEffect(() => {
-    const getCountryCodes = async () => {
-      axios
-        .get("https://ipapi.co/json/")
-        .then((response) => {
-          let data = response.data;
-          setCountryName(data.country_name);
-          setCountryCode(data.country_code);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    getCountryCodes();
-  }, []);
+    axios
+      .get("https://ipapi.co/json/")
+      .then((response) => {
+        const { continent_code } = response.data;
+        setDisplayedShippingMethods(
+          availableShippingMethods.filter(
+            (method) =>
+              (method.label.includes("EU") && continent_code === "EU") ||
+              !Number(method.cost)
+          )
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [availableShippingMethods]);
 
-  // Get Cart Data.
-  const { loading, error, data, refetch } = useQuery(GET_CART, {
-    notifyOnNetworkStatusChange: true,
-    onCompleted: () => {
-      // Update cart in the localStorage.
-      const updatedCart = getFormattedCart(data, shippingAmount);
-      localStorage.setItem("tenwi-cart", JSON.stringify(updatedCart));
-
-      // Update cart data in React Context.
-      console.log(cart);
-      setCart(updatedCart);
-    },
-  });
+  useEffect(() => {
+    postShipping();
+  }, [chosenShippingMethod]);
 
   // Update Cart Mutation.
   const [
@@ -68,33 +83,24 @@ const CartItemsContainer = ({ countries }: any) => {
     },
   ] = useMutation(UPDATE_CART, {
     onCompleted: () => {
-      refetch();
-    },
-    onError: (error) => {
-      if (error) {
-        const errorMessage = error?.graphQLErrors?.[0]?.message
-          ? error.graphQLErrors[0].message
-          : "";
-        setRequestError(errorMessage);
+      if (refetch) {
+        refetch();
       }
     },
   });
 
-  // Update Cart Mutation.
+  // Remove from Cart Mutation.
   const [
-    clearCart,
-    { data: clearCartRes, loading: clearCartProcessing, error: clearCartError },
-  ] = useMutation(CLEAR_CART_MUTATION, {
-    onCompleted: () => {
-      refetch();
+    removeFromCart,
+    {
+      data: removeFromCartRes,
+      loading: removeFromCartProcessing,
+      error: removeFromCartError,
     },
-    onError: (error) => {
-      if (error) {
-        const errorMessage = !isEmpty(error?.graphQLErrors?.[0])
-          ? error.graphQLErrors[0]?.message
-          : "";
-        setRequestError(errorMessage);
-      }
+  ] = useMutation(REMOVE_ITEMS_FROM_CART_MUTATION, {
+    onCompleted: ({ removeItemsFromCart }) => {
+      const { cart } = removeItemsFromCart;
+      setCart((handleSetCart(cart, chosenShippingMethod) as unknown) as ICart);
     },
   });
 
@@ -113,15 +119,11 @@ const CartItemsContainer = ({ countries }: any) => {
   ) => {
     event.stopPropagation();
     if (products.length) {
-      // By passing the newQty to 0 in updateCart Mutation, it will remove the item.
-      const newQty = 0;
-      const updatedItems = getUpdatedItems(products, newQty, cartKey);
-
-      updateCart({
+      removeFromCart({
         variables: {
           input: {
             clientMutationId: v4(),
-            items: updatedItems,
+            keys: [cartKey],
           },
         },
       });
@@ -129,14 +131,16 @@ const CartItemsContainer = ({ countries }: any) => {
   };
 
   // Clear the entire cart.
-  const handleClearCart = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleClearCart = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.stopPropagation();
 
-    if (clearCartProcessing) {
+    if (removeFromCartProcessing) {
       return;
     }
 
-    clearCart({
+    removeFromCart({
       variables: {
         input: {
           clientMutationId: v4(),
@@ -146,75 +150,20 @@ const CartItemsContainer = ({ countries }: any) => {
     });
   };
 
-  const handleOnShippingChange = (event: any) => {
+  const handleOnShippingChange = async (event: any) => {
     if (event.target) {
-      setChosenShippingMethod(event.target.value);
-      if (countryCode !== undefined) {
-        console.log("event", countryCode);
-        if (!countryCodes.EU.find((element) => element === countryCode)) {
-          // INTERNATIONAL
-          if (event.target.value === "Express Shipping") {
-            setShippingMethod("flat_rate:26");
-            setShippingAmount(61);
-          } else if (event.target.value === "Standard Shipping") {
-            setShippingMethod("flat_rate:27");
-            setShippingAmount(27);
-          }
-        } else if (countryCodes.EU.find((element) => element === countryCode)) {
-          // EU
-          if (event.target.value === "Express Shipping") {
-            setShippingMethod("flat_rate:28");
-            setShippingAmount(31);
-            console.log("Express Shipping");
-          }
-          if (event.target.value === "Standard Shipping") {
-            setShippingMethod("flat_rate:29");
-            setShippingAmount(16);
-            console.log("Standard Shipping");
-          }
-        } else if (getFloatVal(cart?.totalProductsPrice ?? "0") > 200) {
-          setShippingMethod("free_shipping:30");
-        }
-      }
+      setChosenShippingMethod(
+        availableShippingMethods.find(
+          (method) => method.id === event.target.value
+        )
+      );
     }
   };
-  useEffect(() => {
-    console.log(shippingMethod);
-    console.log(shippingAmount);
-    postShipping();
-  }, [shippingMethod]);
 
-  const [
-    postShipping,
-    {
-      data: postShippingResponse,
-      loading: postShippingProcessing,
-      error: postShippingError,
-    },
-  ] = useMutation(POST_SHIPPING_METHOD, {
-    variables: {
-      input: { shippingMethods: shippingMethod, clientMutationId: v4() },
-    },
-    onCompleted: () => {
-      refetch();
-      console.log("completed");
-    },
-    onError: (error) => {
-      if (error) {
-        const errorMessage = error?.graphQLErrors?.[0]?.message
-          ? error.graphQLErrors[0].message
-          : "";
-        setRequestError(errorMessage);
-      }
-    },
-  });
-
-  let methods = ["Express Shipping", "Standard Shipping"];
-
-  const handleOnCountryChange = (event: any) => {
-    event.persist();
-    setCountryCode(event.target.value);
-  };
+  // const handleOnCountryChange = (event: any) => {
+  //   event.persist();
+  //   setCountryCode(event.target.value);
+  // };
 
   return (
     <div className="cart product-cart-container container mx-auto my-32 px-4 xl:px-0">
@@ -227,12 +176,12 @@ const CartItemsContainer = ({ countries }: any) => {
               <button
                 className="px-4 py-1 bg-gray-500 text-white rounded-sm w-auto"
                 onClick={handleClearCart}
-                disabled={clearCartProcessing}
+                disabled={removeFromCartProcessing}
               >
                 <span className="cart">Clear Cart</span>
                 <i className="fa fa-arrow-alt-right" />
               </button>
-              {clearCartProcessing ? <p>Clearing...</p> : ""}
+              {removeFromCartProcessing ? <p>Clearing...</p> : ""}
               {updateCartProcessing ? <p>Updating...</p> : null}
             </div>
           </div>
@@ -271,7 +220,6 @@ const CartItemsContainer = ({ countries }: any) => {
               </tbody>
             </table>
 
-            {/*Cart Total*/}
             <div className="row cart-total-container border p-5 bg-gray-200">
               <div className="">
                 {/* <h2 className="text-2xl">Cart Total</h2> */}
@@ -282,45 +230,48 @@ const CartItemsContainer = ({ countries }: any) => {
                         Subtotal
                       </td>
                       <td className="cart-element-amt text-2xl font-bold">
-                        {"string" !== typeof cart.total
-                          ? cart.total
-                          : cart.total}
+                        {cart.total}
                       </td>
                     </tr>
-                    {!countryCode && (
+                    {/* {!countryCode && (
                       <CountrySelection
                         input=""
                         handleOnChange={handleOnCountryChange}
                         countries={countries}
                         isShipping=""
                       />
-                    )}
-                    {countryCode &&
-                      getFloatVal(cart.totalProductsPrice) < 200 && (
-                        <ShippingModes
-                          methods={methods}
-                          chosenShippingMethod={chosenShippingMethod}
-                          handleOnChange={handleOnShippingChange}
-                        />
-                      )}
-                    {/* <tr className="table-light">
-										<td className="cart-element-total">Total</td>
-										<td className="cart-element-amt">{ ( 'string' !== typeof cart.totalProductsPrice ) ? cart.totalProductsPrice.toFixed(2) : cart.totalProductsPrice }</td>
-									</tr> */}
+                    )} */}
+
+                    <ShippingModes
+                      postShippingLoading={postShippingLoading}
+                      shippingMethods={displayedShippingMethods}
+                      chosenShippingMethod={chosenShippingMethod?.id}
+                      handleOnChange={handleOnShippingChange}
+                    />
                   </tbody>
                 </table>
-                {((getFloatVal(cart.totalProductsPrice) < 200 &&
-                  chosenShippingMethod) ||
-                  getFloatVal(cart.totalProductsPrice) > 200) && (
-                  <Link href="/checkout" legacyBehavior>
-                    <button className="bg-black text-white px-5 py-3 rounded-sm w-auto xl:w-full">
-                      <span className="cart-checkout-txt">
-                        Proceed to Checkout
-                      </span>
-                      <i className="fas fa-long-arrow-alt-right" />
-                    </button>
-                  </Link>
-                )}
+
+                <Link
+                  href="/checkout"
+                  legacyBehavior
+                  aria-disabled={!chosenShippingMethod}
+                >
+                  <button
+                    className="text-white px-5 py-3 rounded-sm w-auto xl:w-full"
+                    style={{
+                      cursor: chosenShippingMethod ? "pointer" : "default",
+                      backgroundColor: chosenShippingMethod
+                        ? "black"
+                        : "lightgray",
+                    }}
+                    disabled={!chosenShippingMethod}
+                  >
+                    <span className="cart-checkout-txt">
+                      Proceed to Checkout
+                    </span>
+                    <i className="fas fa-long-arrow-alt-right" />
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

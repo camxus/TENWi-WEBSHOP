@@ -13,7 +13,7 @@ import Image from "next/image";
 import { useRef, useEffect } from "react";
 import { functionsIn } from "lodash";
 
-export default function Categories({ NotificationsStruct }) {
+export default function Categories({ notifications }) {
   const main = useRef(null);
   const elems = useRef(null);
 
@@ -70,8 +70,8 @@ export default function Categories({ NotificationsStruct }) {
         />
       </div> */}
             <div class="notification-wrapper">
-              {NotificationsStruct &&
-                NotificationsStruct.map((item) => (
+              {notifications &&
+                notifications.map((item) => (
                   <ul id="one" class="notification-button">
                     <li class="one">
                       <div class="container">
@@ -122,8 +122,7 @@ export default function Categories({ NotificationsStruct }) {
 }
 
 export async function getStaticProps() {
-  // console.log(client)
-  const NotificationsStruct = [
+  const notifications = [
     // {
     // header : "TENWi",
     // timestamp : "Now",
@@ -144,28 +143,27 @@ export async function getStaticProps() {
     query: GET_POST_CATEGORIES,
   });
 
-  data.categories.edges.map((category) => {
+  const categories = data.categories.edges;
+  categories.map((category) => {
     let slug = category.node.slug;
-    function createNotificationStruct() {
-      let Struct = {
-        header: "TENWi",
-        timestamp: "Now",
-        sender: "TENWi",
-        message: category.node.name,
-        link: `portfolio/${category.node.slug}`,
-      };
-      return Struct;
+
+    if (!slug.includes("footer") && slug !== "uncategorized") {
+      !notifications.find((element) => element.link === `portfolio/${slug}`) &&
+        notifications.push(
+          {
+            header: "TENWi",
+            timestamp: "Now",
+            sender: "TENWi",
+            message: category.node.name,
+            link: `portfolio/${slug}`,
+          } ?? null
+        );
     }
-    !slug.includes("footer") &&
-      slug !== "uncategorized" &&
-      !NotificationsStruct.find((element) => element === slug) &&
-      NotificationsStruct.push(createNotificationStruct() ?? null);
   });
-  console.log(NotificationsStruct);
+
   return {
     props: {
-      NotificationsStruct:
-        NotificationsStruct.length !== 0 ? NotificationsStruct : [],
+      notifications,
     },
     revalidate: 1,
   };

@@ -9,7 +9,7 @@ import intro from "../src/styles/intro.module.css";
 import Image from "next/image";
 // import NewsletterSubmit from  "../src/components/NewsletterSubmit.js";
 
-function Categories({ productCategories, categories, tags }) {
+function Categories({ categories, tags }) {
   return (
     <Layout categories={categories} tags={tags}>
       <div className={intro[`intro`]}>
@@ -22,8 +22,8 @@ function Categories({ productCategories, categories, tags }) {
           </div>
         </div>
       </div>
-      {productCategories
-        ? productCategories.map((category) => (
+      {categories
+        ? categories.map((category) => (
             <div className={`${styles["category-wrapper"]}`}>
               {/* image */}
               <Image
@@ -50,20 +50,17 @@ function Categories({ productCategories, categories, tags }) {
 export default Categories;
 
 export async function getStaticProps() {
-  // console.log(client)
-  const { data } = await client.query({
-    query: GET_CATEGORIES_QUERY,
-  });
-  var categories = await client.query({
+  const {
+    data: {
+      productTags: { nodes: tags },
+      productCategories: { nodes: categories },
+    },
+  } = await client.query({
     query: PRODUCTS_AND_CATEGORIES_QUERY,
   });
 
-  var tags = categories.data.productTags.nodes;
-  categories = categories.data.productCategories.nodes;
-
   return {
     props: {
-      productCategories: data?.productCategories?.nodes || [],
       categories: categories ? categories : [],
       tags: tags ? tags : [],
     },

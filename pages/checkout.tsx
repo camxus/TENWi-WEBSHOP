@@ -3,26 +3,21 @@ import CheckoutForm from "../src/components/checkout/CheckoutForm";
 import GET_COUNTRIES from "../src/queries/get-countries";
 import client from "../src/components/ApolloClient";
 
-import PRODUCTS_AND_CATEGORIES_QUERY from "../src/queries/product-and-categories";
-import { GET_SHIPPING_METHODS } from "../src/queries/shipping";
 import React from "react";
 
 interface ICheckout {
-  data: any;
+  countries: any;
   categories: any;
   tags: any;
   methods: any;
 }
 
-const Checkout = ({ data, methods }: ICheckout) => {
+const Checkout = ({ countries }: ICheckout) => {
   return (
     <Layout>
       <div className="checkout container mx-auto my-32 px-4 xl:px-0">
         <h1 className="mb-5 text-2xl uppercase">Checkout Page</h1>
-        <CheckoutForm
-          methods={methods}
-          countriesData={data?.wooCountries ?? {}}
-        />
+        <CheckoutForm countriesData={countries ?? {}} />
       </div>
     </Layout>
   );
@@ -31,13 +26,15 @@ const Checkout = ({ data, methods }: ICheckout) => {
 export default Checkout;
 
 export async function getStaticProps() {
-  const { data } = await client.query({
+  const {
+    data: { wooCountries },
+  } = await client.query({
     query: GET_COUNTRIES,
   });
 
   return {
     props: {
-      data: data || {},
+      countries: wooCountries || {},
     },
     revalidate: 1,
   };

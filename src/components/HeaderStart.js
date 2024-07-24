@@ -1,10 +1,8 @@
 import header from "../styles/header.module.css";
 import Image from "next/image";
-import CART from "./cart/CART";
-import { forwardRef } from "react";
 import Link from "next/link";
 
-const Header = (props) => {
+const Header = () => {
   return (
     <div>
       <Link href="/">
@@ -14,7 +12,6 @@ const Header = (props) => {
             objectFit="cover"
           ></Image>
         </div>
-        {/* <CartIcon/> */}
       </Link>
     </div>
   );
