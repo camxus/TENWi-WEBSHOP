@@ -53,7 +53,7 @@ const CartItemsContainer = () => {
   );
 
   useEffect(() => {
-    if (availableShippingMethods) {
+    if (availableShippingMethods.length) {
       axios
         .get("https://ipapi.co/json/")
         .then((response) => {
