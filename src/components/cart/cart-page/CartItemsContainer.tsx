@@ -18,6 +18,7 @@ const CartItemsContainer = () => {
     refetch,
     availableShippingMethods,
     chosenShippingMethodState: [chosenShippingMethod, setChosenShippingMethod],
+    loading: cartLoading,
   } = useContext(AppContext);
   const [displayedShippingMethods, setDisplayedShippingMethods] = useState<
     ShippingMethod[] | []
@@ -175,7 +176,7 @@ const CartItemsContainer = () => {
                 <i className="fa fa-arrow-alt-right" />
               </button>
               {removeFromCartProcessing ? <p>Clearing...</p> : ""}
-              {updateCartProcessing ? <p>Updating...</p> : null}
+              {updateCartProcessing || cartLoading ? <p>Updating...</p> : null}
             </div>
           </div>
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-0 xl:gap-4 mb-5">
@@ -247,7 +248,9 @@ const CartItemsContainer = () => {
                 <Link
                   href="/checkout"
                   legacyBehavior
-                  aria-disabled={!chosenShippingMethod}
+                  aria-disabled={
+                    !chosenShippingMethod || updateCartProcessing || cartLoading
+                  }
                 >
                   <button
                     className="text-white px-5 py-3 rounded-sm w-auto xl:w-full"
@@ -257,7 +260,11 @@ const CartItemsContainer = () => {
                         ? "black"
                         : "lightgray",
                     }}
-                    disabled={!chosenShippingMethod}
+                    disabled={
+                      !chosenShippingMethod ||
+                      updateCartProcessing ||
+                      cartLoading
+                    }
                   >
                     <span className="cart-checkout-txt">
                       Proceed to Checkout
