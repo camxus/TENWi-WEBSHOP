@@ -30,6 +30,7 @@ const CartItemsContainer = () => {
     availableShippingMethods,
     chosenShippingMethodState: [chosenShippingMethod, setChosenShippingMethod],
   } = useContext(AppContext);
+  const [continentCode, setContinentCode] = useState();
   const [displayedShippingMethods, setDisplayedShippingMethods] = useState<
     ShippingMethod[] | []
   >([]);
@@ -52,22 +53,24 @@ const CartItemsContainer = () => {
   );
 
   useEffect(() => {
-    axios
-      .get("https://ipapi.co/json/")
-      .then((response) => {
-        const { continent_code } = response.data;
-        console.log("contintent_code", continent_code);
-        setDisplayedShippingMethods(
-          availableShippingMethods.filter(
-            (method) =>
-              (method.label.includes("EU") && continent_code === "EU") ||
-              !Number(method.cost)
-          )
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (availableShippingMethods) {
+      axios
+        .get("https://ipapi.co/json/")
+        .then((response) => {
+          const { continent_code } = response.data;
+          console.log("contintent_code", continent_code);
+          setDisplayedShippingMethods(
+            availableShippingMethods.filter(
+              (method) =>
+                (method.label.includes("EU") && continent_code === "EU") ||
+                !Number(method.cost)
+            )
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, [availableShippingMethods]);
 
   useEffect(() => {
