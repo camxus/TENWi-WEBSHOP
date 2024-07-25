@@ -23,7 +23,7 @@ import countryCodes from "../../../utils/country_codes.json";
 
 import axios from "axios";
 
-const CartItemsContainer = ({ countries }: any) => {
+const CartItemsContainer = () => {
   const {
     cartState: [cart, setCart],
     refetch,
@@ -56,6 +56,7 @@ const CartItemsContainer = ({ countries }: any) => {
       .get("https://ipapi.co/json/")
       .then((response) => {
         const { continent_code } = response.data;
+        console.log("contintent_code", continent_code);
         setDisplayedShippingMethods(
           availableShippingMethods.filter(
             (method) =>
@@ -72,6 +73,10 @@ const CartItemsContainer = ({ countries }: any) => {
   useEffect(() => {
     postShipping();
   }, [chosenShippingMethod]);
+
+  useEffect(() => {
+    console.log(displayedShippingMethods);
+  }, [displayedShippingMethods]);
 
   // Update Cart Mutation.
   const [

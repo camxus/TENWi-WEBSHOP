@@ -1,196 +1,192 @@
 .card {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    position: relative;
-    /* left: 4vw; */
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  position: relative;
+  /* left: 4vw; */
 }
 
 .card_body {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: "left right";
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "left right";
 }
 
-
 .card_title {
-    grid-area: right;
-    white-space: nowrap;
-    font-size: var(--font-size-very-large);
-    letter-spacing: -2px;
-    line-height: 7.4rem;
-    font-weight: bold;
+  grid-area: right;
+  white-space: nowrap;
+  font-size: var(--font-size-very-large);
+  letter-spacing: -2px;
+  line-height: 7.4rem;
+  font-weight: bold;
 }
 
 .right {
-    color: transparent;
-    -webkit-text-stroke: 1px black;
+  color: transparent;
+  -webkit-text-stroke: 1px black;
 }
-.right-wrapper{
-    position: relative;
-    grid-area: right;
-    height: 100vh;
-    width: 50vw;
-    overflow-y: auto;
-    border-bottom: 1px solid black;
+.right-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  grid-area: right;
+  height: 100vh;
+  width: 50vw;
+  overflow-y: auto;
+  border-bottom: 1px solid black;
 }
 
 .image_container {
-    position: relative;
-    height: 100vh;
-    overflow: scroll;
-    overflow-x: hidden;
-    grid-area: left;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
+  position: relative;
+  height: 100vh;
+  overflow: scroll;
+  overflow-x: hidden;
+  grid-area: left;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
 }
 .image_container::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .image {
-    width: 100%;
-    border-bottom: 1px solid black;
+  width: 100%;
+  border-bottom: 1px solid black;
 }
 
 .card_text {
-    padding: 10% 0;
+  padding: 10% 0;
 }
 
-.card_text > h3{
-    font-weight: 600;
-    padding-bottom: 0.5rem;
+.card_text > h3 {
+  font-weight: 600;
+  padding-bottom: 0.5rem;
 }
 
-.card_text > p{
-    font-size: small;
-    grid-area: right;
+.card_text > p {
+  font-size: small;
+  grid-area: right;
 }
 
-
-.rightContainer{
-    height: 90vh;
-    overflow: scroll;
+.rightContainer {
+  flex: 1;
+  height: 90vh;
+  overflow: scroll;
 }
 
-.rightContent{
-    top: 0%;
-    left: 50%;
-    padding: 15% 0;
-    transform: translate(-50%, -0%);
-    position: relative;
-    /* min-height: 56vh;
+.rightContent {
+  top: 0%;
+  left: 50%;
+  padding: 15% 0;
+  transform: translate(-50%, -0%);
+  position: relative;
+  /* min-height: 56vh;
     height: max-content; */
-    width: 70%;
+  width: 70%;
 }
 
-.add_to_cart{
-    z-index: 1;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+.add_to_cart {
+  z-index: 1;
+  position: relative;
+  width: 100%;
 }
 
-.add_to_cart button{
-    background-color: white;
-    width: 100%;
-    color: black;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-    min-height: 5vh;
-    font: inherit;
-    outline: inherit;
-    padding: 20px;
-    transition: all 0.5s ease-in-out;
+.add_to_cart button {
+  background-color: white;
+  width: 100%;
+  color: black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  min-height: 5vh;
+  font: inherit;
+  outline: inherit;
+  padding: 20px;
+  transition: all 0.5s ease-in-out;
 }
 
-.add_to_cart button:hover{
-    color: white;
-    /* background-color: black; */
+.add_to_cart button:hover {
+  color: white;
+  /* background-color: black; */
 }
-
 
 .TITLE {
-    width: 100%;
-    height: max-content;
-    position: relative;
-    overflow: hidden;
-    position: relative;
-    pointer-events: none;
+  width: 100%;
+  height: max-content;
+  position: relative;
+  overflow: hidden;
+  position: relative;
+  pointer-events: none;
 }
 
-
-
-.view-cart{
-    border-top: 0 ! important;
-    border-left: 0;
-    border-right: 0;
+.view-cart {
+  border-top: 0 !important;
+  border-left: 0;
+  border-right: 0;
 }
-.view-cart:hover{
-    background-color:black
+.view-cart:hover {
+  background-color: black;
 }
 
-
-.related-items{
-    display:flex;
+.related-items {
+  display: flex;
 }
 
 .related-items-header {
-    height: 5vh;
-    min-height: 40px;
-    position: relative;
-    border-bottom: 1px solid black;
+  height: 5vh;
+  min-height: 40px;
+  position: relative;
+  border-bottom: 1px solid black;
 }
 
 .related-items-header h1 {
-    transform: translate(33%, -50%);
-    position: absolute;
-    top: 50%;
-    font-size: var(--font-size-mid);
+  transform: translate(33%, -50%);
+  position: absolute;
+  top: 50%;
+  font-size: var(--font-size-mid);
 }
 
-.add-to-cart-button-red{
-    background-color: red ! important;
-    color: white ! important;
-    animation: fadeIn 0.4s ease-in-out
+.add-to-cart-button-red {
+  background-color: red !important;
+  color: white !important;
+  animation: fadeIn 0.4s ease-in-out;
 }
 
-.add-to-cart-button:hover{
-    background-color: rgb(37, 175, 37);
-    color: white
+.add-to-cart-button:hover {
+  background-color: rgb(37, 175, 37);
+  color: white;
 }
 
-@media only screen and (max-width: 768px){
-    .card_body {
-        display: block;
-    }
-    .image_container {
-        height: 73vh;
-    }
+@media only screen and (max-width: 768px) {
+  .card_body {
+    display: block;
+  }
+  .image_container {
+    height: 73vh;
+  }
 
-    .TITLE {
-        width: 82vw;
-        transform: translateX(-50%);
-        left: 50%;
-    }
+  .TITLE {
+    width: 82vw;
+    transform: translateX(-50%);
+    left: 50%;
+  }
 
-    .right-wrapper{
-        width: 100vw;
-        height: max-content;
-    }
-    .image_container{
-        height: 67vh;
-    }
-    .card{
-        height: max-content;
-    }
-    .related-items{
-        display: block;
-    }
+  .right-wrapper {
+    width: 100vw;
+    height: max-content;
+  }
+  .image_container {
+    height: 67vh;
+  }
+  .card {
+    height: max-content;
+  }
+  .related-items {
+    display: block;
+  }
 
-    .card_title {
-        font-size: var(--font-size-medium);
-        letter-spacing: 0px;
-        line-height: 1rem;
-    }
+  .card_title {
+    font-size: var(--font-size-medium);
+    letter-spacing: 0px;
+    line-height: 1rem;
+  }
 }

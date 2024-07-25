@@ -122,7 +122,7 @@ const AddToCart = ({ product, variationName, sizes }: any) => {
       borderRadius: "0",
       color: state.isSelected ? "white" : "black",
       backgroundColor: state.isSelected ? "black" : "white",
-      borderColor: state.isFocused ? "black" : null,
+      boxShadow: state.isFocused ? "none" : null,
       padding: "2% 0",
       transition: "all 300ms ease-in-out",
       ...base,
