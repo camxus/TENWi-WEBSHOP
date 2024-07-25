@@ -5,7 +5,7 @@ import { GET_SHIPPING_METHODS } from "../src/queries/shipping";
 import GET_COUNTRIES from "../src/queries/get-countries";
 import client from "../src/components/ApolloClient";
 
-const Cart = ({ categories, tags, countries }: any) => {
+const Cart = ({ countries }: any) => {
   return (
     <Layout>
       <CartItemsContainer countries={countries} />

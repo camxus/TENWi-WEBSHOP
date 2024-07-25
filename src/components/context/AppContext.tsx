@@ -20,7 +20,7 @@ export type ShippingMethod = {
 };
 
 export const AppContext = React.createContext<{
-  cartState: [ICart | null, React.Dispatch<React.SetStateAction<ICart>>];
+  cartState: [ICart | null, React.Dispatch<React.SetStateAction<ICart | null>>];
   chosenShippingMethodState: [
     ShippingMethod | undefined | null,
     React.Dispatch<React.SetStateAction<ShippingMethod | undefined>>

@@ -8,7 +8,7 @@ import Loading from "../src/components/icons/Loading";
 import ShoppingCart from "../src/components/icons/ShoppingCart.js";
 
 const ThankYouContent = () => {
-    const {state: [cart, setCart]} = useContext(AppContext);
+    const {cartState: [cart, setCart]} = useContext(AppContext);
     const [isSessionFetching, setSessionFetching] = useState(false);
     const [sessionData, setSessionData] = useState({});
     const session_id = process.browser ? Router.query.session_id : null;
