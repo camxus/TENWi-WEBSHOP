@@ -1,25 +1,14 @@
 import Link from "next/link";
 import { useContext, useState, useEffect } from "react";
 import { AppContext, ICart, ShippingMethod } from "../../context/AppContext";
-import {
-  getFormattedCart,
-  getUpdatedItems,
-  handleSetCart,
-} from "../../../functions";
+import { handleSetCart } from "../../../functions";
 import CartItem from "./CartItem";
 import { v4 } from "uuid";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import UPDATE_CART from "../../../mutations/update-cart";
 import { POST_SHIPPING_METHOD } from "../../../mutations/shipping.js";
-import GET_CART from "../../../queries/get-cart";
 import REMOVE_ITEMS_FROM_CART_MUTATION from "../../../mutations/clear-cart";
-import { isEmpty, method } from "lodash";
-
-import { getFloatVal } from "../../../functions";
-
 import ShippingModes from "../../checkout/ShippingModes";
-import CountrySelection from "../../checkout/CountrySelection";
-import countryCodes from "../../../utils/country_codes.json";
 
 import axios from "axios";
 
@@ -72,8 +61,10 @@ const CartItemsContainer = () => {
   }, [availableShippingMethods]);
 
   useEffect(() => {
-    postShipping();
-  }, [chosenShippingMethod]);
+    if (chosenShippingMethod) {
+      postShipping();
+    }
+  }, [chosenShippingMethod?.id]);
 
   // Update Cart Mutation.
   const [

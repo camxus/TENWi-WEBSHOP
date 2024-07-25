@@ -63,7 +63,7 @@ export const AppProvider = (props: any) => {
         (method: ShippingMethod) => method.id === chosenShippingMethods[0]
       );
 
-      setCart(handleSetCart(cart));
+      setCart(handleSetCart(cart, chosenShippingMethod));
       setAvailableShippingMethods(rates);
       setChosenShippingMethod(chosenShippingMethod);
     },
