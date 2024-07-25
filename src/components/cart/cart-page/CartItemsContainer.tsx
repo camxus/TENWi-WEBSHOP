@@ -30,7 +30,6 @@ const CartItemsContainer = () => {
     availableShippingMethods,
     chosenShippingMethodState: [chosenShippingMethod, setChosenShippingMethod],
   } = useContext(AppContext);
-  const [continentCode, setContinentCode] = useState();
   const [displayedShippingMethods, setDisplayedShippingMethods] = useState<
     ShippingMethod[] | []
   >([]);
@@ -58,7 +57,6 @@ const CartItemsContainer = () => {
         .get("https://ipapi.co/json/")
         .then((response) => {
           const { continent_code } = response.data;
-          console.log("contintent_code", continent_code);
           setDisplayedShippingMethods(
             availableShippingMethods.filter(
               (method) =>
@@ -76,10 +74,6 @@ const CartItemsContainer = () => {
   useEffect(() => {
     postShipping();
   }, [chosenShippingMethod]);
-
-  useEffect(() => {
-    console.log(displayedShippingMethods);
-  }, [displayedShippingMethods]);
 
   // Update Cart Mutation.
   const [
