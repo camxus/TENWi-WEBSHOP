@@ -27,32 +27,38 @@ const Layout = (props: ILayout) => {
         <UserProvider>
           <FooterProvider>
             <NavProvider>
-              <div>
-                <Head>
-                  <title>TENWi</title>
-                  <link
-                    rel="icon"
-                    href="../../public/assets/png/tenwi-logo-frontal.png"
-                    type="image/png"
-                  ></link>
-                  <meta
-                    name="description"
-                    content="By Wirat Tengchiang - A sublime melange of masculinity and femininity whilst tackling cross-cultural issues such as gender, identity, spirituality and environmentalism, through the creation of eccentric unisex looks"
-                  />
-                  <meta
-                    name="keywords"
-                    content="TENWi, Vienna, Austria, Fashion, Clothes
+              <Head>
+                <title>TENWi</title>
+                <link
+                  rel="icon"
+                  href="../../public/assets/png/tenwi-logo-frontal.png"
+                  type="image/png"
+                ></link>
+                <meta
+                  name="description"
+                  content="By Wirat Tengchiang - A sublime melange of masculinity and femininity whilst tackling cross-cultural issues such as gender, identity, spirituality and environmentalism, through the creation of eccentric unisex looks"
+                />
+                <meta
+                  name="keywords"
+                  content="TENWi, Vienna, Austria, Fashion, Clothes
             , Shop, Artist, Unisex"
-                  />
-                  <meta
-                    property="og:image"
-                    content="../../public/assets/png/tenwi-logo-frontal.png"
-                  />
-                </Head>
+                />
+                <meta
+                  property="og:image"
+                  content="../../public/assets/png/tenwi-logo-frontal.png"
+                />
+              </Head>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  minHeight: "100vh",
+                }}
+              >
                 <Header {...props} />
-                {props.children}
+                <div style={{ flex: 1 }}>{props.children}</div>
+                <Footer />
               </div>
-              <Footer />
             </NavProvider>
           </FooterProvider>
         </UserProvider>

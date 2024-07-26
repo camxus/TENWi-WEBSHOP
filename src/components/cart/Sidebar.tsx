@@ -4,20 +4,19 @@ import Image from "next/image";
 import cart from "../../../src/styles/cart.module.css";
 
 const Sidebar = () => {
-  let navBtn = useRef(null);
-  let cartOverlay = useRef(null);
-  let cartContainer = useRef(null);
+  const navBtn = useRef<HTMLDivElement>(null);
+  const cartOverlay = useRef<HTMLDivElement>(null);
+  const cartContainer = useRef<HTMLDivElement>(null);
 
-  var statement = false;
   const openNav = () => {
-    if (cartContainer.style.right !== "0%" && statement === true) {
-      cartContainer.style.right = "0%";
-      cartOverlay.style.opacity = "70%";
-      statement = false;
-    } else {
-      cartContainer.style.right = "-24.4%";
-      cartOverlay.style.opacity = "0%";
-      statement = true;
+    if (cartContainer.current && cartOverlay.current) {
+      if (cartContainer.current?.style.right !== "0%") {
+        cartContainer.current.style.right = "0%";
+        cartOverlay.current.style.opacity = "70%";
+      } else {
+        cartContainer.current.style.right = "-24.4%";
+        cartOverlay.current.style.opacity = "0%";
+      }
     }
   };
 
@@ -26,12 +25,7 @@ const Sidebar = () => {
   return (
     <div>
       <div ref={cartContainer} className={cart.nav_container}>
-        <div
-          ref={(el) => {
-            navBtn = el;
-          }}
-          className={cart.nav_btn}
-        >
+        <div ref={navBtn} className={cart.nav_btn}>
           <div className={cart.dot}></div>
         </div>
         <div className={cart.navbody}>
@@ -135,13 +129,7 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-      <div
-        onClick={openNav}
-        ref={(el) => {
-          cartOverlay = el;
-        }}
-        className={cart.overlay}
-      ></div>
+      <div onClick={openNav} ref={cartOverlay} className={cart.overlay}></div>
     </div>
   );
 };

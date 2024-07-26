@@ -154,13 +154,8 @@ const CartItemsContainer = () => {
     }
   };
 
-  // const handleOnCountryChange = (event: any) => {
-  //   event.persist();
-  //   setCountryCode(event.target.value);
-  // };
-
   return (
-    <div className="cart product-cart-container container mx-auto my-32 px-4 xl:px-0">
+    <div className="cart product-cart-container container py-20 px-10 min-w-full xl:px-20">
       {cart ? (
         <div className="cart-wrapper container">
           <div className="cart-header grid grid-cols-2 gap-4">

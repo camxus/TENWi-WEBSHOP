@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Twitter, Youtube, TikTok } from "./icons";
+import { Instagram, Youtube, TikTok } from "./icons";
 import { useContext } from "react";
 import { FooterContext } from "./context/FooterContext";
 
@@ -7,10 +7,8 @@ import styles from "../styles/footer.module.css";
 interface IFooter extends React.HTMLAttributes<any> {}
 
 const Footer = ({ className, style }: IFooter) => {
-  const [footerLeft, setFooterLeft, footerRight, setFooterRight] = useContext(
-    FooterContext
-  );
-  
+  const [footerLeft, , footerRight] = useContext(FooterContext);
+
   return (
     <div
       className={`footer ${className} bg-black p-6 text-white`}
@@ -27,11 +25,18 @@ const Footer = ({ className, style }: IFooter) => {
             <div className={styles.rightContent}>
               <ul>
                 {footerRight &&
-                  footerRight.map((post) => (
-                    <a href={`/post/${post.node.slug}`}>
-                      <li>{post.node.title}</li>
-                    </a>
-                  ))}
+                  footerRight.map(
+                    (post: {
+                      node: {
+                        slug: any;
+                        title: string;
+                      };
+                    }) => (
+                      <a href={`/post/${post.node.slug}`}>
+                        <li>{post.node.title}</li>
+                      </a>
+                    )
+                  )}
               </ul>
             </div>
           </div>
@@ -39,17 +44,24 @@ const Footer = ({ className, style }: IFooter) => {
             <div className={styles.leftContent}>
               <ul>
                 {footerLeft &&
-                  footerLeft.map((post) => (
-                    <a href={`/post/${post.node.slug}`}>
-                      <li>{post.node.title}</li>
-                    </a>
-                  ))}
+                  footerLeft.map(
+                    (post: {
+                      node: {
+                        slug: any;
+                        title: string;
+                      };
+                    }) => (
+                      <a href={`/post/${post.node.slug}`}>
+                        <li>{post.node.title}</li>
+                      </a>
+                    )
+                  )}
               </ul>
             </div>
-            <ul className="social-links flex align-center justify-center">
+            <ul className="social-social-links flex items-center justify-center gap-3">
               {/* <li><a href="https://www.facebook.com/codeytek" className="fa fa-facebook" target="_blank"><Facebook/></a></li> */}
               {/* <li className="ml-2 mt-1"><a href="https://twitter.com/tenwiarchive" target="_blank"><Twitter/></a></li> */}
-              <li className="ml-2 mt-1">
+              <li style={{ marginTop: 6 }}>
                 <a
                   href="https://www.youtube.com/channel/UCvqRwEJd3kUlFzb98HnxuKQ"
                   className="fa fa-youtube"
@@ -58,7 +70,7 @@ const Footer = ({ className, style }: IFooter) => {
                   <Youtube />
                 </a>
               </li>
-              <li className="ml-2">
+              <li className="">
                 <a
                   href="https://www.instagram.com/tenwiofficial/"
                   className="fa fa-instagram"
@@ -67,7 +79,7 @@ const Footer = ({ className, style }: IFooter) => {
                   <Instagram />
                 </a>
               </li>
-              <li className="ml-2 mt-[-2px]">
+              <li className="">
                 <a
                   href="https://www.tiktok.com/tenwi/"
                   className="fa fa-tiktok"

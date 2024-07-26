@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { v4 } from "uuid";
 import { getUpdatedItems } from "../../../functions";
-import { Cross, Loading } from "../../icons";
+import { Cross } from "../../icons";
 // import Link from 'next/link'
 import cartbar from "../../../../src/styles/cartbar.module.css";
 import Link from "next/link";
@@ -12,7 +12,7 @@ const CartItem = ({
   updateCartProcessing,
   handleRemoveProductClick,
   updateCart,
-}) => {
+}: any) => {
   const [productCount, setProductCount] = useState(item.qty);
 
   /*
@@ -23,7 +23,10 @@ const CartItem = ({
    *
    * @return {void}
    */
-  const handleQtyChange = (event, cartKey) => {
+  const handleQtyChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    cartKey: any
+  ) => {
     if (process.browser) {
       event.stopPropagation();
 
@@ -58,7 +61,7 @@ const CartItem = ({
       <th className={`${cartbar[`cart-el-close`]} cart-element cart-el-close`}>
         {/* Remove item */}
         <span
-          className="cart-close-icon cursor-pointer"
+          className="cart-close-icon flex justify-center cursor-pointer"
           onClick={(event) =>
             handleRemoveProductClick(event, item.cartKey, products)
           }
@@ -90,7 +93,7 @@ const CartItem = ({
           data-cart-key={item.cartKey}
           className={`cart-qty-input form-control ${
             updateCartProcessing ? "opacity-25 cursor-not-allowed" : ""
-          } `}
+          } w-8`}
           value={productCount}
           onChange={(event) => handleQtyChange(event, item.cartKey)}
         />

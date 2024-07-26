@@ -1,6 +1,6 @@
 import Link from "next/link";
 import CartIcon from "./cart/CartIcon";
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import Image from "next/image";
 import navbar from "../../src/styles/navbar.module.css";
 import { NavContext } from "./context/NavContext";
@@ -8,32 +8,36 @@ import { NavContext } from "./context/NavContext";
 const Nav = () => {
   const { categories, tags } = useContext(NavContext);
 
-  let navContainer = useRef<any>(null);
-  let navOverlay = useRef<any>(null);
-
-  var statement = false;
+  const [navOpen, setNavOpen] = useState(false);
+  const navContainer = useRef<HTMLDivElement>(null);
+  const navOverlay = useRef<HTMLDivElement>(null);
 
   const openNavMobile = () => {
+    setNavOpen((navOpen) => !navOpen);
+  };
+
+  useEffect(() => {
     if (navContainer.current && navOverlay.current) {
-      if (
-        navContainer.current.style.height !== "100vh" &&
-        statement === false
-      ) {
-        navContainer.current.style.height = "100vh";
+      if (navOpen) {
         navOverlay.current.style.opacity = "70%";
-        statement = true;
       } else {
-        navContainer.current.style.height = "0vh";
         navOverlay.current.style.opacity = "0%";
-        statement = false;
       }
     }
-  };
+  }, [navOpen]);
 
   return (
     <div>
-      <div ref={navContainer} className={navbar.nav_container}>
-        <div className={navbar.mobile_nav_btn_wrapper} onClick={openNavMobile}>
+      <div
+        ref={navContainer}
+        className={navbar.nav_container}
+        data-open={navOpen}
+      >
+        <div
+          className={navbar.mobile_nav_btn_wrapper}
+          onClick={openNavMobile}
+          data-open={navOpen}
+        >
           <div className={navbar.mobile_nav_btn} />
         </div>
         <div className={navbar.navbody}>
@@ -124,7 +128,6 @@ const Nav = () => {
       </div>
       <div
         onClick={openNavMobile}
-        ref={navOverlay}
         className={navbar.overlay}
       ></div>
     </div>
