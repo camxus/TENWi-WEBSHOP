@@ -21,29 +21,19 @@ export const FooterProvider = (props: any) => {
   const [footerRight, setFooterRight] = useState<any[]>([]);
 
   useEffect(() => {
-    async function getStaticProps() {
-      const {
-        data: {
-          posts: { edges: left },
-        },
-      } = await client.query({
+    client
+      .query({
         query: GET_POSTS_BY,
         variables: { categoryName: "footer: left" },
-      });
-      setFooterLeft(left || []);
+      })
+      .then(({ data: { posts: { edges } } }) => setFooterLeft(edges || []));
 
-      const {
-        data: {
-          posts: { edges: right },
-        },
-      } = await client.query({
+    client
+      .query({
         query: GET_POSTS_BY,
         variables: { categoryName: "footer: right" },
-      });
-
-      setFooterRight(right || []);
-    }
-    getStaticProps();
+      })
+      .then(({ data: { posts: { edges } } }) => setFooterRight(edges || []));
   }, []);
 
   return (
