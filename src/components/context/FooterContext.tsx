@@ -24,7 +24,7 @@ export const FooterProvider = (props: any) => {
     async function getStaticProps() {
       const {
         data: {
-          posts: { left },
+          posts: { edges: left },
         },
       } = await client.query({
         query: GET_POSTS_BY,
@@ -34,7 +34,7 @@ export const FooterProvider = (props: any) => {
 
       const {
         data: {
-          posts: { right },
+          posts: { edges: right },
         },
       } = await client.query({
         query: GET_POSTS_BY,
