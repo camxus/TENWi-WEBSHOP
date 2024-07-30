@@ -10,8 +10,6 @@ import Select, { StylesConfig } from "react-select";
 import styles from "../../styles/product.module.css";
 
 const AddToCart = ({ product, variationName, sizes }: any) => {
-  let selectedSize = null;
-
   const { refetch } = useContext(AppContext);
   const [showViewCart, setShowViewCart] = useState(false);
   const [requestError, setRequestError] = useState<string | null>(null);

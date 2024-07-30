@@ -15,11 +15,6 @@ const Footer = ({ className, style }: IFooter) => {
       style={style}
     >
       <div className="container mx-auto">
-        {/* <div className="footer-text flex-none md:flex items-center justify-between">
-				<p>© Codeytek Academy 2020</p>
-				<p className="text-gray">Learn the latest tech skills</p>
-				<span className="text-gray">Follow on social links to support the work</span>
-			</div> */}
         <div className={styles.footerContainer}>
           <div className={styles.rightContainer}>
             <div className={styles.rightContent}>

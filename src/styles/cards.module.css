@@ -4,7 +4,7 @@
   border-top: 0;
   position: relative;
   height: auto;
-  width: calc(100vw / 4);
+  width: calc(100vw / 2);
   overflow: hidden;
 }
 
@@ -26,12 +26,12 @@
 
 .card-main {
   display: block;
-  position: relative;
+  position: absolute;
   height: max-content;
-  /* bottom: 0; */
-  /* border-top: 1px solid black; */
+  width: 100%;
+  bottom: 0;
   padding: 0.5rem;
-  background-color: #fafafa;
+  background-color: transparent;
   transition: all 0.5s ease-in-out;
 }
 
@@ -62,5 +62,5 @@
 
 .imagewrapper {
   position: relative;
-  padding-top: 133.25%;
+  padding-top: 104%;
 }

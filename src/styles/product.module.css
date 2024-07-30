@@ -32,11 +32,13 @@
   grid-area: right;
   height: 100vh;
   width: 50vw;
-  overflow-y: auto;
   border-bottom: 1px solid black;
 }
 
 .image_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
   height: 100vh;
   overflow: scroll;
@@ -52,6 +54,10 @@
 .image {
   width: 100%;
   border-bottom: 1px solid black;
+}
+
+.image:last-of-type {
+  border-bottom: 0;
 }
 
 .card_text {
@@ -87,7 +93,8 @@
 
 .add_to_cart {
   z-index: 1;
-  position: relative;
+  position: sticky;
+  bottom: 0;
   width: 100%;
 }
 
@@ -96,7 +103,6 @@
   width: 100%;
   color: black;
   border-top: 1px solid black;
-  border-bottom: 1px solid black;
   min-height: 5vh;
   font: inherit;
   outline: inherit;
@@ -165,7 +171,6 @@
   }
 
   .TITLE {
-    width: 82vw;
     transform: translateX(-50%);
     left: 50%;
   }
@@ -185,8 +190,8 @@
   }
 
   .card_title {
-    font-size: var(--font-size-medium);
+    font-size: 3.3rem;
     letter-spacing: 0px;
-    line-height: 1rem;
+    line-height: 2.6rem;
   }
 }

@@ -154,6 +154,12 @@ const CartItemsContainer = () => {
     }
   };
 
+  const checkoutDisabled =
+    !chosenShippingMethod ||
+    updateCartProcessing ||
+    cartLoading ||
+    postShippingLoading;
+
   return (
     <div className="cart product-cart-container container py-20 px-10 min-w-full xl:px-20">
       {cart ? (
@@ -243,26 +249,18 @@ const CartItemsContainer = () => {
                 <Link
                   href="/checkout"
                   legacyBehavior
-                  aria-disabled={
-                    !chosenShippingMethod || updateCartProcessing || cartLoading
-                  }
+                  aria-disabled={checkoutDisabled}
                 >
                   <button
                     className="text-white px-5 py-3 rounded-sm w-auto xl:w-full"
                     style={{
-                      cursor: chosenShippingMethod ? "pointer" : "default",
-                      backgroundColor: chosenShippingMethod
-                        ? "black"
-                        : "lightgray",
+                      cursor: checkoutDisabled ? "default" : "pointer",
+                      backgroundColor: checkoutDisabled ? "lightgray" : "black",
                     }}
-                    disabled={
-                      !chosenShippingMethod ||
-                      updateCartProcessing ||
-                      cartLoading
-                    }
+                    disabled={checkoutDisabled}
                   >
                     <span className="cart-checkout-txt">
-                      Proceed to Checkout
+                      Proceed to Checkout{" "}
                     </span>
                     <i className="fas fa-long-arrow-alt-right" />
                   </button>

@@ -8,25 +8,22 @@ import {
 } from "../../src/queries/product-by-slug";
 import PRODUCTS_AND_CATEGORIES_QUERY from "../../src/queries/product-and-categories";
 import RELATED_ITEMS_QUERY from "../../src/queries/related-items.js";
-import { isEmpty } from "lodash";
 
 import { Controller, Scene } from "react-scrollmagic";
 import { Tween } from "react-gsap";
 import prodstyles from "../../src/styles/product.module.css";
 
-import { useRef } from "react";
+import { Key, useEffect, useRef } from "react";
 
 import Product from "../../src/components/Product";
+import { ArrowDown } from "../../src/components/icons";
 
 export default function product({
   product,
-  categories,
-  tags,
   variationName,
   sizes,
   relatedItems,
-}) {
-  // console.log(product)
+}: any) {
   const router = useRouter();
 
   // If the page is not yet generated, this will be displayed
@@ -36,23 +33,29 @@ export default function product({
     return <></>;
   }
 
-  // const products  = props.products.productsData
-  // console.log('products', products)
-  // const {images} = props
-  var images = [];
-  images = images.concat(product.image, product?.galleryImages?.nodes);
-  // console.log(images)
-  // console.log(images)
+  const images = [product.image, ...product?.galleryImages?.nodes];
 
-  let imageContainer = useRef(null);
-  let changedTitle = [];
-  let repeatAmount = 20;
-  for (let i = 0; i < repeatAmount; i++) {
-    changedTitle.push(product.name);
-  }
+  const imageContainer = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    {
+      if (images.length > 1) {
+        setTimeout(() => {
+          if (imageContainer.current) {
+            imageContainer.current.scrollTo({ top: 100, behavior: "smooth" });
+            setTimeout(() => {
+              if (imageContainer.current) {
+                imageContainer.current.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }, 1000);
+          }
+        }, 1000);
+      }
+    }
+  }, [imageContainer]);
 
   return (
-    <Layout categories={categories} tags={tags}>
+    <Layout>
       {product ? (
         <div>
           <div className={prodstyles.card}>
@@ -60,22 +63,32 @@ export default function product({
             <div className={prodstyles.card_body}>
               <div
                 id="element"
-                ref={(el) => {
-                  imageContainer = el;
-                }}
+                ref={imageContainer}
                 className={prodstyles.image_container}
               >
-                {!isEmpty(images)
+                {images.length
                   ? images.map((image) => (
                       <img
                         src={image ? image.sourceUrl : ""}
                         alt="Product Image"
                         className={prodstyles.image}
                         // objectFit="cover"
-                        layout="fill"
                       />
                     ))
                   : ""}
+                {images.length > 1 && (
+                  <div
+                    className="absolute flex flex-col items-center bottom-0 text-white"
+                    style={{
+                      animation: "fadeOut 1s ease-in-out 2s forwards",
+                    }}
+                  >
+                    <span className="rounded-full bg-black p-2 text-sm">
+                      Scroll here to see more
+                    </span>
+                    <ArrowDown className="rounded-full" fill="white" />
+                  </div>
+                )}
               </div>
               <div className={`${prodstyles["right-wrapper"]}`}>
                 <div className={prodstyles.rightContainer}>
@@ -90,7 +103,9 @@ export default function product({
                                 (prodstyles["left"], prodstyles.card_title)
                               }
                             >
-                              {changedTitle.map((name) => product.name + "  ")}
+                              {Array(20)
+                                .fill(product.name)
+                                .map((name) => name + "  ")}
                             </h4>
                           </Tween>
                         </Scene>
@@ -105,7 +120,9 @@ export default function product({
                             <h4
                               className={`${prodstyles["card_title"]} ${prodstyles["right"]}`}
                             >
-                              {changedTitle.map((name) => product.name + "  ")}
+                              {Array(20)
+                                .fill(product.name)
+                                .map((name) => name + "  ")}
                             </h4>
                           </Tween>
                           {/* </Timeline> */}
@@ -115,6 +132,7 @@ export default function product({
                     <div className={prodstyles.card_text}>
                       <h3 className={prodstyles.subtitle}>{product.name}</h3>
                       <span
+                        className="text-sm"
                         dangerouslySetInnerHTML={{
                           __html: product.description
                             ? product.description
@@ -149,7 +167,7 @@ export default function product({
                   <h1>RELATED ITEMS</h1>
                 </div>
                 <div className={`${prodstyles["related-items"]}`}>
-                  {relatedItems.map((item) => (
+                  {relatedItems.map((item: { id: string; node: any }) => (
                     <Product key={item.id} product={item.node} />
                   ))}
                 </div>
@@ -166,44 +184,31 @@ export default function product({
   );
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps(context: any) {
   const {
     params: { slug },
   } = context;
 
-  const { data } = await client.query({
+  const {
+    data: { product },
+  } = await client.query({
     query: PRODUCT_BY_SLUG_QUERY,
     variables: { slug },
   });
 
-  let id = data.product.productId;
-  const relatedItems = await client.query({
-    query: RELATED_ITEMS_QUERY,
-    variables: { input: id },
-  });
+  const variations = product.localAttributes?.nodes[0] ?? null;
 
-  // console.log("relatedItems", relatedItems.data.product.related.edges)
-
-  var variations = null;
-  data.product.localAttributes
-    ? (variations = data.product.localAttributes.nodes[0])
-    : "";
   const sizes = variations?.options;
   const variationName = variations?.name;
-  // console.log(data.product.localAttributes)
 
-  var categories = await client.query({
-    query: PRODUCTS_AND_CATEGORIES_QUERY,
+  const relatedItems = await client.query({
+    query: RELATED_ITEMS_QUERY,
+    variables: { input: product.productId },
   });
-  // console.log(categories.data.productCategories)
-  var tags = categories.data.productTags.nodes;
-  categories = categories.data.productCategories.nodes;
 
   return {
     props: {
-      product: data?.product || {},
-      categories: categories ? categories : [],
-      tags: tags ? tags : [],
+      product: product || {},
       sizes: sizes ? sizes : null,
       variationName: variationName ? variationName : null,
       relatedItems: relatedItems
@@ -215,18 +220,21 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const { data } = await client.query({
+  const {
+    data: {
+      products: { nodes: products },
+    },
+  } = await client.query({
     query: PRODUCT_SLUGS,
   });
 
-  const pathsData = [];
+  const pathsData: { params: { slug: any } }[] = [];
 
-  data?.products?.nodes &&
-    data?.products?.nodes.map((product) => {
-      if (!isEmpty(product?.slug)) {
-        pathsData.push({ params: { slug: product?.slug } });
-      }
-    });
+  products.map((product: { slug: any }) => {
+    if (product?.slug) {
+      pathsData.push({ params: { slug: product?.slug } });
+    }
+  });
 
   return {
     paths: pathsData,
