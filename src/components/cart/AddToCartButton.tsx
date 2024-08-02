@@ -129,6 +129,7 @@ const AddToCart = ({ product, variations, variationProducts }: any) => {
       textAlign: "center",
       padding: "2% 0",
       transition: "all 300ms ease-in-out",
+      textTransform: "uppercase",
       ...base,
       "&:hover": {
         backgroundColor: "black",
@@ -181,6 +182,7 @@ const AddToCart = ({ product, variations, variationProducts }: any) => {
       transform: "translateX(3%)",
       padding: "0",
       textAlign: "center",
+      textTransform: "uppercase",
     }),
     singleValue: (provided: any, state: any) => {
       // const opacity = state.isDisabled ? 0.5 : 1;
@@ -191,6 +193,7 @@ const AddToCart = ({ product, variations, variationProducts }: any) => {
         // opacity,
         transition,
         //   marginLeft: "36px",
+        textTransform: "uppercase",
         transform: "translateX(3%)",
         padding: "0",
         textAlign: "center",
