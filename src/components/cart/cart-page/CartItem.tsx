@@ -70,12 +70,14 @@ const CartItem = ({
         </span>
       </th>
       <td className={cartbar[`cart-element`]}>
-        <img
-          width="64"
-          src={item.image.sourceUrl}
-          srcSet={item.image.srcSet}
-          alt={item.image.title}
-        />
+        {item.image && (
+          <img
+            width="64"
+            src={item.image.sourceUrl}
+            srcSet={item.image.srcSet}
+            alt={item.image.title}
+          />
+        )}
       </td>
 
       <td className={cartbar[`cart-element`]}>
@@ -86,7 +88,6 @@ const CartItem = ({
 
       {/* Qty Input */}
       <td className="cart-element cart-qty">
-        {/* @TODO Need to update this with graphQL query */}
         <input
           type="number"
           min="1"
@@ -99,11 +100,13 @@ const CartItem = ({
         />
       </td>
       <td className={cartbar[`cart-element`]}>
-        {"string" !== typeof item.price ? item.price.toFixed(2) : item.price}
+        {item.price && "string" !== typeof item.price
+          ? item.price.toFixed(2)
+          : item.price}
       </td>
 
       <td className={cartbar[`cart-element`]}>
-        {"string" !== typeof item.totalPrice
+        {item.totalPrice && "string" !== typeof item.totalPrice
           ? item.totalPrice.toFixed(2)
           : item.totalPrice}
       </td>

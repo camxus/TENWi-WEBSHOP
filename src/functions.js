@@ -240,7 +240,7 @@ export const getFormattedCart = (cart, shippingPrice = 0) => {
     product.slug = givenProduct?.slug ?? "";
     product.name = givenProduct?.name ?? "";
     product.qty = givenProducts?.[i]?.quantity;
-    product.variations = givenProduct?.variations.nodes[0] ?? null;
+    product.variation = givenProducts?.[i]?.variation?.node ?? null;
     product.price = total / product?.qty;
     product.totalPrice = givenProducts?.[i]?.total ?? "";
     product.image = {

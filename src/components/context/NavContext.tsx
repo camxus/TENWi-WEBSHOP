@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import client from "../ApolloClient";
-import GET_COUNTRIES from "../../queries/get-countries";
+import { GET_PRODUCT_TAGS } from "../../queries/get-tags";
 import PRODUCTS_AND_CATEGORIES_QUERY from "../../queries/product-and-categories";
 
 interface INavContext {
@@ -28,28 +28,37 @@ export const NavProvider = (props: any) => {
   );
 
   useEffect(() => {
-    const getCategories = async () => {
-      const {
-        data: { productTags },
-      } = await client.query({
-        query: GET_COUNTRIES,
-      });
-      const {
-        data: { productCategories },
-      } = await client.query({
+    client
+      .query({
+        query: GET_PRODUCT_TAGS,
+      })
+      .then(
+        ({
+          data: {
+            productTags: { nodes: tags },
+          },
+        }) => {
+          setTags(
+            tags.filter(
+              (tag: { isRestricted: string }) => !JSON.parse(tag.isRestricted)
+            )
+          );
+        }
+      );
+
+    client
+      .query({
         query: PRODUCTS_AND_CATEGORIES_QUERY,
-      });
-
-      return {
-        tags: productTags?.nodes ?? [],
-        categories: productCategories.nodes ?? [],
-      };
-    };
-
-    getCategories().then(({ tags, categories }: any) => {
-      setCategories(categories);
-      setTags(tags);
-    });
+      })
+      .then(
+        ({
+          data: {
+            productCategories: { nodes: categories },
+          },
+        }) => {
+          setCategories(categories);
+        }
+      );
   }, []);
 
   useEffect(() => {

@@ -15,7 +15,7 @@ const Product = ({ product }: any) => {
   return (
     <div className={styles.card}>
       <Link href={`/product/${product.slug}`}>
-        <div className={styles.imagewrapper}>
+        <div className={'relative pt-[133.34%] md:pt-[99vh]'}>
           <Image
             src={product?.image?.sourceUrl ?? ""}
             alt="Product image"
@@ -31,7 +31,7 @@ const Product = ({ product }: any) => {
             </h1>
             <h1 className={styles.subtitle}>
               {currency}
-              {price || "-"}
+              {price || "SOLD OUT"}
             </h1>
           </div>
         </div>

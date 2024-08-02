@@ -6,16 +6,9 @@ import styles from "../src/styles/categories.module.css";
 import intro from "../src/styles/intro.module.css";
 import Image from "next/image";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
-import {
-  ReactElement,
-  JSXElementConstructor,
-  ReactNode,
-  ReactPortal,
-  PromiseLikeOfReactNode,
-} from "react";
 // import NewsletterSubmit from  "../src/components/NewsletterSubmit.js";
 
-function Categories({ categories, tags }: any) {
+function Categories({ categories }: any) {
   return (
     <Layout>
       <div className={intro[`intro`]}>
@@ -66,7 +59,6 @@ export default Categories;
 export async function getStaticProps() {
   const {
     data: {
-      productTags: { nodes: tags },
       productCategories: { nodes: categories },
     },
   } = await client.query({
@@ -76,7 +68,6 @@ export async function getStaticProps() {
   return {
     props: {
       categories: categories ? categories : [],
-      tags: tags ? tags : [],
     },
     revalidate: 1,
   };

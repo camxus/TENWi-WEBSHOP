@@ -29,16 +29,3 @@ export const GET_SHIPPING_METHODS = gql`
     }
   }
 `;
-// export const GET_SHIPPING_METHODS = gql`query GET_SHIPPING_METHODS {
-//   shippingMethods {
-//     edges {
-//       node {
-//         id
-//         title
-//         databaseId
-//       }
-//     }
-//   }
-// }
-
-// `;

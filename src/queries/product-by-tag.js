@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const PRODUCT_BY_CATEGORY_SLUG = gql`
-  query PRODUCT_BY_CATEGORY_SLUG($slug: ID!) {
-    productCategory(id: $slug, idType: SLUG) {
+export const PRODUCT_BY_TAG_SLUG = gql`
+  query PRODUCT_BY_TAG_SLUG($slug: ID!) {
+    productTag(id: $slug, idType: SLUG) {
       id
       name
       products(first: 50) {

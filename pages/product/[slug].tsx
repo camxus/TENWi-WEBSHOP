@@ -6,7 +6,6 @@ import {
   PRODUCT_BY_SLUG_QUERY,
   PRODUCT_SLUGS,
 } from "../../src/queries/product-by-slug";
-import PRODUCTS_AND_CATEGORIES_QUERY from "../../src/queries/product-and-categories";
 import RELATED_ITEMS_QUERY from "../../src/queries/related-items.js";
 
 import { Controller, Scene } from "react-scrollmagic";
@@ -18,12 +17,7 @@ import { Key, useEffect, useRef } from "react";
 import Product from "../../src/components/Product";
 import { ArrowDown } from "../../src/components/icons";
 
-export default function product({
-  product,
-  variationName,
-  sizes,
-  relatedItems,
-}: any) {
+export default function product({ product, variations, variationProducts, relatedItems }: any) {
   const router = useRouter();
 
   // If the page is not yet generated, this will be displayed
@@ -81,9 +75,13 @@ export default function product({
                     className="absolute flex flex-col items-center bottom-0 text-white"
                     style={{
                       animation: "fadeOut 1s ease-in-out 2s forwards",
+                      bottom: 0,
                     }}
                   >
-                    <span className="rounded-full bg-black p-2 text-sm">
+                    <span
+                      className="bg-black p-2 text-sm"
+                      style={{ borderRadius: "9999px", padding: "0.5rem" }}
+                    >
                       Scroll here to see more
                     </span>
                     <ArrowDown className="rounded-full" fill="white" />
@@ -149,10 +147,10 @@ export default function product({
                   </div>
                 </div>
                 <div className={prodstyles.add_to_cart}>
-                  {product.stockStatus === "IN_STOCK" && (
+                  {product.price && product.stockStatus === "IN_STOCK" && (
                     <AddToCartButton
-                      sizes={sizes}
-                      variationName={variationName}
+                      variations={variations}
+                      variationProducts={variationProducts}
                       product={product}
                     />
                   )}
@@ -196,11 +194,8 @@ export async function getStaticProps(context: any) {
     variables: { slug },
   });
 
-  const variations = product.localAttributes?.nodes[0] ?? null;
-
-  const sizes = variations?.options;
-  const variationName = variations?.name;
-
+  const variationProducts = product.variations?.nodes || [];
+  const variations = product.localAttributes?.nodes || [];
   const relatedItems = await client.query({
     query: RELATED_ITEMS_QUERY,
     variables: { input: product.productId },
@@ -209,8 +204,8 @@ export async function getStaticProps(context: any) {
   return {
     props: {
       product: product || {},
-      sizes: sizes ? sizes : null,
-      variationName: variationName ? variationName : null,
+      variations: variations || [],
+      variationProducts: variationProducts || [],
       relatedItems: relatedItems
         ? relatedItems.data.product.related.edges
         : null,

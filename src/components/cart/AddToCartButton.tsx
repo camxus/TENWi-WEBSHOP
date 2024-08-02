@@ -8,33 +8,75 @@ import ADD_TO_CART from "../../mutations/add-to-cart";
 import Select, { StylesConfig } from "react-select";
 
 import styles from "../../styles/product.module.css";
+import { isEmpty, reduceRight } from "lodash";
 
-const AddToCart = ({ product, variationName, sizes }: any) => {
+const AddToCart = ({ product, variations, variationProducts }: any) => {
   const { refetch } = useContext(AppContext);
   const [showViewCart, setShowViewCart] = useState(false);
   const [requestError, setRequestError] = useState<string | null>(null);
 
   //REACT SELECT
-  const [size, setSize] = useState("");
-  const [sizeOptions, setSizeOptions] = useState([]);
+  const [selectedVariationProduct, setSelectedVariationProduct] = useState<any>(
+    {}
+  );
+  const [selectedVariations, setSelectedVariations] = useState({});
   const [productQryInput, setProductQryInput] = useState({});
 
-  const sizeHandler = (event: { value: any }) => {
-    const value = event.value;
-    setSize(value);
-  };
+  function variationsHandler({ value, label }: any) {
+    setSelectedVariations((variations) => ({ ...variations, [value]: label }));
+  }
+
+  const isPreorder = !!product.productTags.nodes.find(
+    (tag: { slug: string }) => tag?.slug.toLowerCase() === "pre-order"
+  );
 
   useEffect(() => {
-    if (sizes) {
+    function matchesAttributes(
+      item: { attributes: { nodes: { name: any; value: any }[] } },
+      arr2: any[]
+    ) {
+      return arr2.every((attr2: { name: any; value: any }) =>
+        item.attributes.nodes.some(
+          (attr1: { name: any; value: any }) =>
+            attr1.name === attr2.name && attr1.value === attr2.value
+        )
+      );
+    }
+
+    // Function to find items in arr1 (variations.nodes) that match arr2
+    function findMatchingItems(arr1: any[], arr2: any[]) {
+      const [matchingItem] = arr1.filter((item: any) =>
+        matchesAttributes(item, arr2)
+      );
+      return matchingItem;
+    }
+
+    if (selectedVariations) {
+      setSelectedVariationProduct(
+        findMatchingItems(
+          variationProducts,
+          Object.entries(selectedVariations).map(([label, value]) => ({
+            name: label,
+            value: value,
+          }))
+        )
+      );
+    }
+  }, [selectedVariations]);
+
+  useEffect(() => {
+    if (!isEmpty(selectedVariationProduct)) {
+      console.log(selectedVariationProduct.attributes.nodes);
       setProductQryInput({
         clientMutationId: v4(), // Generate a unique id.
         productId: product.productId,
-        variation: [
-          {
-            attributeName: variationName,
-            attributeValue: size, //REACT-SELECT
-          },
-        ],
+        variationId: selectedVariationProduct.variationId,
+        variation: selectedVariationProduct.attributes.nodes.map(
+          (variation: { name: any; value: any }) => ({
+            attributeName: variation.name,
+            attributeValue: variation.value,
+          })
+        ),
       });
     } else {
       setProductQryInput({
@@ -42,12 +84,7 @@ const AddToCart = ({ product, variationName, sizes }: any) => {
         productId: product.productId,
       });
     }
-  }, [size]);
-
-  useEffect(() => {
-    if (sizes)
-      setSizeOptions(sizes.map((size: any) => ({ value: size, label: size })));
-  }, [sizes]);
+  }, [selectedVariationProduct]);
 
   // Add to Cart Mutation.
   const [
@@ -68,16 +105,9 @@ const AddToCart = ({ product, variationName, sizes }: any) => {
       setShowViewCart(true);
     },
     onError: (error) => {
-      console.log("input", productQryInput);
       if (error) {
         setRequestError(error.graphQLErrors?.[0]?.message ?? "");
       }
-      console.log(
-        "ERROR ",
-        error,
-        "WITH",
-        error?.graphQLErrors?.[0]?.message ?? ""
-      );
     },
   });
 
@@ -94,7 +124,7 @@ const AddToCart = ({ product, variationName, sizes }: any) => {
       borderLeft: "0",
       borderRight: "0",
       color: state.isSelected ? "black" : "black",
-      backgroundColor: state.isSelected ? "lightgray" : "white",
+      backgroundColor: "white",
       borderRadius: "0",
       textAlign: "center",
       padding: "2% 0",
@@ -123,7 +153,7 @@ const AddToCart = ({ product, variationName, sizes }: any) => {
       boxShadow: state.isFocused ? "none" : null,
       padding: "2% 0",
       transition: "all 300ms ease-in-out",
-      ...base,
+      // ...base,
       "&:hover": {
         // boxShadow: "0px 0px 3px 0px black",
         borderColor: "black",
@@ -153,12 +183,12 @@ const AddToCart = ({ product, variationName, sizes }: any) => {
       textAlign: "center",
     }),
     singleValue: (provided: any, state: any) => {
-      const opacity = state.isDisabled ? 0.5 : 1;
+      // const opacity = state.isDisabled ? 0.5 : 1;
       const transition = "all 300ms ease-in-out";
 
       return {
         ...provided,
-        opacity,
+        // opacity,
         transition,
         //   marginLeft: "36px",
         transform: "translateX(3%)",
@@ -174,19 +204,40 @@ const AddToCart = ({ product, variationName, sizes }: any) => {
     }),
   };
 
+  function renderAddCart() {
+    if (addToCartLoading) {
+      return "ADDING TO CART...";
+    }
+    if (requestError) {
+      return "SOLD OUT";
+    }
+    if (isPreorder) {
+      return "PRE-ORDER NOW";
+    }
+    return "ADD TO CART";
+  }
+
   return (
     <div>
       {/*	Check if its an external product then put its external buy link */}
-      {sizes ? (
-        <div className="sizes">
-          <Select
-            styles={customStyles}
-            options={sizeOptions}
-            onChange={sizeHandler}
-            className="browser-default custom-select"
-            isSearchable={false}
-          ></Select>
-        </div>
+      {variations.length ? (
+        <>
+          {variations.map((variation: { name: any; options: string[] }) => (
+            <div className="sizes">
+              <Select
+                styles={customStyles}
+                options={variation.options.map((option: any) => ({
+                  label: option,
+                  value: variation.name,
+                }))}
+                placeholder={variation.name}
+                onChange={variationsHandler}
+                className="browser-default custom-select"
+                isSearchable={false}
+              ></Select>
+            </div>
+          ))}
+        </>
       ) : (
         ""
       )}
@@ -201,7 +252,11 @@ const AddToCart = ({ product, variationName, sizes }: any) => {
         </Link>
       ) : !requestError ? (
         <button
-          disabled={addToCartLoading}
+          disabled={
+            addToCartLoading ||
+            (variations.length &&
+              Object.values(selectedVariations).length !== variations.length)
+          }
           onClick={handleAddToCartClick}
           className={
             `${styles["add-to-cart-button"]}`
@@ -212,19 +267,16 @@ const AddToCart = ({ product, variationName, sizes }: any) => {
             // )
           }
         >
-          {addToCartLoading
-            ? "ADDING TO CART..."
-            : requestError
-            ? "SOLD OUT"
-            : "ADD TO CART"}
+          {renderAddCart()}
         </button>
       ) : (
         <Link href="/shop">
           <button
             disabled={addToCartLoading}
             // onClick={handleAddToCartClick}
+            data-error={true}
             className={
-              `${styles["add-to-cart-button-red"]}`
+              `${styles["add-to-cart-button"]}`
               // cx(
               //     // 'px-3 py-1 rounded-sm mr-3 text-sm border-solid border border-current',
               //     {'hover:text-white': !addToCartLoading},

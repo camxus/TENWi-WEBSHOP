@@ -8,7 +8,11 @@ import {
 import GET_CART from "../../queries/get-cart";
 
 export type ICart = {
-  products: { productId: any }[];
+  products: {
+    variation: { variations: any; productId: any; };
+    variations: any;
+    productId: any;
+  }[];
   totalProductsPrice: string;
   total: number;
 };
@@ -56,11 +60,11 @@ export const AppProvider = (props: any) => {
       const { cart } = data;
       const {
         availableShippingMethods: [methods],
-        chosenShippingMethods,
+        chosenShippingMethods: [chosenShippingMethods],
       } = cart;
       const { rates } = methods;
       const chosenShippingMethod = rates.find(
-        (method: ShippingMethod) => method.id === chosenShippingMethods[0]
+        (method: ShippingMethod) => method.id === chosenShippingMethods
       );
 
       setCart(handleSetCart(cart, chosenShippingMethod));

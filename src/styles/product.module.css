@@ -98,22 +98,7 @@
   width: 100%;
 }
 
-.add_to_cart button {
-  background-color: white;
-  width: 100%;
-  color: black;
-  border-top: 1px solid black;
-  min-height: 5vh;
-  font: inherit;
-  outline: inherit;
-  padding: 20px;
-  transition: all 0.5s ease-in-out;
-}
 
-.add_to_cart button:hover {
-  color: white;
-  /* background-color: black; */
-}
 
 .TITLE {
   width: 100%;
@@ -125,12 +110,24 @@
 }
 
 .view-cart {
+  background-color: white;
+  width: 100%;
+  color: black;
+  border-top: 1px solid black;
+  min-height: 5vh;
+  font: inherit;
+  outline: inherit;
+  padding: 20px;
+  transition: all 0.5s ease-in-out;
+
   border-top: 0 !important;
   border-left: 0;
   border-right: 0;
 }
+
 .view-cart:hover {
   background-color: black;
+  color: white;
 }
 
 .related-items {
@@ -151,7 +148,24 @@
   font-size: var(--font-size-mid);
 }
 
-.add-to-cart-button-red {
+.add-to-cart-button {
+  background-color: black;
+  width: 100%;
+  color: white;
+  border-top: 1px solid black;
+  min-height: 5vh;
+  font: inherit;
+  outline: inherit;
+  padding: 20px;
+  transition: all 0.5s ease-in-out;
+}
+
+.add-to-cart-button:hover {
+  color: white;
+  /* background-color: black; */
+}
+
+.add-to-cart-button[data-error="true"] {
   background-color: red !important;
   color: white !important;
   animation: fadeIn 0.4s ease-in-out;
@@ -160,6 +174,11 @@
 .add-to-cart-button:hover {
   background-color: rgb(37, 175, 37);
   color: white;
+}
+
+.add-to-cart-button:disabled:hover {
+  background-color: rgb(220, 220, 220);
+  color: black;
 }
 
 @media only screen and (max-width: 768px) {

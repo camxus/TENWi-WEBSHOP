@@ -204,8 +204,8 @@ const CartItemsContainer = () => {
                 {cart.products.length &&
                   cart.products.map((item) => (
                     <CartItem
-                      key={item.productId}
-                      item={item}
+                      key={item.variation?.productId ?? item.productId}
+                      item={{ ...item, ...(item.variation ?? {}) }}
                       updateCartProcessing={updateCartProcessing}
                       products={cart.products}
                       handleRemoveProductClick={handleRemoveProductClick}
