@@ -16,8 +16,14 @@ import { Key, useEffect, useRef } from "react";
 
 import Product from "../../src/components/Product";
 import { ArrowDown } from "../../src/components/icons";
+import useJustifiedText from "../../src/hooks/useJustifyText";
 
-export default function product({ product, variations, variationProducts, relatedItems }: any) {
+export default function product({
+  product,
+  variations,
+  variationProducts,
+  relatedItems,
+}: any) {
   const router = useRouter();
 
   // If the page is not yet generated, this will be displayed
@@ -30,6 +36,9 @@ export default function product({ product, variations, variationProducts, relate
   const images = [product.image, ...product?.galleryImages?.nodes];
 
   const imageContainer = useRef<HTMLDivElement>(null);
+  const subtitleRef = useRef<HTMLHeadingElement>(null);
+
+  const { wordSpacing } = useJustifiedText(subtitleRef);
 
   useEffect(() => {
     {
@@ -128,7 +137,17 @@ export default function product({ product, variations, variationProducts, relate
                       </Controller>
                     </div>
                     <div className={prodstyles.card_text}>
-                      <h3 className={prodstyles.subtitle}>{product.name}</h3>
+                      <h3
+                        ref={subtitleRef}
+                        className={prodstyles.subtitle}
+                        style={{
+                          whiteSpace: "nowrap",
+                          wordSpacing: `${wordSpacing}px`,
+                          display: "inline-block",
+                        }}
+                      >
+                        {product.name}
+                      </h3>
                       <span
                         className="text-sm"
                         dangerouslySetInnerHTML={{

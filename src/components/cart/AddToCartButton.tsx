@@ -66,7 +66,6 @@ const AddToCart = ({ product, variations, variationProducts }: any) => {
 
   useEffect(() => {
     if (!isEmpty(selectedVariationProduct)) {
-      console.log(selectedVariationProduct.attributes.nodes);
       setProductQryInput({
         clientMutationId: v4(), // Generate a unique id.
         productId: product.productId,
