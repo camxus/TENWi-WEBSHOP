@@ -47,12 +47,18 @@ export default function product({
 
   useEffect(() => {
     if (!isEmpty(selectedVariation)) {
-      console.log(selectedVariation);
       setImages([selectedVariation.image]);
     } else {
       setImages([product.image, ...product?.galleryImages?.nodes]);
     }
   }, [selectedVariation]);
+
+  useEffect(() => {
+    if (!isEmpty(product)) {
+      setImages([product.image, ...product?.galleryImages?.nodes]);
+      setSelectedVariation({});
+    }
+  }, [product]);
 
   useEffect(() => {
     {
