@@ -60,7 +60,14 @@ export const PRODUCT_BY_SLUG_QUERY = gql`
                 name
               }
             }
-			price
+            price
+            image {
+              id
+              uri
+              title
+              srcSet
+              sourceUrl
+            }
           }
         }
       }

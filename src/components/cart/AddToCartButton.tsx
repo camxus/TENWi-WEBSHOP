@@ -9,21 +9,28 @@ import Select, { StylesConfig } from "react-select";
 
 import styles from "../../styles/product.module.css";
 import { isEmpty, reduceRight } from "lodash";
+import ColorPicker from "./ColorPicker";
 
-const AddToCart = ({ product, variations, variationProducts }: any) => {
+const AddToCart = ({
+  product,
+  options,
+  variations,
+  selectedVariation,
+  setSelectedVariation,
+}: any) => {
   const { refetch } = useContext(AppContext);
   const [showViewCart, setShowViewCart] = useState(false);
   const [requestError, setRequestError] = useState<string | null>(null);
 
   //REACT SELECT
-  const [selectedVariationProduct, setSelectedVariationProduct] = useState<any>(
-    {}
-  );
-  const [selectedVariations, setSelectedVariations] = useState({});
+  const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [productQryInput, setProductQryInput] = useState({});
 
-  function variationsHandler({ value, label }: any) {
-    setSelectedVariations((variations) => ({ ...variations, [value]: label }));
+  function optionsHandler({ value, label }: any) {
+    setSelectedOptions((variations: any) => ({
+      ...variations,
+      [value]: label,
+    }));
   }
 
   const isPreorder = !!product.productTags.nodes.find(
@@ -51,26 +58,26 @@ const AddToCart = ({ product, variations, variationProducts }: any) => {
       return matchingItem;
     }
 
-    if (selectedVariations) {
-      setSelectedVariationProduct(
+    if (!isEmpty(selectedOptions)) {
+      setSelectedVariation(
         findMatchingItems(
-          variationProducts,
-          Object.entries(selectedVariations).map(([label, value]) => ({
+          variations,
+          Object.entries(selectedOptions).map(([label, value]) => ({
             name: label,
             value: value,
           }))
         )
       );
     }
-  }, [selectedVariations]);
+  }, [selectedOptions]);
 
   useEffect(() => {
-    if (!isEmpty(selectedVariationProduct)) {
+    if (!isEmpty(selectedVariation)) {
       setProductQryInput({
         clientMutationId: v4(), // Generate a unique id.
         productId: product.productId,
-        variationId: selectedVariationProduct.variationId,
-        variation: selectedVariationProduct.attributes.nodes.map(
+        variationId: selectedVariation.variationId,
+        variation: selectedVariation.attributes.nodes.map(
           (variation: { name: any; value: any }) => ({
             attributeName: variation.name,
             attributeValue: variation.value,
@@ -83,7 +90,7 @@ const AddToCart = ({ product, variations, variationProducts }: any) => {
         productId: product.productId,
       });
     }
-  }, [selectedVariationProduct]);
+  }, [selectedVariation]);
 
   // Add to Cart Mutation.
   const [
@@ -222,23 +229,35 @@ const AddToCart = ({ product, variations, variationProducts }: any) => {
   return (
     <div>
       {/*	Check if its an external product then put its external buy link */}
-      {variations.length ? (
+      {options.length ? (
         <>
-          {variations.map((variation: { name: any; options: string[] }) => (
-            <div className="sizes">
-              <Select
-                styles={customStyles}
-                options={variation.options.map((option: any) => ({
-                  label: option,
-                  value: variation.name,
-                }))}
-                placeholder={variation.name}
-                onChange={variationsHandler}
-                className="browser-default custom-select"
-                isSearchable={false}
-              ></Select>
-            </div>
-          ))}
+          <ColorPicker
+            options={options}
+            selectedOptions={selectedOptions}
+            onClick={optionsHandler}
+          />
+          {options
+            .filter(
+              (option: { name: any; options: string[] }) =>
+                option.name !== "color"
+            )
+            .map((option: { name: any; options: string[] }) => {
+              return (
+                <div className="sizes">
+                  <Select
+                    styles={customStyles}
+                    options={option.options.map((value: any) => ({
+                      label: value,
+                      value: option.name,
+                    }))}
+                    placeholder={option.name}
+                    onChange={optionsHandler}
+                    className="browser-default custom-select"
+                    isSearchable={false}
+                  ></Select>
+                </div>
+              );
+            })}
         </>
       ) : (
         ""
@@ -256,18 +275,11 @@ const AddToCart = ({ product, variations, variationProducts }: any) => {
         <button
           disabled={
             addToCartLoading ||
-            (variations.length &&
-              Object.values(selectedVariations).length !== variations.length)
+            (options.length &&
+              Object.values(selectedOptions).length !== options.length)
           }
           onClick={handleAddToCartClick}
-          className={
-            `${styles["add-to-cart-button"]}`
-            // cx(
-            //     // 'px-3 py-1 rounded-sm mr-3 text-sm border-solid border border-current',
-            //     {'hover:text-white': !addToCartLoading},
-            //     {'opacity-50 cursor-not-allowed': addToCartLoading}
-            // )
-          }
+          className={`${styles["add-to-cart-button"]}`}
         >
           {renderAddCart()}
         </button>
@@ -275,16 +287,8 @@ const AddToCart = ({ product, variations, variationProducts }: any) => {
         <Link href="/shop">
           <button
             disabled={addToCartLoading}
-            // onClick={handleAddToCartClick}
             data-error={true}
-            className={
-              `${styles["add-to-cart-button"]}`
-              // cx(
-              //     // 'px-3 py-1 rounded-sm mr-3 text-sm border-solid border border-current',
-              //     {'hover:text-white': !addToCartLoading},
-              //     {'opacity-50 cursor-not-allowed': addToCartLoading}
-              // )
-            }
+            className={`${styles["add-to-cart-button"]}`}
           >
             ITEM IS ALREADY IN CART OR SOLD OUT RETURN TO SHOP
           </button>
@@ -293,13 +297,7 @@ const AddToCart = ({ product, variations, variationProducts }: any) => {
 
       {showViewCart ? (
         <Link href="/cart">
-          <button
-            // onClick={openNav()}
-            // ref={ref}
-            className={`${styles["view-cart"]}`}
-          >
-            VIEW CART
-          </button>
+          <button className={`${styles["view-cart"]}`}>VIEW CART</button>
         </Link>
       ) : (
         ""

@@ -12,16 +12,17 @@ import { Controller, Scene } from "react-scrollmagic";
 import { Tween } from "react-gsap";
 import prodstyles from "../../src/styles/product.module.css";
 
-import { Key, useEffect, useRef } from "react";
+import { Key, useEffect, useRef, useState } from "react";
 
 import Product from "../../src/components/Product";
 import { ArrowDown } from "../../src/components/icons";
 import useJustifiedText from "../../src/hooks/useJustifyText";
+import { isEmpty } from "lodash";
 
 export default function product({
   product,
+  options,
   variations,
-  variationProducts,
   relatedItems,
 }: any) {
   const router = useRouter();
@@ -33,12 +34,25 @@ export default function product({
     return <></>;
   }
 
-  const images = [product.image, ...product?.galleryImages?.nodes];
-
   const imageContainer = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLHeadingElement>(null);
 
+  const [images, setImages] = useState<any>([
+    product.image,
+    ...product?.galleryImages?.nodes,
+  ]);
+  const [selectedVariation, setSelectedVariation] = useState<any>({});
+
   const { wordSpacing } = useJustifiedText(subtitleRef);
+
+  useEffect(() => {
+    if (!isEmpty(selectedVariation)) {
+      console.log(selectedVariation);
+      setImages([selectedVariation.image]);
+    } else {
+      setImages([product.image, ...product?.galleryImages?.nodes]);
+    }
+  }, [selectedVariation]);
 
   useEffect(() => {
     {
@@ -70,14 +84,20 @@ export default function product({
                 className={prodstyles.image_container}
               >
                 {images.length
-                  ? images.map((image) => (
-                      <img
-                        src={image ? image.sourceUrl : ""}
-                        alt="Product Image"
-                        className={prodstyles.image}
-                        // objectFit="cover"
-                      />
-                    ))
+                  ? images.map(
+                      (image: {
+                        id: string;
+                        sourceUrl: string | undefined;
+                      }) => (
+                        <img
+                          key={image.id}
+                          src={image ? image.sourceUrl : ""}
+                          alt="Product Image"
+                          className={prodstyles.image}
+                          // objectFit="cover"
+                        />
+                      )
+                    )
                   : ""}
                 {images.length > 1 && (
                   <div
@@ -168,9 +188,11 @@ export default function product({
                 <div className={prodstyles.add_to_cart}>
                   {product.price && product.stockStatus === "IN_STOCK" && (
                     <AddToCartButton
+                      options={options}
                       variations={variations}
-                      variationProducts={variationProducts}
                       product={product}
+                      selectedVariation={selectedVariation}
+                      setSelectedVariation={setSelectedVariation}
                     />
                   )}
                 </div>
@@ -213,8 +235,8 @@ export async function getStaticProps(context: any) {
     variables: { slug },
   });
 
-  const variationProducts = product.variations?.nodes || [];
-  const variations = product.localAttributes?.nodes || [];
+  const variations = product.variations?.nodes || [];
+  const options = product.localAttributes?.nodes || [];
   const relatedItems = await client.query({
     query: RELATED_ITEMS_QUERY,
     variables: { input: product.productId },
@@ -223,8 +245,8 @@ export async function getStaticProps(context: any) {
   return {
     props: {
       product: product || {},
+      options: options || [],
       variations: variations || [],
-      variationProducts: variationProducts || [],
       relatedItems: relatedItems
         ? relatedItems.data.product.related.edges
         : null,
