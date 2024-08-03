@@ -1,13 +1,16 @@
 import Layout from "../../src/components/Layout";
 import client from "../../src/components/ApolloClient";
 import Product from "../../src/components/Product";
-import { PRODUCT_BY_TAG_SLUG } from "../../src/queries/product-by-tag";
+import {
+  PRODUCT_BY_TAG_SLUG,
+  PRODUCT_TAGS_SLUGS,
+} from "../../src/queries/product-by-tag";
 import { isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import styles from "../../src/styles/style.module.css";
 import { PRODUCT_CATEGORIES_SLUGS } from "../../src/queries/product-by-category";
 
-export default function CategorySingle({  products }: any) {
+export default function CategorySingle({ products }: any) {
   const router = useRouter();
 
   // If the page is not yet generated, this will be displayed
@@ -57,16 +60,20 @@ export async function getStaticProps(context: { params: { slug: any } }) {
 }
 
 export async function getStaticPaths() {
-  const { data } = await client.query({
-    query: PRODUCT_CATEGORIES_SLUGS,
+  const {
+    data: {
+      productTags: { nodes: tags },
+    },
+  } = await client.query({
+    query: PRODUCT_TAGS_SLUGS,
   });
 
   const pathsData: { params: { slug: any } }[] = [];
 
-  data?.productCategories?.nodes &&
-    data?.productCategories?.nodes.map((productCategory: { slug: any }) => {
-      if (!isEmpty(productCategory?.slug)) {
-        pathsData.push({ params: { slug: productCategory?.slug } });
+  tags.length &&
+    tags.map(({ slug }: any) => {
+      if (slug) {
+        pathsData.push({ params: { slug } });
       }
     });
 

@@ -80,16 +80,20 @@ export async function getStaticProps(context: { params: { slug: any } }) {
 }
 
 export async function getStaticPaths() {
-  const { data } = await client.query({
+  const {
+    data: {
+      productCategories: { nodes: categories },
+    },
+  } = await client.query({
     query: PRODUCT_CATEGORIES_SLUGS,
   });
 
   const pathsData: { params: { slug: any } }[] = [];
 
-  data?.productCategories?.nodes &&
-    data?.productCategories?.nodes.map((productCategory: { slug: any }) => {
-      if (!isEmpty(productCategory?.slug)) {
-        pathsData.push({ params: { slug: productCategory?.slug } });
+  categories.length &&
+    categories.map(({ slug }: any) => {
+      if (slug) {
+        pathsData.push({ params: { slug } });
       }
     });
 

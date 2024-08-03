@@ -56,9 +56,9 @@ export const PRODUCT_BY_TAG_SLUG = gql`
   }
 `;
 
-export const PRODUCT_CATEGORIES_SLUGS = gql`
-  query PRODUCT_CATEGORIES_SLUGS {
-    productCategories {
+export const PRODUCT_TAGS_SLUGS = gql`
+  query PRODUCT_TAGS_SLUGS {
+    productTags {
       nodes {
         id
         slug
