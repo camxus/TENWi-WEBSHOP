@@ -43,7 +43,7 @@ export default function product({
   ]);
   const [selectedVariation, setSelectedVariation] = useState<any>({});
 
-  const { wordSpacing } = useJustifiedText(subtitleRef);
+  useJustifiedText(subtitleRef);
 
   useEffect(() => {
     if (!isEmpty(selectedVariation)) {
@@ -163,15 +163,7 @@ export default function product({
                       </Controller>
                     </div>
                     <div className={prodstyles.card_text}>
-                      <h3
-                        ref={subtitleRef}
-                        className={prodstyles.subtitle}
-                        style={{
-                          whiteSpace: "nowrap",
-                          wordSpacing: `${wordSpacing}px`,
-                          display: "inline-block",
-                        }}
-                      >
+                      <h3 ref={subtitleRef} className={prodstyles.subtitle}>
                         {product.name}
                       </h3>
                       <span
