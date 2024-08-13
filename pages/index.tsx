@@ -4,6 +4,8 @@ import { GET_POST_CATEGORIES } from "../src/queries/get-posts";
 import Link from "next/link";
 import Image from "next/image";
 import { UrlObject } from "url";
+import Dialog from "../src/components/Dialog";
+import { useState } from "react";
 
 interface Notification {
   link: string | UrlObject;
@@ -13,7 +15,9 @@ interface Notification {
   message: string;
 }
 
-export default function Categories({ notifications }: any) {
+export default function Home({ notifications }: any) {
+  const [open, setOpen] = useState(false);
+
   return (
     <LayoutStart>
       <div>
@@ -81,7 +85,25 @@ export default function Categories({ notifications }: any) {
                   </ul>
                 ))}
             </div>
-            {/* <NewsletterSubmit></NewsletterSubmit> */}
+            <div>
+              <dialog open={open}>
+                <Dialog setOpen={setOpen} />
+              </dialog>
+
+              <button
+                onClick={() => setOpen(!open)}
+                className="bg-black text-white p-2 rounded-full text-sm outline-black hover:bg-white hover:text-black"
+                style={{ transition: "all 0.3s ease-in-out" }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.backgroundColor = "white")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.backgroundColor = "black")
+                }
+              >
+                Sign up for Newsletter
+              </button>
+            </div>
           </main>
         </div>
       </div>

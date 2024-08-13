@@ -19,6 +19,7 @@
     "axios": "^0.24.0",
     "caniuse-lite": "^1.0.30001587",
     "classnames": "^2.3.1",
+    "formik": "^2.4.6",
     "framer-motion": "^5.5.5",
     "fs": "^0.0.1-security",
     "graphql": "^15.4.0",
@@ -36,13 +37,15 @@
     "react-gsap": "^3.2.1",
     "react-scrollmagic": "^2.3.0",
     "react-select": "^5.2.1",
+    "react-spinners": "^0.14.1",
     "sass": "^1.29.0",
     "sharp": "^0.30.7",
     "stripe": "^8.195.0",
     "swiper": "^7.4.1",
     "swiper-babel": "^4.5.1",
     "uuid": "^9.0.1",
-    "validator": "^13.1.17"
+    "validator": "^13.1.17",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",

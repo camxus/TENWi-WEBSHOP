@@ -22,180 +22,214 @@ body {
 		align-content: center;
    }
 } */
-.before, .after {
-	will-change: opacity;
-	display: block;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	top: 0;
-	overflow: hidden;
+.before,
+.after {
+  will-change: opacity;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  overflow: hidden;
 }
 .before {
-	z-index: -1;
-	opacity: 0;
-	/* background: #151f33 url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/345377/mojave-night.jpg') no-repeat center center / cover; */
-	/* background: #151f33 url('../../public/assets/gif/IMG_3319.gif') no-repeat center center / cover; */
-	animation: 1s fadeIn ease-in-out forwards
+  z-index: -1;
+  opacity: 0;
+  /* background: #151f33 url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/345377/mojave-night.jpg') no-repeat center center / cover; */
+  /* background: #151f33 url('../../public/assets/gif/IMG_3319.gif') no-repeat center center / cover; */
+  animation: 1s fadeIn ease-in-out forwards;
 }
 .after {
-	z-index: -2;
-	background: #000000 
-	/* url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/345377/mojave-day.jpg') no-repeat center center / cover; */
+  z-index: -2;
+  background: #000000;
+  /* url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/345377/mojave-day.jpg') no-repeat center center / cover; */
 }
 main {
-	opacity: 0;
-	will-change: opacity;
-	width: 100%;
-	max-width: 400px;
-	padding: 8px;
-	animation: 1s fadeIn  ease-in-out forwards;
-	position: absolute;
-	top: 0;
-	height: 100vh;
-	left: 50%;
-transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  will-change: opacity;
+  width: 100%;
+  padding: 8px;
+  animation: 1s fadeIn ease-in-out forwards;
+  position: absolute;
+  top: 0;
+  height: 100vh;
 }
-main .before, main .after {
-	position: fixed;
+main .before,
+main .after {
+  position: fixed;
 }
 
 .notification-wrapper {
-	--mask-height: 32px;
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	animation: 1s y-axis 1s ease-in-out forwards;
-	position: relative;
-	height: max-content;
-	max-height: 70vh;
-	overflow-y: scroll;
-	padding-bottom: var(--mask-height);
-	--mask-image-content: linear-gradient(
-		to bottom,
-		transparent,
-		black var(--mask-height),
-		black calc(100% - var(--mask-height)),
-		transparent
-	  );
-	mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
-	mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
-	mask-position: 0 0, 100% 0;
-	mask-repeat: no-repeat, no-repeat;
+  --mask-height: 32px;
+  --mask-image-content: linear-gradient(
+    to bottom,
+    transparent,
+    black var(--mask-height),
+    black calc(100% - var(--mask-height)),
+    transparent
+  );
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: max-content;
+  overflow-y: scroll;
+  padding-bottom: var(--mask-height);
+  mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
+  mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
+  mask-position: 0 0, 100% 0;
+  mask-repeat: no-repeat, no-repeat;
+  animation: 1s y-axis 1s ease-in-out forwards;
 }
 
 .notification-button {
-	opacity: 0;
-	will-change: opacity, transform;
-	min-width: 300px;
-	perspective: 800px;
-	margin-bottom: 16px;
-	animation: 1s fadeIn 1s ease-in-out forwards
+  opacity: 0;
+  will-change: opacity, transform;
+  min-width: 300px;
+  perspective: 800px;
+  margin-bottom: 16px;
+  animation: 1s fadeIn 1s ease-in-out forwards;
 }
 .notification-button li {
-	position: relative;
-	padding: 8px;
+  position: relative;
+  padding: 8px;
 }
 .notification-button li:not(:first-child) {
-	position: absolute;
-	width: 100%;
-	top: 0;
-	left: 0;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
-.notification-button li:not(:first-child) .notification .before, .notification-button li:not(:first-child) .notification .after {
-	filter: blur(16px);
-	height: inherit;
+.notification-button li:not(:first-child) .notification .before,
+.notification-button li:not(:first-child) .notification .after {
+  filter: blur(16px);
+  height: inherit;
 }
 .notification-button li:nth-child(1) {
-	z-index: 3;
+  z-index: 3;
 }
 .notification-button li:nth-child(1) .notification {
-	background-color: rgba(255, 255, 255, 0.7);
-	transition: all 0.3s ease-in-out;
+  background-color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease-in-out;
 }
 .notification-button li:nth-child(1) .notification:hover {
-	background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
 }
-.notification-button li:nth-child(1) .notification .before, .notification-button li:nth-child(1) .notification .after {
-	filter: saturate(130%) blur(16px);
-	height: inherit;
+.notification-button li:nth-child(1) .notification .before,
+.notification-button li:nth-child(1) .notification .after {
+  filter: saturate(130%) blur(16px);
+  height: inherit;
 }
 .notification-button li:nth-child(2) {
-	transform: translateY(16px) translateZ(-64px);
-	z-index: 2;
+  transform: translateY(16px) translateZ(-64px);
+  z-index: 2;
 }
 .notification-button li:nth-child(2) .notification {
-	background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.6);
 }
 .notification-button li:nth-child(3) {
-	transform: translateY(32px) translateZ(-128px);
-	z-index: 1;
+  transform: translateY(32px) translateZ(-128px);
+  z-index: 1;
 }
 .notification-button li:nth-child(3) .notification {
-	background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 .container {
-	clip-path: inset(0 0 0 0 round 16px 16px 16px 16px);
+  clip-path: inset(0 0 0 0 round 16px 16px 16px 16px);
 }
 .notification {
-	position: relative;
-	overflow: hidden;
-	height: 116px;
-	padding: 16px;
-	border-radius: 16px;
-	background-color: rgba(255, 255, 255, 0.9);
-	color: black;
+  position: relative;
+  overflow: hidden;
+  height: 116px;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: black;
 }
-.notification header, .notification .more {
-	opacity: 0.75;
+.notification header,
+.notification .more {
+  opacity: 0.75;
 }
 .notification header {
-	display: flex;
-	justify-content: space-between;
-	padding-bottom: 8px;
-	font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  font-size: 12px;
 }
 .notification header h2 {
-	text-transform: uppercase;
+  text-transform: uppercase;
 }
 .notification header .timestamp {
-	text-transform: lowercase;
+  text-transform: lowercase;
 }
 .notification .content span {
-	display: block;
-	line-height: 1.4;
+  display: block;
+  line-height: 1.4;
 }
 .notification .content .message {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.notification .content .sender, .notification .content .event {
-	font-weight: 600;
+.notification .content .sender,
+.notification .content .event {
+  font-weight: 600;
 }
 .notification .content .more {
-	margin-top: 4px;
-	font-size: 12px;
+  margin-top: 4px;
+  font-size: 12px;
 }
-.notification .before, .notification .after {
-	left: calc(50% - 50vw);
-	height: inherit;
+.notification .before,
+.notification .after {
+  left: calc(50% - 50vw);
+  height: inherit;
 }
 
 @keyframes fadeIn {
-	0%{opacity: 0;}
-	100%{opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeOut {
-	0%{opacity: 1}
-	100%{opacity: 0}
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes y-axis {
-	0%{transform: translate(-50%, -40%);}
-	100%{transform: translate(-50%, -50%);}
+  0% {
+    transform: translateY(-10%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.1s ease-in-out;
 }
