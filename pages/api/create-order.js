@@ -3,8 +3,8 @@ import {isEmpty} from 'lodash'
 
 const api = new WooCommerceRestApi({
     url: process.env.NEXT_OPEN_WORDPRESS_URL,
-    consumerKey: process.env.NEXT_APP_WC_CONSUMER_KEY,
-    consumerSecret: process.env.NEXT_APP_WC_CONSUMER_SECRET,
+    consumerKey: process.env.NEXT_PUBLIC_WC_CONSUMER_KEY,
+    consumerSecret: process.env.NEXT_PUBLIC_WC_CONSUMER_SECRET,
     version: "wc/v3"
 });
 

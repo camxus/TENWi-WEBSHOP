@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps, router }: any) {
   };
   return (
     <PayPalScriptProvider
-      options={{ clientId: process.env.NEXT_PAYPAL_CLIENT ?? "test", components: "buttons", currency: "EUR" }}
+      options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT ?? "test", components: "buttons", currency: "EUR" }}
     >
       <AnimatePresence exitBeforeEnter>
         <motion.div
