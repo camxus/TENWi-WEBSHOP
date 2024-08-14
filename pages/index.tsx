@@ -18,6 +18,8 @@ interface Notification {
 export default function Home({ notifications }: any) {
   const [open, setOpen] = useState(false);
 
+  console.log(process.env)
+
   return (
     <LayoutStart>
       <div>
