@@ -8,7 +8,7 @@ const getAuthHeader = (req: {
   body?: any;
   headers?: any;
 }) => ({
-  Authorization: req.headers.authorization,
+  Authorization: process.env.NEXT_APP_MAILCHIMP_TOKEN,
 });
 
 const fetchListMembers = async (

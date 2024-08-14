@@ -63,7 +63,6 @@ function Dialog({ setOpen }: IDialog) {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: process.env.NEXT_APP_MAILCHIMP_TOKEN as string,
           },
         }
       );
