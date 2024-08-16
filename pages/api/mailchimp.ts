@@ -1,7 +1,7 @@
 import axios, { AxiosRequestHeaders } from "axios";
 
-const MAILCHIMP_API_BASE_URL = "https://us18.api.mailchimp.com/3.0";
-const LIST_ID = "2d31c29b68";
+const MAILCHIMP_API_BASE_URL = process.env.NEXT_APP_MAILCHIMP_API_BASE_URL;
+const LIST_ID = process.env.NEXT_APP_MAILCHIMP_LIST_ID;
 
 const getAuthHeader = (req: {
   method?: string;
