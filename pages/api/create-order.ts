@@ -45,11 +45,11 @@ export default async function handler(req: { body: any }, res: Response) {
 
   try {
     const { data } = await axios.post(
-      `https://wordpress.tenwi.eu/wp-json/wc/v3/orders`,
+      `${process.env.NEXT_PUBLIC_WORDPRESS_URL}wp-json/wc/v3/orders`,
       req.body,
       {
         params: oauth.authorize({
-          url: "https://wordpress.tenwi.eu/wp-json/wc/v3/orders",
+          url: `${process.env.NEXT_PUBLIC_WORDPRESS_URL}wp-json/wc/v3/orders`,
           method: "POST",
         }),
         headers: {
