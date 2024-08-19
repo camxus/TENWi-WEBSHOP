@@ -132,6 +132,11 @@ export const handlePaypalCheckout = async (
     setRequestError,
     ""
   );
+
+  if (createCustomerOrder?.error) {
+    throw createCustomerOrder?.error
+  } 
+
   const cartCleared = await clearTheCart(
     clearCartMutation,
     createCustomerOrder?.error

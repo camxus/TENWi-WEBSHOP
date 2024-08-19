@@ -42,18 +42,22 @@ function Paypal({
     data,
     actions
   ) => {
-    const wooresult = await handlePaypalCheckout(
-      input,
-      products,
-      setRequestError,
-      clearCartMutation,
-      setIsStripeOrderProcessing,
-      setCreatedOrderData
-    );
-    if (actions.order) {
-      const order = await actions.order.capture();
-      console.log("done", order);
-      window.location.replace(`/thank-you?order_id=${wooresult?.orderId}`);
+    try {
+      const wooresult = await handlePaypalCheckout(
+        input,
+        products,
+        setRequestError,
+        clearCartMutation,
+        setIsStripeOrderProcessing,
+        setCreatedOrderData
+      );
+      if (actions.order) {
+        const order = await actions.order.capture();
+        console.log("done", order);
+        window.location.replace(`/thank-you?order_id=${wooresult?.orderId}`);
+      }
+    } catch(e) {
+      alert("Create order failed!")
     }
   };
 
