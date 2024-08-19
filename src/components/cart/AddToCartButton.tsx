@@ -217,9 +217,6 @@ const AddToCart = ({
     if (addToCartLoading) {
       return "ADDING TO CART...";
     }
-    if (requestError) {
-      return "SOLD OUT";
-    }
     if (isPreorder) {
       return "PRE-ORDER NOW";
     }
@@ -271,6 +268,10 @@ const AddToCart = ({
             BUY NOW
           </a>
         </Link>
+      ) : showViewCart ? (
+        <Link href="/cart">
+          <button className={`${styles["view-cart"]}`}>VIEW CART</button>
+        </Link>
       ) : !requestError ? (
         <button
           disabled={
@@ -293,14 +294,6 @@ const AddToCart = ({
             ITEM IS ALREADY IN CART OR SOLD OUT RETURN TO SHOP
           </button>
         </Link>
-      )}
-
-      {showViewCart ? (
-        <Link href="/cart">
-          <button className={`${styles["view-cart"]}`}>VIEW CART</button>
-        </Link>
-      ) : (
-        ""
       )}
     </div>
   );

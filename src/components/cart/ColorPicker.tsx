@@ -10,7 +10,7 @@ function ColorPicker({ options, selectedOptions, onClick }: any) {
               option.name === "color"
           )
           .map((option: { name: any; options: any[] }) => (
-            <div key={option.name} className="flex justify-end p-2 gap-1">
+            <div key={option.name} className="flex justify-end p-2 px-4 gap-1">
               {option.options.map((value: any) => (
                 <div
                   key={value}

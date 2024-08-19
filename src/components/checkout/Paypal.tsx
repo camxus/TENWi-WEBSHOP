@@ -31,7 +31,7 @@ function Paypal({
           description: "TENWi",
           amount: {
             currency_code: "EUR",
-            value: cart.total.replace(",", ".").slice(0, -1),
+            value: "1" ?? cart.total.replace(",", ".").slice(0, -1),
           },
         },
       ],
@@ -51,13 +51,15 @@ function Paypal({
         setIsStripeOrderProcessing,
         setCreatedOrderData
       );
+      console.log("here4")
       if (actions.order) {
         const order = await actions.order.capture();
         console.log("done", order);
         window.location.replace(`/thank-you?order_id=${wooresult?.orderId}`);
       }
-    } catch(e) {
-      alert("Create order failed!")
+    } catch(e: any) {
+      console.error(e)
+      alert("Create order failed: " + e.message)
     }
   };
 

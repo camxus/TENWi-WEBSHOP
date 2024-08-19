@@ -348,6 +348,7 @@ const CheckoutForm = ({ countriesData }: any) => {
                     cart={cart}
                     input={input}
                     products={cart?.products}
+                    requestError={requestError}
                     setRequestError={setRequestError}
                     clearCartMutation={clearCartMutation}
                     setIsStripeOrderProcessing={setIsStripeOrderProcessing}

@@ -133,25 +133,24 @@ export const handlePaypalCheckout = async (
     ""
   );
 
+  console.log("here1");
+
   if (createCustomerOrder?.error) {
-    throw createCustomerOrder?.error
-  } 
-
-  const cartCleared = await clearTheCart(
-    clearCartMutation,
-    createCustomerOrder?.error
-  );
-  setIsStripeOrderProcessing(false);
-
-  if (isEmpty(createCustomerOrder?.orderId) || cartCleared?.error) {
-    setRequestError("Clear cart failed");
-    return null;
+    setRequestError(createCustomerOrder?.error);
+    throw new Error(createCustomerOrder?.error);
   }
 
-  // On success show stripe form.
+  try {
+    await clearTheCart(clearCartMutation, createCustomerOrder?.error);
+    setIsStripeOrderProcessing(false);
+  } catch (e) {
+    setRequestError("Clear cart failed");
+    throw new Error(e);
+  }
 
   // await createCheckoutSessionAndRedirect( products, input, createCustomerOrder?.orderId );
   setCreatedOrderData(createCustomerOrder);
+
   console.log(createCustomerOrder);
   return createCustomerOrder;
 };
