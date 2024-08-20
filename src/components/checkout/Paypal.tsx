@@ -31,7 +31,7 @@ function Paypal({
           description: "TENWi",
           amount: {
             currency_code: "EUR",
-            value: "1" ?? cart.total.replace(",", ".").slice(0, -1),
+            value: cart.total.replace(",", ".").slice(0, -1),
           },
         },
       ],
