@@ -101,7 +101,6 @@ export const handleStripeCheckout = async (
   setIsStripeOrderProcessing(false);
 
   if (isEmpty(createCustomerOrder?.orderId) || cartCleared?.error) {
-    console.log("came in");
     setRequestError("Clear cart failed");
     return null;
   }
@@ -131,9 +130,7 @@ export const handlePaypalCheckout = async (
     orderData,
     setRequestError,
     ""
-  );
-
-  console.log("here1");
+  )
 
   if (createCustomerOrder?.error) {
     setRequestError(createCustomerOrder?.error);

@@ -114,7 +114,7 @@ export default function product({
                     }}
                   >
                     <span
-                      className="bg-black p-2 text-sm"
+                      className="bg-black p-2 text-xs"
                       style={{ borderRadius: "9999px", padding: "0.5rem" }}
                     >
                       Scroll here to see more

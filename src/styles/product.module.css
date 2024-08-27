@@ -101,6 +101,7 @@
 
 
 .TITLE {
+  display: block;
   width: 100%;
   height: max-content;
   position: relative;
@@ -185,11 +186,17 @@
   .card_body {
     display: block;
   }
+
+  .card_text {
+    padding: 0;
+  }
+
   .image_container {
     height: 73vh;
   }
 
   .TITLE {
+    display: none;
     transform: translateX(-50%);
     left: 50%;
   }

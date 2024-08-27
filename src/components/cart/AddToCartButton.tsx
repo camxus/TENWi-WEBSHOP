@@ -228,11 +228,21 @@ const AddToCart = ({
       {/*	Check if its an external product then put its external buy link */}
       {options.length ? (
         <>
-          <ColorPicker
-            options={options}
-            selectedOptions={selectedOptions}
-            onClick={optionsHandler}
-          />
+          <div className="flex md:hidden items-center justify-between bg-white border-black border-t-[1px]">
+            <h1 className="text-sm uppercase px-4 py-2">TITLE</h1>
+            <ColorPicker
+              options={options}
+              selectedOptions={selectedOptions}
+              onClick={optionsHandler}
+            />
+          </div>
+          <div className="hidden md:block w-full">
+            <ColorPicker
+              options={options}
+              selectedOptions={selectedOptions}
+              onClick={optionsHandler}
+            />
+          </div>
           {options
             .filter(
               (option: { name: any; options: string[] }) =>

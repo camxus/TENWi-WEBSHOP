@@ -1,6 +1,7 @@
 import {
   PayPalButtons,
   PayPalButtonsComponentProps,
+  SCRIPT_LOADING_STATE,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
 import React from "react";
@@ -18,7 +19,7 @@ function Paypal({
   setIsStripeOrderProcessing,
   setCreatedOrderData,
 }: any) {
-  const [{ isPending }] = usePayPalScriptReducer();
+  const [{ isPending }, dispatchPaypal] = usePayPalScriptReducer();
 
   const createOrder: PayPalButtonsComponentProps["createOrder"] = (
     data,
@@ -43,7 +44,7 @@ function Paypal({
     actions
   ) => {
     try {
-      const wooresult = await handlePaypalCheckout(
+      const { orderId } = await handlePaypalCheckout(
         input,
         products,
         setRequestError,
@@ -51,15 +52,20 @@ function Paypal({
         setIsStripeOrderProcessing,
         setCreatedOrderData
       );
-      console.log("here4")
       if (actions.order) {
-        const order = await actions.order.capture();
-        console.log("done", order);
-        window.location.replace(`/thank-you?order_id=${wooresult?.orderId}`);
+        await actions.order.capture();
+        window.location.replace(`/thank-you?order_id=${orderId}`);
       }
-    } catch(e: any) {
-      console.error(e)
-      alert("Create order failed: " + e.message)
+    } catch (e: any) {
+      console.error(e);
+      // dispatchPaypal({
+      //   type: "setLoadingStatus",
+      //   value: {
+      //     state: SCRIPT_LOADING_STATE.INITIAL,
+      //     message: "Please try again",
+      //   },
+      // });
+      alert("Create order failed: " + e.message);
     }
   };
 
