@@ -167,7 +167,7 @@ export default function product({
                         {product.name}
                       </h3>
                       <span
-                        className="text-sm"
+                        className="text-xs"
                         dangerouslySetInnerHTML={{
                           __html: product.description
                             ? product.description
