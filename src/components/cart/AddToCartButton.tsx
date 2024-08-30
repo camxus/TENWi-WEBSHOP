@@ -229,7 +229,7 @@ const AddToCart = ({
       {options.length ? (
         <>
           <div className="flex md:hidden items-center justify-between bg-white border-black border-t-[1px]">
-            <h1 className="text-sm uppercase px-4 py-2">{product.title}</h1>
+            <h1 className="text-sm uppercase px-4 py-2">{product.name}</h1>
             <ColorPicker
               options={options}
               selectedOptions={selectedOptions}
