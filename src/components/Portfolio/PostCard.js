@@ -16,11 +16,9 @@ export default function PostCard({ post, image, className }) {
               {post.title}
             </div>
             <div className={`${style["post-card-image-wrapper"]}`}>
-              <Image
-                src={image?.sourceUrl ? image?.sourceUrl : "/"}
-                layout="fill"
-                objectFit="cover"
-              />
+              {image?.sourceUrl && (
+                <Image src={image.sourceUrl} layout="fill" objectFit="cover" />
+              )}
             </div>
           </div>
         </Link>
