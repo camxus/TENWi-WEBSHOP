@@ -8,6 +8,8 @@ import NProgress from "nprogress";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { ApolloProvider } from "@apollo/client";
+import client from "../src/components/ApolloClient";
 
 NProgress.configure({ showSpinner: false });
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -24,20 +26,26 @@ function MyApp({ Component, pageProps, router }: any) {
     },
   };
   return (
-    <PayPalScriptProvider
-      options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT ?? "test", components: "buttons", currency: "EUR" }}
-    >
-      <AnimatePresence exitBeforeEnter>
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          variants={variants}
-        >
-          <Component {...pageProps} key={router.route} />
-        </motion.div>
-      </AnimatePresence>
-    </PayPalScriptProvider>
+    <ApolloProvider client={client}>
+      <PayPalScriptProvider
+        options={{
+          clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT ?? "test",
+          components: "buttons",
+          currency: "EUR",
+        }}
+      >
+        <AnimatePresence exitBeforeEnter>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={variants}
+          >
+            <Component {...pageProps} key={router.route} />
+          </motion.div>
+        </AnimatePresence>
+      </PayPalScriptProvider>
+    </ApolloProvider>
   );
 }
 

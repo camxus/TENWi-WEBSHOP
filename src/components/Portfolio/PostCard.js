@@ -3,9 +3,9 @@ import style from "../../styles/postcards.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function PostCard({ post, image, className }) {
+export default function PostCard({ post, image, ...props }) {
   return (
-    <div className={className}>
+    <div {...props}>
       {post.slug ? (
         <Link href={`/portfolio/post/${post.slug}`}>
           <div className={`${style["post-card-container"]}`}>
