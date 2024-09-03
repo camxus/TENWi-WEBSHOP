@@ -69,21 +69,25 @@ export async function getStaticProps(context) {
   });
 
   // Fetch category details
-  const { data: categoryData } = await client.query({
+  const {
+    data: {
+      categories: {
+        nodes: [category],
+      },
+    },
+  } = await client.query({
     query: GET_POST_CATEGORY_BY,
     variables: { slug },
   });
 
-  const categories = categoryData.categories.nodes;
-  const title = categories.length > 0 ? categories[0].name : "";
+  const { name: title } = category;
 
   // Fetch gallery images
   const { data: imageData } = await client.query({
     query: GALLERY_IMAGES,
-    variables: { search: slug },
+    variables: { search: title },
   });
 
-  const postsArray = [];
   const images = imageData.mediaItems.edges;
 
   // Helper function to extract caption text
@@ -100,24 +104,28 @@ export async function getStaticProps(context) {
     return caption.substring(start, end);
   };
 
-  postData.posts.edges.forEach((post) => {
+  const postsArray = (postData.posts.edges as any[]).reduce((prev, post) => {
     if (images.length === 0) {
-      postsArray.push({ post: post.node, image: [] });
+      return prev;
     } else {
-      images.forEach((image) => {
-        let caption = image.node.caption.split("\n")[0];
-        caption = extractCaptionText(caption);
+      const coverImage = images.find((image) => {
+        const caption = extractCaptionText(image.node.caption.split("\n")[0]);
 
         if (
           caption.toLowerCase().includes(post.node.title.toLowerCase()) &&
-          caption.toLowerCase().includes("cover") &&
-          caption.toLowerCase().includes(title.toLowerCase())
+          caption.toLowerCase().includes(title.toLowerCase()) &&
+          caption.toLowerCase().includes("cover")
         ) {
-          postsArray.push({ post: post.node, image: image.node });
+          return image
         }
       });
+
+      if (coverImage) {
+        return [...prev, { post: post.node, image: coverImage.node }];
+      }
+      return prev
     }
-  });
+  }, []);
 
   return {
     props: {

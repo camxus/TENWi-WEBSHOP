@@ -79,9 +79,9 @@ export default function Product({ images, post }) {
                     </div>
                   </div>
                 )
-                // setActiveCount(activeCount + 1)
+              // setActiveCount(activeCount + 1)
 
-                // : ""})
+              // : ""})
             )}
         </div>
       </div>
@@ -94,54 +94,61 @@ export async function getStaticProps(context) {
     params: { slug },
   } = context;
 
+  // Fetch posts by category
+  const { data: postData } = await client.query({
+    query: GET_POST_BY_SLUG,
+    variables: { slug },
+  });
+
+  // Fetch category details
+  const { data: imageData } = await client.query({
+    query: GALLERY_IMAGES,
+    variables: { search: postData.post.title },
+  });
+
   const { data } = await client.query({
     query: GET_POST_BY_SLUG,
     variables: { slug: slug },
   });
-  var imageslist = [];
 
-  const images = await client.query({
-    query: GALLERY_IMAGES,
-    variables: { search: data.post.title },
-  });
+  const images = imageData.mediaItems.edges;
 
-  images.data.mediaItems.edges.map((image) => {
-    let caption = "";
-    caption = image.node.caption.includes("\n")
-      ? image.node.caption.split("\n")[0]
-      : image.node.caption;
-    if (image.node.caption.includes("&")) {
-      caption = caption.substring(
-        caption.indexOf(">") + 1,
-        caption.lastIndexOf("&")
-      );
-    } else {
-      caption = caption.substring(
-        caption.indexOf(">") + 1,
-        caption.lastIndexOf("<")
-      );
+  // Helper function to extract caption text
+  const extractCaptionText = (caption: string) => {
+    if (!caption.includes(">")) return "";
+
+    const start = caption.indexOf(">") + 1;
+    let end = caption.lastIndexOf("<");
+
+    if (caption.includes("&")) {
+      end = caption.lastIndexOf("&");
     }
 
-    let active = null;
-    let gallery = null;
-    if (caption.toLowerCase().includes(data.post.title.toLowerCase())) {
-      if (caption.includes("active")) {
-        active = true;
-      } else {
-        active = false;
+    return caption.substring(start, end);
+  };
+
+  const imageslist = (images as any[]).reduce(
+    (prev, image) => {
+      const caption = extractCaptionText(image.node.caption.split("\n")[0]);
+
+      if (caption.toLowerCase().includes(data.post.title.toLowerCase())) {
+        return [
+          ...prev,
+          {
+            node: image.node,
+            active: caption.includes("active"),
+            gallery: caption.includes("slide"),
+          },
+        ];
       }
-      if (caption.includes("slide")) {
-        gallery = true;
-      } else {
-        gallery = false;
-      }
-      imageslist.push({ node: image.node, active, gallery });
-    }
-  });
+    },
+    []
+  );
+
   return {
     props: {
-      images: imageslist ? imageslist : [],
-      post: data.post ? data.post : [],
+      images: imageslist,
+      post: data.post ?? [],
     },
     revalidate: 1,
   };
