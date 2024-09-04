@@ -188,6 +188,7 @@ main .after {
 }
 .notification .before,
 .notification .after {
+  width: auto;
   left: calc(50% - 50vw);
   height: inherit;
 }

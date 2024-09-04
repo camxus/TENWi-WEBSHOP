@@ -47,6 +47,8 @@ export default function Home({ notifications }: any) {
                       <div className="container">
                         <Link href={item.link}>
                           <div className="notification">
+                            <span className="notification-before"></span>
+                            <span className="notification-after"></span>
                             <header>
                               <h2>{item.header}</h2>
                               <span className="timestamp">
@@ -66,12 +68,18 @@ export default function Home({ notifications }: any) {
                     </li>
                     <li className="two">
                       <div className="container">
-                        <div className="notification"></div>
+                        <div className="notification">
+                          <span className="before"></span>
+                          <span className="after"></span>
+                        </div>
                       </div>
                     </li>
                     <li className="three">
                       <div className="container">
-                        <div className="notification"></div>
+                        <div className="notification">
+                          <span className="before"></span>
+                          <span className="after"></span>
+                        </div>
                       </div>
                     </li>
                   </ul>
