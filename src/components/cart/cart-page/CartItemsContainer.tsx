@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/client";
 import UPDATE_CART from "../../../mutations/update-cart";
 import { POST_SHIPPING_METHOD } from "../../../mutations/shipping.js";
 import REMOVE_ITEMS_FROM_CART_MUTATION from "../../../mutations/clear-cart";
+import APPLY_COUPON_MUTATION from "../../../mutations/apply-coupon";
 import ShippingModes from "../../checkout/ShippingModes";
 
 import axios from "axios";
@@ -23,6 +24,7 @@ const CartItemsContainer = () => {
   const [displayedShippingMethods, setDisplayedShippingMethods] = useState<
     ShippingMethod[] | []
   >([]);
+  const [coupon, setCoupon] = useState<string>("");
 
   const [postShipping, { loading: postShippingLoading }] = useMutation(
     POST_SHIPPING_METHOD,
@@ -98,6 +100,30 @@ const CartItemsContainer = () => {
     },
   });
 
+  // Apply Coupon Mutation
+  const [
+    applyCoupon,
+    {
+      data: applyCouponRes,
+      loading: applyCouponLoading,
+      error: applyCouponError,
+    },
+  ] = useMutation(APPLY_COUPON_MUTATION, {
+    variables: {
+      input: {
+        code: coupon,
+      },
+    },
+    onCompleted: ({ removeItemsFromCart }) => {
+      if (refetch) {
+        refetch();
+      }
+    },
+    onError: (error) => {
+      return error.message;
+    },
+  });
+
   /*
    * Handle remove product click.
    *
@@ -158,7 +184,8 @@ const CartItemsContainer = () => {
     !chosenShippingMethod ||
     updateCartProcessing ||
     cartLoading ||
-    postShippingLoading;
+    postShippingLoading ||
+    applyCouponLoading;
 
   return (
     <div className="cart product-cart-container container py-20 px-10 min-w-full xl:px-20">
@@ -245,6 +272,38 @@ const CartItemsContainer = () => {
                     />
                   </tbody>
                 </table>
+
+                <div className="mb-2">
+                  <div className="flex gap-4">
+                    <input
+                      className="p-1"
+                      placeholder="Apply Coupon"
+                      onChange={(e) => setCoupon(e.target.value)}
+                    />
+                    <button
+                      className="text-white px-5 py-3 rounded-sm w-auto xl:w-full"
+                      style={{
+                        cursor: applyCouponLoading ? "default" : "pointer",
+                        backgroundColor: applyCouponLoading
+                          ? "lightgray"
+                          : "black",
+                      }}
+                      disabled={applyCouponLoading}
+                      onClick={() => applyCoupon()}
+                    >
+                      <span className="cart-checkout-txt">Apply Coupon</span>
+                      <i className="fas fa-long-arrow-alt-right" />
+                    </button>
+                  </div>
+                  {applyCouponError && (
+                    <div
+                      className="text-red-500 text-xs fade-in"
+                      dangerouslySetInnerHTML={{
+                        __html: applyCouponError.message,
+                      }}
+                    ></div>
+                  )}
+                </div>
 
                 <Link
                   href="/checkout"
