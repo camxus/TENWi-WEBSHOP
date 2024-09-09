@@ -114,7 +114,7 @@ const CartItemsContainer = () => {
         code: coupon,
       },
     },
-    onCompleted: ({ removeItemsFromCart }) => {
+    onCompleted: ({ applyCoupon }) => {
       if (refetch) {
         refetch();
       }
