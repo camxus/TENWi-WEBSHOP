@@ -27,7 +27,7 @@ export default function Gallery({ images }: any) {
               <div className={gallery.image}>
                 <Image
                   src={image.node.sourceUrl}
-                  layout="fill"
+                  fill
                   objectFit="cover"
                   alt={""}
                 ></Image>
