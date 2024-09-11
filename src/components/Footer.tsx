@@ -1,13 +1,15 @@
 import { Instagram, Youtube, TikTok } from "./icons";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FooterContext } from "./context/FooterContext";
 
 import styles from "../styles/footer.module.css";
+import Dialog from "./Dialog";
 
 interface IFooter extends React.HTMLAttributes<any> {}
 
 const Footer = ({ className, style }: IFooter) => {
   const [footerLeft, , footerRight] = useContext(FooterContext);
+  const [open, setOpen] = useState(false);
 
   return (
     <div
@@ -32,6 +34,11 @@ const Footer = ({ className, style }: IFooter) => {
                       </a>
                     )
                   )}
+                <div>
+                  <button onClick={() => setOpen(!open)} className="underline">
+                    Sign up for Newsletter
+                  </button>
+                </div>
               </ul>
             </div>
           </div>
@@ -87,6 +94,10 @@ const Footer = ({ className, style }: IFooter) => {
           </div>
         </div>
       </div>
+
+      <dialog open={open}>
+        <Dialog setOpen={setOpen} />
+      </dialog>
     </div>
   );
 };

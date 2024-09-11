@@ -24,6 +24,7 @@ import CheckboxField from "./form-elements/CheckboxField";
 import REMOVE_ITEMS_FROM_CART_MUTATION from "../../mutations/clear-cart";
 
 import Link from "next/link";
+import Dialog, { submitMailchimp } from "../Dialog";
 
 interface ICustromerInfo {
   firstName: string;
@@ -64,7 +65,7 @@ const defaultCustomerInfo = {
   errors: null,
 };
 
-const CheckoutForm = ({ countriesData }: any) => {
+const CheckoutForm = ({ countriesData, dialogState }: any) => {
   const { billingCountries, shippingCountries } = countriesData || {};
 
   const initialState = {
@@ -83,6 +84,7 @@ const CheckoutForm = ({ countriesData }: any) => {
   const {
     cartState: [cart],
   } = useContext(AppContext);
+  const [signedUp, setSignedUp] = useState(false);
   const [user] = useContext(UserContext);
   const [input, setInput] = useState<IInput & typeof user>(initialState);
   const [orderData, setOrderData] = useState<any>(null);
@@ -148,6 +150,11 @@ const CheckoutForm = ({ countriesData }: any) => {
   ) => {
     event.preventDefault();
 
+    await submitMailchimp({
+      email: input.billing.email,
+      firstName: input.billing.firstName,
+      lastName: input.billing.lastName,
+    });
     /**
      * Validate Billing and Shipping Details
      *
@@ -332,6 +339,15 @@ const CheckoutForm = ({ countriesData }: any) => {
               {/* { getFloatVal(cart.totalProductsPrice) < 200 && <ShippingModes methods={ShippingMethods} chosenShippingMethod={chosenShippingMethod} handleOnChange={handleOnShippingChange}/>}                             */}
               {/* <PaymentModes input={input} handleOnChange={handleOnChange}/> */}
 
+              <div className="flex gap-1">
+                <input
+                  className="checked:bg-black"
+                  type="checkbox"
+                  id="newsletter"
+                  onChange={() => setSignedUp(true)}
+                />
+                <label htmlFor="newsletter">Sign up for Newsletter</label>
+              </div>
               <div className="place-order-btn-wrap mt-5">
                 {!paypalLoaded && (
                   <button
@@ -367,7 +383,7 @@ const CheckoutForm = ({ countriesData }: any) => {
         <div className="container mx-auto my-32 px-4 xl:px-0">
           <h2 className="text-2xl mb-5">YOUR CART IS EMPTY</h2>
           <Link href="/shop" legacyBehavior>
-            <button className="bg-purple-600 text-white px-5 py-3 rounded-sm">
+            <button className="bg-black text-white px-5 py-3 rounded-sm">
               <span className="cart-checkout-txt">ADD NEW PRODUCTS</span>
               <i className="fas fa-long-arrow-alt-right" />
             </button>

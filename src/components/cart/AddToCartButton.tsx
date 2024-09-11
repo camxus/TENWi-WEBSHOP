@@ -150,6 +150,7 @@ const AddToCart = ({
     ) => ({
       // none of react-select's styles are passed to <Control />
       ...provided,
+      padding: "0.5rem",
       borderTop: "1px solid black",
       borderBottom: "0",
       borderLeft: "0",
@@ -158,7 +159,6 @@ const AddToCart = ({
       color: state.isSelected ? "white" : "black",
       backgroundColor: state.isSelected ? "black" : "white",
       boxShadow: state.isFocused ? "none" : null,
-      padding: "2% 0",
       transition: "all 300ms ease-in-out",
       // ...base,
       "&:hover": {
@@ -189,6 +189,7 @@ const AddToCart = ({
       padding: "0",
       textAlign: "center",
       textTransform: "uppercase",
+      fontSize: "small"
     }),
     singleValue: (provided: any, state: any) => {
       // const opacity = state.isDisabled ? 0.5 : 1;
@@ -228,19 +229,22 @@ const AddToCart = ({
       {/*	Check if its an external product then put its external buy link */}
       {options.length ? (
         <>
-          <div className="flex md:hidden items-center justify-between bg-white border-black border-t-[1px]">
-            <h1 className="text-sm uppercase px-4 py-2">{product.name}</h1>
+          <div className="flex items-center justify-between bg-white border-black border-t-[1px]">
+            <h1 className="text-sm md:hiddenuppercase px-4 py-2">
+              {product.name}
+            </h1>
             <ColorPicker
               options={options}
               selectedOptions={selectedOptions}
               onClick={optionsHandler}
             />
           </div>
-          <div className="hidden md:block w-full">
-            <ColorPicker
-              options={options}
-              selectedOptions={selectedOptions}
-              onClick={optionsHandler}
+          <div className="flex items-center justify-between bg-white border-black border-t-[1px]">
+            <h1
+              className="text-sm uppercase px-4 py-2"
+              dangerouslySetInnerHTML={{
+                __html: product.price ? product.price : "SOLD OUT",
+              }}
             />
           </div>
           {options

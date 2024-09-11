@@ -175,12 +175,6 @@ export default function product({
                         }}
                       />
                     </div>
-                    <span
-                      className={prodstyles.card_price}
-                      dangerouslySetInnerHTML={{
-                        __html: product.price ? product.price : "SOLD OUT",
-                      }}
-                    />
                   </div>
                 </div>
                 <div className={prodstyles.add_to_cart}>

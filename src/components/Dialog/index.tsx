@@ -27,45 +27,10 @@ function Dialog({ setOpen }: IDialog) {
     email: string().email("Invalid email").required("Email is required"),
   });
 
-  const requestBody = {
-    email_address: "",
-    email_type: "html",
-    status: "subscribed",
-    merge_fields: { FNAME: "", LNAME: "" },
-    interests: {},
-    language: "",
-    vip: false,
-    location: {
-      latitude: 0,
-      longitude: 0,
-    },
-    marketing_permissions: [],
-    ip_signup: "",
-    timestamp_signup: "",
-    ip_opt: "",
-    timestamp_opt: "",
-    tags: [""],
-  };
-
   const onSubmit = async (values: any) => {
     try {
       setStatus((status) => ({ ...status, loading: true }));
-      await axios.post(
-        `api/mailchimp`,
-        {
-          ...requestBody,
-          email_address: values["email"],
-          merge_fields: {
-            FNAME: values["firstName"],
-            LNAME: values["lastName"],
-          },
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await submitMailchimp(values);
       setStatus({ status: "success", loading: false });
     } catch (e: any) {
       setStatus({ status: "error", loading: false });
@@ -168,3 +133,50 @@ function Dialog({ setOpen }: IDialog) {
 }
 
 export default Dialog;
+
+export const submitMailchimp = async (values: {
+  email: string;
+  firstName: string;
+  lastName: string;
+}) => {
+  const requestBody = {
+    email_address: "",
+    email_type: "html",
+    status: "subscribed",
+    merge_fields: { FNAME: "", LNAME: "" },
+    interests: {},
+    language: "",
+    vip: false,
+    location: {
+      latitude: 0,
+      longitude: 0,
+    },
+    marketing_permissions: [],
+    ip_signup: "",
+    timestamp_signup: "",
+    ip_opt: "",
+    timestamp_opt: "",
+    tags: [""],
+  };
+
+  try {
+    await axios.post(
+      `api/mailchimp`,
+      {
+        ...requestBody,
+        email_address: values["email"],
+        merge_fields: {
+          FNAME: values["firstName"],
+          LNAME: values["lastName"],
+        },
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  } catch (e: any) {
+    throw e;
+  }
+};

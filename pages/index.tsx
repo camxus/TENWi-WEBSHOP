@@ -32,13 +32,6 @@ export default function Home({ notifications }: any) {
         </div>
         <div className="startpage-wrapper">
           <main id="main">
-            {/* <div className="before">
-        <Image
-        src={require("../public/assets/gif/IMG_3319.GIF")}
-        layout="fill"
-        objectFit="cover"
-        />
-      </div> */}
             <div className="notification-wrapper">
               {notifications &&
                 notifications.map((item: Notification) => (

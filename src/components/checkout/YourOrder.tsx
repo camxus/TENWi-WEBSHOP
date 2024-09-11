@@ -12,7 +12,7 @@ const YourOrder = () => {
       {cart ? (
         <>
           {/*Product Listing*/}
-          <table className="checkout-cart table table-hover w-full mb-10">
+          <table className="checkout-cart table table-hover w-full mb-2">
             <thead>
               <tr className="cart-head-container text-left">
                 <th className="cart-heading-el" scope="col" />
