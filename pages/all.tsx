@@ -2,7 +2,6 @@ import Layout from "../src/components/Layout";
 import Product from "../src/components/Product";
 import client from "../src/components/ApolloClient";
 import PRODUCTS_AND_CATEGORIES_QUERY from "../src/queries/product-and-categories";
-import GALLERY_IMAGES from "../src/queries/gallery-images";
 import styles from "../src/styles/style.module.css";
 
 interface IHome {

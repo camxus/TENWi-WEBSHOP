@@ -6,6 +6,7 @@ import styles from "../src/styles/categories.module.css";
 import intro from "../src/styles/intro.module.css";
 import Image from "next/image";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import VimeoEmbed from "../src/components/VimeoEmbed";
 // import NewsletterSubmit from  "../src/components/NewsletterSubmit.js";
 
 function Categories({ categories }: any) {
@@ -21,6 +22,16 @@ function Categories({ categories }: any) {
             ></Image>
           </div>
         </div>
+      </div>
+      <div
+        className="w-full overflow-hidden"
+        style={{ borderBottom: "1px black solid" }}
+      >
+        <VimeoEmbed
+          videoId={424448504}
+          className="w-full"
+          style={{ height: "70vh",transform: "scale(2.5)" }}
+        />
       </div>
       {categories
         ? categories.map(

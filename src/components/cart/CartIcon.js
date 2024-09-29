@@ -15,7 +15,7 @@ const CartIcon = () => {
     <Link className="block text-black ml-auto" href="/cart">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="hidden lg:block m-auto"
+        className="block m-auto"
         fill="none"
         viewBox="0 0 24 24"
         width="18"
@@ -29,7 +29,7 @@ const CartIcon = () => {
           d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
         />
       </svg>
-      Bag
+      <span className="text-xs">Cart</span>
       {productsCount ? <span className="ml-1">({productsCount})</span> : ""}
       {/*{ totalPrice ? <span>{ totalPrice }</span> : '' }*/}
     </Link>
