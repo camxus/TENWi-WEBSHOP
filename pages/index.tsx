@@ -130,7 +130,7 @@ export async function getStaticProps() {
   categories.map((category: { node: { slug: any; name: any } }) => {
     let slug = category.node.slug;
 
-    if (!slug.includes("footer") && slug !== "uncategorized") {
+    if (!slug.includes("footer") && !slug.includes("size-charts") && slug !== "uncategorized") {
       !notifications.find((element) => element.link === `portfolio/${slug}`) &&
         notifications.push(
           {

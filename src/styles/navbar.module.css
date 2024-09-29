@@ -421,7 +421,6 @@
   }
 
   .mobile_nav_btn_wrapper {
-    right: 0;
     top: 0;
     display: flex;
     flex-direction: column;

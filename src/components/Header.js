@@ -4,22 +4,24 @@ import Image from "next/image";
 import Sidebar from "./cart/Sidebar";
 import { forwardRef } from "react";
 import Link from "next/link";
+import CartIcon from "./cart/CartIcon.js";
 
 const Header = (props) => {
   return (
     <div>
-      <Nav {...props}></Nav>
+      <Nav {...props}/>
 
-      <Link href="/">
-        <div className={header.header_image}>
+      <div className="absolute w-full flex justify-center items-center p-4 py-6 z-10">
+        <Link href="/" className={header.header_image}>
           <Image
             src={require("../../public/assets/gif/tenwi.gif")}
             objectFit="cover"
           ></Image>
-        </div>
-      </Link>
+        </Link>
 
-      <Sidebar></Sidebar>
+        <CartIcon />
+      </div>
+      {/* <Sidebar></Sidebar> */}
     </div>
   );
 };

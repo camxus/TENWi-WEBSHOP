@@ -231,6 +231,27 @@ main .after {
   }
 }
 
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
 .fade-in {
-  animation: fadeIn 0.1s ease-in-out;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.fade-out {
+  animation: fadeIn 0.4s ease-in-out reverse forwards;
+}
+
+.slide-in-from-left {
+  animation: slideIn 0.5s ease-in-out;
+}
+
+.slide-out-to-left {
+  animation: slideIn 0.5s ease-in-out reverse forwards;
 }

@@ -12,18 +12,21 @@ import { Controller, Scene } from "react-scrollmagic";
 import { Tween } from "react-gsap";
 import prodstyles from "../../src/styles/product.module.css";
 
-import { Key, useEffect, useRef, useState } from "react";
+import { Key, SetStateAction, useEffect, useRef, useState } from "react";
 
 import Product from "../../src/components/Product";
 import { ArrowDown } from "../../src/components/icons";
 import useJustifiedText from "../../src/hooks/useJustifyText";
-import { isEmpty } from "lodash";
+import { isEmpty, size } from "lodash";
+import { GET_POST_BY_SLUG, GET_SIZE_CHARTS } from "../../src/queries/get-posts";
+import SizeChart from "../../src/components/SizeChart";
 
 export default function product({
   product,
   options,
   variations,
   relatedItems,
+  sizeChart,
 }: any) {
   const router = useRouter();
 
@@ -41,6 +44,7 @@ export default function product({
     product.image,
     ...product?.galleryImages?.nodes,
   ]);
+  const [sizeChartOpen, setSizeChartOpen] = useState<boolean>(false);
   const [selectedVariation, setSelectedVariation] = useState<any>({});
 
   useJustifiedText(subtitleRef);
@@ -166,6 +170,17 @@ export default function product({
                       <h3 ref={subtitleRef} className={prodstyles.subtitle}>
                         {product.name}
                       </h3>
+                      {sizeChart && (
+                        <div className="flex w-full">
+                          <button
+                            className="underline text-sm"
+                            style={{marginLeft: "auto"}}
+                            onClick={() => setSizeChartOpen(true)}
+                          >
+                            View Size Chart
+                          </button>
+                        </div>
+                      )}
                       <span
                         className="text-xs"
                         dangerouslySetInnerHTML={{
@@ -211,6 +226,15 @@ export default function product({
       ) : (
         ""
       )}
+      <SizeChart open={sizeChartOpen} setOpen={setSizeChartOpen}>
+        <div
+          className={[
+            "h-full text-xs flex flex-col justify-center p-6",
+            prodstyles["size-chart"],
+          ].join(" ")}
+          dangerouslySetInnerHTML={{ __html: sizeChart.content }}
+        />
+      </SizeChart>
     </Layout>
   );
 }
@@ -234,11 +258,40 @@ export async function getStaticProps(context: any) {
     variables: { input: product.productId },
   });
 
+  let standardSizeChart;
+  const {
+    data: {
+      posts: {
+        edges: [post],
+      },
+    },
+  } = await client.query({
+    query: GET_SIZE_CHARTS,
+    variables: { search: product?.name },
+  });
+
+  const sizeChart = post?.node;
+
+  if (!sizeChart) {
+    const {
+      data: {
+        posts: {
+          edges: [post],
+        },
+      },
+    } = await client.query({
+      query: GET_SIZE_CHARTS,
+    });
+
+    standardSizeChart = post?.node;
+  }
+
   return {
     props: {
       product: product || {},
       options: options || [],
       variations: variations || [],
+      sizeChart: sizeChart || standardSizeChart,
       relatedItems: relatedItems
         ? relatedItems.data.product.related.edges
         : null,
@@ -250,7 +303,9 @@ export async function getStaticProps(context: any) {
 export async function getStaticPaths() {
   const {
     data: {
-      products: { nodes: products },
+      products: {
+        nodes: [product],
+      },
     },
   } = await client.query({
     query: PRODUCT_SLUGS,
@@ -258,11 +313,9 @@ export async function getStaticPaths() {
 
   const pathsData: { params: { slug: any } }[] = [];
 
-  products.map((product: { slug: any }) => {
-    if (product?.slug) {
-      pathsData.push({ params: { slug: product?.slug } });
-    }
-  });
+  if (product?.slug) {
+    pathsData.push({ params: { slug: product?.slug } });
+  }
 
   return {
     paths: pathsData,
