@@ -105,7 +105,13 @@ export default function Home({ notifications }: any) {
 }
 
 export async function getStaticProps() {
-  const notifications = [
+  const notifications: {
+    header: string;
+    timestamp: string;
+    sender: string;
+    message: any;
+    link: string;
+  }[] = [
     // {
     // header : "TENWi",
     // timestamp : "Now",
@@ -113,13 +119,13 @@ export async function getStaticProps() {
     // message: "WEBSHOP",
     // link: "/shop"
     // },
-    {
-      header: "TENWi",
-      timestamp: "Now",
-      sender: "TENWi",
-      message: "GALLERY",
-      link: "/gallery",
-    },
+    // {
+    //   header: "TENWi",
+    //   timestamp: "Now",
+    //   sender: "TENWi",
+    //   message: "GALLERY",
+    //   link: "/gallery",
+    // },
   ];
 
   const { data } = await client.query({
@@ -130,7 +136,12 @@ export async function getStaticProps() {
   categories.map((category: { node: { slug: any; name: any } }) => {
     let slug = category.node.slug;
 
-    if (!slug.includes("footer") && !slug.includes("size-charts") && !slug.includes("styling-art-direction") && slug !== "uncategorized") {
+    if (
+      !slug.includes("footer") &&
+      !slug.includes("size-charts") &&
+      !slug.includes("styling-art-direction") &&
+      slug !== "uncategorized"
+    ) {
       !notifications.find((element) => element.link === `portfolio/${slug}`) &&
         notifications.push(
           {
