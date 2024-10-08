@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik";
 import { ReactElement, useEffect, useRef, useState } from "react";
+import { X } from "react-feather";
 import { PuffLoader } from "react-spinners";
 import { object, string } from "yup";
 
@@ -45,10 +46,14 @@ function SizeChart({ open, setOpen, children }: ISizeChart) {
         }}
       >
         <div
-          className={`h-full bg-white border-r-black max-w-[30rem] ${
+          className={`relative h-full bg-white border-r-black max-w-[30rem] ${
             show ? "slide-in-from-left" : "slide-out-to-left"
           }`}
         >
+          <X
+            className="absolute top-4 right-4 cursor-pointer"
+            onClick={() => setShow(false)}
+          />
           {children}
         </div>
       </div>

@@ -20,6 +20,7 @@ import useJustifiedText from "../../src/hooks/useJustifyText";
 import { isEmpty, size } from "lodash";
 import { GET_POST_BY_SLUG, GET_SIZE_CHARTS } from "../../src/queries/get-posts";
 import SizeChart from "../../src/components/SizeChart";
+import Accordion from "../../src/components/Accordion";
 
 export default function product({
   product,
@@ -170,25 +171,35 @@ export default function product({
                       <h3 ref={subtitleRef} className={prodstyles.subtitle}>
                         {product.name}
                       </h3>
-                      {sizeChart && (
-                        <div className="flex w-full">
-                          <button
-                            className="underline text-sm"
-                            style={{marginLeft: "auto"}}
-                            onClick={() => setSizeChartOpen(true)}
-                          >
-                            View Size Chart
-                          </button>
-                        </div>
-                      )}
-                      <span
-                        className="text-xs"
-                        dangerouslySetInnerHTML={{
-                          __html: product.description
-                            ? product.description
-                            : "",
-                        }}
-                      />
+                      <div className="flex flex-col" style={{ gap: "0.5rem" }}>
+                        {sizeChart && (
+                          <div className="flex w-full">
+                            <button
+                              className="text-slate-400	hover:text-black transition-all text-sm w-full flex"
+                              onClick={() => setSizeChartOpen(true)}
+                            >
+                              View Size Chart
+                            </button>
+                          </div>
+                        )}
+                        <Accordion
+                          items={[
+                            {
+                              title: "Description",
+                              body: (
+                                <span
+                                  className="text-xs"
+                                  dangerouslySetInnerHTML={{
+                                    __html: product.description
+                                      ? product.description
+                                      : "",
+                                  }}
+                                />
+                              ),
+                            },
+                          ]}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -11,7 +11,7 @@ const Header = (props) => {
     <div>
       <Nav {...props}/>
 
-      <div className="absolute w-full flex justify-center items-center p-4 py-6 z-10">
+      <div className="fixed w-full flex justify-center items-center p-4 py-6 z-10">
         <Link href="/" className={header.header_image}>
           <Image
             src={require("../../public/assets/gif/tenwi.gif")}

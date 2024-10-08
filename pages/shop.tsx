@@ -27,41 +27,24 @@ function Categories({ categories }: any) {
         className="w-full overflow-hidden"
         style={{ borderBottom: "1px black solid" }}
       >
-        <VimeoEmbed
-          videoId={424448504}
-          className="w-full"
-          style={{ height: "70vh",transform: "scale(2.5)" }}
-        />
+        <div
+          className="flex items-center justify-center"
+          style={{ height: "100vh" }}
+        >
+          <VimeoEmbed
+            videoId={424448504}
+            className="w-full"
+            style={{
+              position: "relative",
+              height: "100%",
+              transform: "scale(2.5)",
+            }}
+          />
+          <Link href={`/category/all`}>
+            <div className={`${styles["category-name"]}`}>{"ALL"}</div>
+          </Link>
+        </div>
       </div>
-      {categories
-        ? categories.map(
-            (category: {
-              image: { sourceUrl: string | StaticImport };
-              slug: any;
-              name: string;
-            }) => (
-              <div className={`${styles["category-wrapper"]}`}>
-                {/* image */}
-                <Image
-                  className={styles.image}
-                  src={
-                    category.image?.sourceUrl
-                      ? category.image.sourceUrl
-                      : require("../public/assets/images/categories/jackets/Tenwi_Lookbook0078.jpg")
-                  }
-                  objectFit="cover"
-                  layout="fill"
-                  alt={""}
-                />
-                <Link href={`/category/${category.slug}`}>
-                  <div className={`${styles["category-name"]}`}>
-                    {category.name}
-                  </div>
-                </Link>
-              </div>
-            )
-          )
-        : ""}
     </Layout>
   );
 }
