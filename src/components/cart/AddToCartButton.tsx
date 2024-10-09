@@ -170,6 +170,7 @@ const AddToCart = ({
       ...base,
       marginTop: 0,
       textAlign: "left",
+      zIndex: 10
     }),
 
     dropdownIndicator: (base: any) => ({
