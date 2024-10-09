@@ -178,7 +178,7 @@ export default function product({
                               className="text-slate-400	hover:text-black transition-all text-sm w-full flex"
                               onClick={() => setSizeChartOpen(true)}
                             >
-                              View Size Chart
+                              Size Chart
                             </button>
                           </div>
                         )}
