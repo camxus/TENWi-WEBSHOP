@@ -250,8 +250,8 @@ const AddToCart = ({
           </div>
           {options
             .filter(
-              (option: { name: any; options: string[] }) =>
-                option.name !== "color"
+              (option: { name: string; options: string[] }) =>
+                option.name.toLowerCase() !== "color"
             )
             .map((option: { name: any; options: string[] }) => {
               return (
