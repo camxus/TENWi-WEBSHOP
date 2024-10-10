@@ -65,12 +65,13 @@ const Nav = () => {
                     </div>
                   </Link>
 
-                  <li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
-                    UNISEXWEAR
-                  </li>
-                  <div className={`${navbar.nav_item} ${navbar.sub_box}`}>
-                    {categories !== undefined && categories.length
-                      ? categories.map((category) => (
+                  {categories?.length && (
+                    <>
+                      <li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
+                        UNISEXWEAR
+                      </li>
+                      <div className={`${navbar.nav_item} ${navbar.sub_box}`}>
+                        {categories.map((category) => (
                           <div>
                             <Link
                               href={`/category/${category.slug}`}
@@ -86,15 +87,17 @@ const Nav = () => {
                               </div>
                             </Link>
                           </div>
-                        ))
-                      : ""}
-                  </div>
-                  <li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
-                    FEATURES
-                  </li>
-                  <div className={`${navbar.nav_item} ${navbar.sub_box}`}>
-                    {tags !== undefined && tags.length
-                      ? tags.map((tag) => (
+                        ))}
+                      </div>
+                    </>
+                  )}
+                  {tags?.length && (
+                    <>
+                      <li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
+                        FEATURES
+                      </li>
+                      <div className={`${navbar.nav_item} ${navbar.sub_box}`}>
+                        {tags.map((tag) => (
                           <div>
                             <Link
                               href={`/feature/${tag.slug}`}
@@ -108,9 +111,10 @@ const Nav = () => {
                               </div>
                             </Link>
                           </div>
-                        ))
-                      : ""}
-                  </div>
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 <Link href="/cart" className={navbar.nav_link}>
@@ -126,10 +130,7 @@ const Nav = () => {
           </div>
         </div>
       </div>
-      <div
-        onClick={openNavMobile}
-        className={navbar.overlay}
-      ></div>
+      <div onClick={openNavMobile} className={navbar.overlay}></div>
     </div>
   );
 };
