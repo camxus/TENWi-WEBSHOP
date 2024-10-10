@@ -11,17 +11,19 @@ interface ISizeChart {
   children: ReactElement;
 }
 
-function SizeChart({ open, setOpen, children }: ISizeChart) {
-  const [show, setShow] = useState(open);
+export default function SizeChart({ open, setOpen, children }: ISizeChart) {
+  const [show, setShow] = useState(false);
+  const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
-    console.log(open);
     setShow(open);
-  }, [open]);
+  }, [open, show]);
 
   useEffect(() => {
-    if (!show) {
+    if (!show && open) {
+      setExiting(true);
       setTimeout(() => {
+        setExiting(false);
         setOpen(false);
       }, 500);
     }
@@ -30,15 +32,14 @@ function SizeChart({ open, setOpen, children }: ISizeChart) {
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       setShow(false);
-      // Click occurred outside the SizeChart
     }
   };
 
   return (
-    <dialog open={open} className="z-10">
+    <dialog open={open || exiting} className="z-10">
       <div
         className={`fixed top-0 left-0 w-full h-full backdrop-blur-lg ${
-          show ? "fade-in" : "fade-out"
+          !exiting ? "fade-in" : "fade-out"
         }`}
         onClick={handleOverlayClick}
         style={{
@@ -47,7 +48,7 @@ function SizeChart({ open, setOpen, children }: ISizeChart) {
       >
         <div
           className={`relative h-full bg-white border-r-black max-w-[30rem] ${
-            show ? "slide-in-from-left" : "slide-out-to-left"
+            !exiting ? "slide-in-from-left" : "slide-out-to-left"
           }`}
         >
           <X
@@ -60,5 +61,3 @@ function SizeChart({ open, setOpen, children }: ISizeChart) {
     </dialog>
   );
 }
-
-export default SizeChart;
