@@ -65,7 +65,7 @@ const Nav = () => {
                     </div>
                   </Link>
 
-                  {categories?.length && (
+                  {!!categories?.length && (
                     <>
                       <li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
                         UNISEXWEAR
@@ -91,7 +91,7 @@ const Nav = () => {
                       </div>
                     </>
                   )}
-                  {tags?.length && (
+                  {!!tags?.length && (
                     <>
                       <li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
                         FEATURES
