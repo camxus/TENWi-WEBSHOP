@@ -138,6 +138,7 @@ const AddToCart = ({
       textTransform: "uppercase",
       ...base,
       "&:hover": {
+        cursor: "pointer",
         backgroundColor: "black",
         color: "white",
         textAlign: "center",
@@ -170,7 +171,6 @@ const AddToCart = ({
       ...base,
       marginTop: 0,
       textAlign: "left",
-      zIndex: 10
     }),
 
     dropdownIndicator: (base: any) => ({
