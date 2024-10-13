@@ -150,11 +150,14 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
   ) => {
     event.preventDefault();
 
-    await submitMailchimp({
-      email: input.billing.email,
-      firstName: input.billing.firstName,
-      lastName: input.billing.lastName,
-    });
+    try {
+      await submitMailchimp({
+        email: input.billing.email,
+        firstName: input.billing.firstName,
+        lastName: input.billing.lastName,
+      });
+    } catch (e) {}
+
     /**
      * Validate Billing and Shipping Details
      *
