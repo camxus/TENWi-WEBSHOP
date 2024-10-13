@@ -63,7 +63,6 @@ const NewsletterSubmit = () => {
 		event.preventDefault();
 		addUserToMailchimp(email)
 		// registerMutation()
-		// console.log("completed with", email)
 	}
 
 	

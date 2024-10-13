@@ -161,7 +161,7 @@ export const submitMailchimp = async (values: {
 
   try {
     await axios.post(
-      `api/mailchimp`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/mailchimp`,
       {
         ...requestBody,
         email_address: values["email"],

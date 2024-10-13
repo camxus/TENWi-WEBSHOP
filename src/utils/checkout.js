@@ -147,8 +147,6 @@ export const handlePaypalCheckout = async (
 
   // await createCheckoutSessionAndRedirect( products, input, createCustomerOrder?.orderId );
   setCreatedOrderData(createCustomerOrder);
-
-  console.log(createCustomerOrder);
   return createCustomerOrder;
 };
 

@@ -53,7 +53,7 @@ export async function getStaticProps(context) {
     var categories = await client.query( {
 		query: PRODUCTS_AND_CATEGORIES_QUERY,
 	} );
-    // console.log(categories.data.productCategories)
+
     var tags = categories.data.productTags.nodes
     categories = categories.data.productCategories.nodes
 
@@ -80,8 +80,6 @@ export async function getStaticPaths () {
     //         pathsData.push({ params: { slug: product?.slug } })
     //     }
     // })
-    console.log("data", pathsData)
-    // console.log(data)
     return {
         paths: pathsData,
         fallback: true

@@ -31,7 +31,7 @@ export default function Product({ images, post }) {
 
   // const [activeCount, setActiveCount] = useState(0)
   let activeCount = 0;
-  // console.log("image",images)
+
   return (
     <LayoutPortfolio>
       <div className="relative w-full overflow-x-hidden">

@@ -13,7 +13,6 @@ import { forwardRef } from "react";
 // Router.events.on("routeChangeError", () => NProgress.done());
 
 const LayoutStart = (props) => {
-  // console.log("layout", props);
   return (
     <ApolloProvider client={client}>
       <AppProvider>

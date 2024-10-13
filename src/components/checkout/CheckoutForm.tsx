@@ -150,14 +150,6 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
   ) => {
     event.preventDefault();
 
-    try {
-      await submitMailchimp({
-        email: input.billing.email,
-        firstName: input.billing.firstName,
-        lastName: input.billing.lastName,
-      });
-    } catch (e) {}
-
     /**
      * Validate Billing and Shipping Details
      *
@@ -185,6 +177,16 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
       });
 
       return;
+    }
+
+    if (signedUp) {
+      try {
+        await submitMailchimp({
+          email: input.shipping.email,
+          firstName: input.shipping.firstName,
+          lastName: input.shipping.lastName,
+        });
+      } catch (e) {}
     }
 
     if ("stripe-mode" === input.paymentMethod) {
@@ -244,7 +246,6 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
       } else {
         const newState = { ...input, [target.name]: target.value };
         setInput(newState);
-        console.log(input);
       }
     }
   };
