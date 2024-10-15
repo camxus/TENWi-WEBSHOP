@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps, router }: any) {
     gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || "",
   };
 
-  TagManager.initialize(tagManagerArgs);
+  if (document) TagManager.initialize(tagManagerArgs);
 
   const variants = {
     hidden: { opactiy: 0 },
