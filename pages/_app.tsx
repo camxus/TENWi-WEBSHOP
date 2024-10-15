@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { ApolloProvider } from "@apollo/client";
 import client from "../src/components/ApolloClient";
+import TagManager from "react-gtm-module";
 
 NProgress.configure({ showSpinner: false });
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -17,6 +18,12 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps, router }: any) {
+  const tagManagerArgs = {
+    gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || "",
+  };
+
+  TagManager.initialize(tagManagerArgs);
+
   const variants = {
     hidden: { opactiy: 0 },
     visible: { opacity: 1, transition: { duration: 0.6 } },
