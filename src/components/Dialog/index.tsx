@@ -156,7 +156,7 @@ export const submitMailchimp = async (values: {
     timestamp_signup: "",
     ip_opt: "",
     timestamp_opt: "",
-    tags: [""],
+    tags: [],
   };
 
   try {
