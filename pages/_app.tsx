@@ -18,11 +18,11 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps, router }: any) {
-  const tagManagerArgs = {
-    gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || "",
-  };
+  // const tagManagerArgs = {
+  //   gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || "",
+  // };
 
-  if (document) TagManager.initialize(tagManagerArgs);
+  // if (document) TagManager.initialize(tagManagerArgs);
 
   const variants = {
     hidden: { opactiy: 0 },
@@ -32,6 +32,7 @@ function MyApp({ Component, pageProps, router }: any) {
       opacity: 0,
     },
   };
+
   return (
     <ApolloProvider client={client}>
       <PayPalScriptProvider
