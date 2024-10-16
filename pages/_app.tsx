@@ -23,8 +23,8 @@ function MyApp({ Component, pageProps, router }: any) {
     gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || "",
   };
 
-  if (typeof document !== 'undefined') {
-    TagManager.initialize(tagManagerArgs)
+  if (typeof document !== "undefined") {
+    TagManager.initialize(tagManagerArgs);
   }
 
   const variants = {
