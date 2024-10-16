@@ -23,9 +23,9 @@ function MyApp({ Component, pageProps, router }: any) {
     gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || "",
   };
 
-  useEffect(() => {
+  if (typeof document !== 'undefined') {
     TagManager.initialize(tagManagerArgs)
-  }, [])
+  }
 
   const variants = {
     hidden: { opactiy: 0 },
