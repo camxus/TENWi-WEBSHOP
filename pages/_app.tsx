@@ -11,6 +11,7 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { ApolloProvider } from "@apollo/client";
 import client from "../src/components/ApolloClient";
 import TagManager from "react-gtm-module";
+import { useEffect } from "react";
 
 NProgress.configure({ showSpinner: false });
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -18,11 +19,13 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps, router }: any) {
-  // const tagManagerArgs = {
-  //   gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || "",
-  // };
+  const tagManagerArgs = {
+    gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || "",
+  };
 
-  // if (document) TagManager.initialize(tagManagerArgs);
+  useEffect(() => {
+    TagManager.initialize(tagManagerArgs)
+  }, [])
 
   const variants = {
     hidden: { opactiy: 0 },
