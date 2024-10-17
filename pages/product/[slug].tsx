@@ -240,7 +240,7 @@ export default function product({
       <SizeChart open={sizeChartOpen} setOpen={setSizeChartOpen}>
         <div
           className={[
-            "h-full text-xs flex flex-col justify-center p-6",
+            "wp-block-group h-full text-xs flex flex-col justify-center p-6",
             prodstyles["size-chart"],
           ].join(" ")}
           dangerouslySetInnerHTML={{ __html: sizeChart.content }}
