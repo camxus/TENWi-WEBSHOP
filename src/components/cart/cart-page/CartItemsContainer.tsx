@@ -274,14 +274,14 @@ const CartItemsContainer = () => {
                 </table>
 
                 <div className="mb-2">
-                  <div className="flex gap-4">
+                  <div className="flex md:flex-row flex-col gap-4">
                     <input
-                      className="p-1"
+                      className="p-1 border border-neutral-300 focus:border-black transition-all"
                       placeholder="Apply Coupon"
                       onChange={(e) => setCoupon(e.target.value)}
                     />
                     <button
-                      className="text-white px-5 py-3 rounded-sm w-auto xl:w-full"
+                      className="text-white px-5 py-3 rounded-sm w-auto w-full transition-all"
                       style={{
                         cursor: applyCouponLoading ? "default" : "pointer",
                         backgroundColor: applyCouponLoading
@@ -311,7 +311,7 @@ const CartItemsContainer = () => {
                   aria-disabled={checkoutDisabled}
                 >
                   <button
-                    className="text-white px-5 py-3 rounded-sm w-auto xl:w-full"
+                    className="text-white px-5 py-3 rounded-sm w-auto w-full transition-all"
                     style={{
                       cursor: checkoutDisabled ? "default" : "pointer",
                       backgroundColor: checkoutDisabled ? "lightgray" : "black",
