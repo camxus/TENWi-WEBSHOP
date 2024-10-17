@@ -12,6 +12,7 @@ import { ApolloProvider } from "@apollo/client";
 import client from "../src/components/ApolloClient";
 import TagManager from "react-gtm-module";
 import { useEffect } from "react";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 NProgress.configure({ showSpinner: false });
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -19,15 +20,6 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps, router }: any) {
-  if (typeof document !== "undefined") {
-    TagManager.initialize({
-      gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID || "",
-    });
-    TagManager.initialize({
-      gtmId: process.env.NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID || "",
-    });
-  }
-
   const variants = {
     hidden: { opactiy: 0 },
     visible: { opacity: 1, transition: { duration: 0.6 } },
@@ -54,6 +46,9 @@ function MyApp({ Component, pageProps, router }: any) {
             variants={variants}
           >
             <Component {...pageProps} key={router.route} />
+            <GoogleAnalytics
+              gaId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID || ""}
+            />
           </motion.div>
         </AnimatePresence>
       </PayPalScriptProvider>
