@@ -10,8 +10,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { ApolloProvider } from "@apollo/client";
 import client from "../src/components/ApolloClient";
-import TagManager from "react-gtm-module";
-import { useEffect } from "react";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 
 NProgress.configure({ showSpinner: false });
