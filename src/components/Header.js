@@ -9,9 +9,8 @@ import CartIcon from "./cart/CartIcon.js";
 const Header = (props) => {
   return (
     <div>
-      <Nav {...props}/>
-
       <div className="fixed w-full flex justify-center items-center p-4 py-6 z-10">
+        <Nav {...props} />
         <Link href="/" className={header.header_image}>
           <Image
             src={require("../../public/assets/gif/tenwi.gif")}

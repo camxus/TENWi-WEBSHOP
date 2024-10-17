@@ -9,11 +9,11 @@
     min-height: 54vh;
     left: 50%;
     transform: translateX(-50%);
-    margin: 14% 0;
+    margin: 75px 0;
 }
 .post-title {
     font-weight: bold;
-    font-size: 4rem;
+    font-size: clamp(30px, 2.5rem, 100px);
 }
 .post-content {
 

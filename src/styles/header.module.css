@@ -1,9 +1,7 @@
 .header_image{
     position: absolute;
-    /* top: 1vh; */
-    /* left: 50vw;
-    transform: translate(-50%, 0%); */
     width: 10%;
+    min-width: 80px;
     height: auto;
     z-index: 100;
 }
