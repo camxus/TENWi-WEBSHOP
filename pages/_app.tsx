@@ -12,7 +12,7 @@ import { ApolloProvider } from "@apollo/client";
 import client from "../src/components/ApolloClient";
 import TagManager from "react-gtm-module";
 import { useEffect } from "react";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 
 NProgress.configure({ showSpinner: false });
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -47,7 +47,10 @@ function MyApp({ Component, pageProps, router }: any) {
           >
             <Component {...pageProps} key={router.route} />
             <GoogleAnalytics
-              gaId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID || ""}
+              gaId={process.env.NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID || ""}
+            />
+            <GoogleTagManager
+              gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID || ""}
             />
           </motion.div>
         </AnimatePresence>
