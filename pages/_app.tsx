@@ -19,12 +19,13 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps, router }: any) {
-  const tagManagerArgs = {
-    gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || "",
-  };
-
   if (typeof document !== "undefined") {
-    TagManager.initialize(tagManagerArgs);
+    TagManager.initialize({
+      gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID || "",
+    });
+    TagManager.initialize({
+      gtmId: process.env.NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID || "",
+    });
   }
 
   const variants = {
