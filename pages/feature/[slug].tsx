@@ -55,7 +55,7 @@ export async function getStaticProps(context: { params: { slug: any } }) {
     props: {
       products: products || [],
     },
-    revalidate: 1,
+    revalidate: 0,
   };
 }
 

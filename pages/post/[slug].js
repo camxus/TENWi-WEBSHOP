@@ -64,7 +64,7 @@ export async function getStaticProps(context) {
             categories: categories ? categories : [],
             tags: tags ? tags : [],
         },
-        revalidate: 1
+        revalidate: 0
     };
 }
 

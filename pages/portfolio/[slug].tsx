@@ -132,7 +132,7 @@ export async function getStaticProps(context) {
       posts: postsArray,
       title: title || "",
     },
-    revalidate: 1,
+    revalidate: 0,
   };
 }
 

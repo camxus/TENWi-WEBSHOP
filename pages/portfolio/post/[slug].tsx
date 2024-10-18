@@ -150,7 +150,7 @@ export async function getStaticProps(context) {
       images: imageslist,
       post: data.post ?? [],
     },
-    revalidate: 1,
+    revalidate: 0,
   };
 }
 

@@ -159,6 +159,6 @@ export async function getStaticProps() {
     props: {
       notifications,
     },
-    revalidate: 1,
+    revalidate: 0,
   };
 }
