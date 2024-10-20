@@ -307,7 +307,7 @@ export async function getStaticProps(context: any) {
         ? relatedItems.data.product.related.edges
         : null,
     },
-    revalidate: 0,
+    revalidate: 0.5,
   };
 }
 
