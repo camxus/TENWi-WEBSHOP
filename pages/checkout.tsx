@@ -42,6 +42,6 @@ export async function getStaticProps() {
     props: {
       countries: wooCountries || {},
     },
-    revalidate: 0.5,
+    revalidate: 1,
   };
 }

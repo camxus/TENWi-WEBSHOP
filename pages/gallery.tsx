@@ -54,6 +54,6 @@ export async function getStaticProps() {
     props: {
       images: images || [],
     },
-    revalidate: 0.5,
+    revalidate: 1,
   };
 }

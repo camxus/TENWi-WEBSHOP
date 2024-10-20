@@ -63,6 +63,6 @@ export async function getStaticProps() {
     props: {
       categories: categories ? categories : [],
     },
-    revalidate: 0.5,
+    revalidate: 1,
   };
 }
