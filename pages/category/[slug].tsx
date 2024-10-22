@@ -38,7 +38,7 @@ export default function CategoryPage({ categoryName, products }: any) {
       <div>
         <div className={`${styles["product-container"]}`}>
           {products.length
-            ? products.map((product: { id: any }, i: any) => (
+            ? [...products].reverse().map((product: { id: any }, i: any) => (
                 <motion.div
                   custom={i}
                   initial="hidden"
