@@ -181,11 +181,12 @@ const CartItemsContainer = () => {
   };
 
   const checkoutDisabled =
-    !chosenShippingMethod ||
-    updateCartProcessing ||
-    cartLoading ||
-    postShippingLoading ||
-    applyCouponLoading;
+    !chosenShippingMethod?.id.includes("free_shipping") &&
+    (!chosenShippingMethod ||
+      updateCartProcessing ||
+      cartLoading ||
+      postShippingLoading ||
+      applyCouponLoading);
 
   return (
     <div className="cart product-cart-container container py-20 px-10 min-w-full xl:px-20">
@@ -267,7 +268,7 @@ const CartItemsContainer = () => {
                     <ShippingModes
                       postShippingLoading={postShippingLoading}
                       shippingMethods={displayedShippingMethods}
-                      chosenShippingMethod={chosenShippingMethod?.id}
+                      chosenShippingMethod={chosenShippingMethod}
                       handleOnChange={handleOnShippingChange}
                     />
                   </tbody>

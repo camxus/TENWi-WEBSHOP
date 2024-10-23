@@ -10,7 +10,7 @@ const ShippingModes = ({
 }: {
   postShippingLoading: boolean;
   shippingMethods: ShippingMethod[];
-  chosenShippingMethod: ShippingMethod["id"] | undefined;
+  chosenShippingMethod: ShippingMethod | null | undefined;
   handleOnChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
 }) => {
   const { loading: cartLoading } = useContext(AppContext);
@@ -31,9 +31,9 @@ const ShippingModes = ({
                   disabled={
                     cartLoading ||
                     postShippingLoading ||
-                    chosenShippingMethod?.includes("free_shipping")
+                    chosenShippingMethod?.id.includes("free_shipping")
                   }
-                  checked={method.id === chosenShippingMethod}
+                  checked={method.id === chosenShippingMethod?.id}
                 />
                 <span className="payment-content">{method.label}</span>
               </label>
