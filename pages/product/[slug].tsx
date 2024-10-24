@@ -188,7 +188,7 @@ export default function product({
                               title: "Description",
                               body: (
                                 <span
-                                  className="text-xs"
+                                  style={{ fontSize: "9px" }}
                                   dangerouslySetInnerHTML={{
                                     __html: product.description
                                       ? product.description
