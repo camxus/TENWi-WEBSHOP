@@ -101,8 +101,8 @@ export default function product({
                         sourceUrl: string | undefined;
                       }) => (
                         <img
-                          key={image.id}
-                          src={image ? image.sourceUrl : ""}
+                          key={image?.id}
+                          src={image?.sourceUrl ?? ""}
                           alt="Product Image"
                           className={prodstyles.image}
                           // objectFit="cover"
