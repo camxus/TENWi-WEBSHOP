@@ -14,29 +14,16 @@ import styles from "../../src/styles/style.module.css";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useQuery } from "@apollo/client";
 
 export default function CategoryPage({ slug }: any) {
-  const [products, setProducts] = useState([]);
   const router = useRouter();
 
-  useEffect(() => {
-    client
-      .query({
-        query: PRODUCT_BY_CATEGORY_SLUG,
-        variables: { slug },
-      })
-      .then(
-        ({
-          data: {
-            productCategory: {
-              products: { nodes: products },
-            },
-          },
-        }) => {
-          setProducts(products);
-        }
-      );
-  }, []);
+  const { data, loading, error } = useQuery(PRODUCT_BY_CATEGORY_SLUG, {
+    variables: { slug },
+  });
+
+  const products = data?.productCategory?.products?.nodes || [];
 
   const variants = {
     visible: (i: number) => ({
