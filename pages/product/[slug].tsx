@@ -41,10 +41,7 @@ export default function product({
   const imageContainer = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLHeadingElement>(null);
 
-  const [images, setImages] = useState<any>([
-    product.image,
-    ...product?.galleryImages?.nodes,
-  ]);
+  const [images, setImages] = useState<any>([]);
   const [sizeChartOpen, setSizeChartOpen] = useState<boolean>(false);
   const [selectedVariation, setSelectedVariation] = useState<any>({});
 
@@ -84,7 +81,7 @@ export default function product({
 
   return (
     <Layout>
-      {product ? (
+      {!isEmpty(product) ? (
         <div>
           <div className={prodstyles.card}>
             {/* <div className={prodstyles.card_header}>{product.name}</div> */}
@@ -94,14 +91,13 @@ export default function product({
                 ref={imageContainer}
                 className={prodstyles.image_container}
               >
-                {images.length
+                {!!images.length
                   ? images.map(
                       (image: {
                         id: string;
                         sourceUrl: string | undefined;
                       }) => (
                         <img
-                          key={image?.id}
                           src={image?.sourceUrl ?? ""}
                           alt="Product Image"
                           className={prodstyles.image}
@@ -110,7 +106,7 @@ export default function product({
                       )
                     )
                   : ""}
-                {images.length > 1 && (
+                {!!images.length && (
                   <div
                     className="absolute flex flex-col items-center bottom-0 text-white"
                     style={{
