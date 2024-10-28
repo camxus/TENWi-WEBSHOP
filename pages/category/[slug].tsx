@@ -37,7 +37,7 @@ export default function CategoryPage({ slug }: any) {
 
   // If the page is not yet generated, this will be displayed
   // initially until getStaticProps() finishes running
-  if (router.isFallback || !products.length) {
+  if (router.isFallback || loading) {
     // return <IntroImage></IntroImage>
     return <></>;
   }
