@@ -13,15 +13,30 @@ import cat from "../../src/styles/categories.module.css";
 import styles from "../../src/styles/style.module.css";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 
-export default function CategoryPage({ categoryName, products }: any) {
+export default function CategoryPage({ slug }: any) {
+  const [products, setProducts] = useState([]);
   const router = useRouter();
-  // If the page is not yet generated, this will be displayed
-  // initially until getStaticProps() finishes running
-  if (router.isFallback) {
-    // return <IntroImage></IntroImage>
-    return <></>;
-  }
+
+  useEffect(() => {
+    client
+      .query({
+        query: PRODUCT_BY_CATEGORY_SLUG,
+        variables: { slug },
+      })
+      .then(
+        ({
+          data: {
+            productCategory: {
+              products: { nodes: products },
+            },
+          },
+        }) => {
+          setProducts(products);
+        }
+      );
+  }, []);
 
   const variants = {
     visible: (i: number) => ({
@@ -32,6 +47,13 @@ export default function CategoryPage({ categoryName, products }: any) {
     }),
     hidden: { opacity: 0 },
   };
+
+  // If the page is not yet generated, this will be displayed
+  // initially until getStaticProps() finishes running
+  if (router.isFallback || !products.length) {
+    // return <IntroImage></IntroImage>
+    return <></>;
+  }
 
   return (
     <Layout>
@@ -60,20 +82,9 @@ export async function getStaticProps(context: { params: { slug: any } }) {
     params: { slug },
   } = context;
 
-  const {
-    data: {
-      productCategory: {
-        products: { nodes: products },
-      },
-    },
-  } = await client.query({
-    query: PRODUCT_BY_CATEGORY_SLUG,
-    variables: { slug },
-  });
-
   return {
     props: {
-      products: products || [],
+      slug: slug,
     },
     revalidate: 1,
   };
