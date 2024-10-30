@@ -1,14 +1,14 @@
-import Layout from "../../src/components/Layouts/LayoutShop";
-import client from "../../src/components/ApolloClient";
-import Product from "../../src/components/Product";
+import Layout from "../../../src/components/Layouts/LayoutShop";
+import client from "../../../src/components/ApolloClient";
+import Product from "../../../src/components/Product";
 import {
   PRODUCT_BY_TAG_SLUG,
   PRODUCT_TAGS_SLUGS,
-} from "../../src/queries/product-by-tag";
+} from "../../../src/queries/product-by-tag";
 import { isEmpty } from "lodash";
 import { useRouter } from "next/router";
-import styles from "../../src/styles/style.module.css";
-import { PRODUCT_CATEGORIES_SLUGS } from "../../src/queries/product-by-category";
+import styles from "../../../src/styles/style.module.css";
+import { PRODUCT_CATEGORIES_SLUGS } from "../../../src/queries/product-by-category";
 
 export default function CategorySingle({ products }: any) {
   const router = useRouter();

@@ -1,4 +1,4 @@
-import LayoutPortfolio from "../../src/components/LayoutPortfolio.js";
+import LayoutPortfolio from "../../src/components/Layouts/LayoutPortfolio";
 import PostCard from "../../src/components/Portfolio/PostCard.js";
 
 import { useRouter } from "next/router";

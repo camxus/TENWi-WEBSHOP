@@ -1,16 +1,16 @@
-import Layout from "../../src/components/Layouts/LayoutShop";
-import client from "../../src/components/ApolloClient";
-import Product from "../../src/components/Product";
-import IntroImage from "../../src/components/IntroImage";
+import Layout from "../../../src/components/Layouts/LayoutShop";
+import client from "../../../src/components/ApolloClient";
+import Product from "../../../src/components/Product";
+import IntroImage from "../../../src/components/IntroImage";
 import {
   PRODUCT_BY_CATEGORY_SLUG,
   PRODUCT_CATEGORIES_SLUGS,
-} from "../../src/queries/product-by-category";
-import PRODUCTS_AND_CATEGORIES_QUERY from "../../src/queries/product-and-categories";
+} from "../../../src/queries/product-by-category";
+import PRODUCTS_AND_CATEGORIES_QUERY from "../../../src/queries/product-and-categories";
 import { isEmpty } from "lodash";
 import { useRouter } from "next/router";
-import cat from "../../src/styles/categories.module.css";
-import styles from "../../src/styles/style.module.css";
+import cat from "../../../src/styles/categories.module.css";
+import styles from "../../../src/styles/style.module.css";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";

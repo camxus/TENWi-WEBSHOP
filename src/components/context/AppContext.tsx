@@ -14,7 +14,7 @@ export type ICart = {
     productId: any;
   }[];
   totalProductsPrice: string;
-  total: number;
+  total: string;
 };
 
 export type ShippingMethod = {

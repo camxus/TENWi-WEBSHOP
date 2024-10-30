@@ -1,9 +1,9 @@
 import Head from "next/head";
-import { AppProvider } from "./context/AppContext";
-import { FooterProvider } from "./context/FooterContext";
-import Header from "./Header";
-import Footer from "./Footer";
-import client from "./ApolloClient";
+import { AppProvider } from "../context/AppContext";
+import { FooterProvider } from "../context/FooterContext";
+import Header from "../Headers/Header";
+import Footer from "../Footers/FooterShop";
+import client from "../ApolloClient";
 import Router from "next/router";
 // import NProgress from "nprogress";
 import { ApolloProvider } from "@apollo/client";

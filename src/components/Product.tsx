@@ -14,7 +14,7 @@ const Product = ({ product }: any) => {
 
   return (
     <div className={styles.card}>
-      <Link href={`/product/${product.slug}`}>
+      <Link href={`/shop/product/${product.slug}`}>
         <div className={'relative pt-[133.34%] md:pt-[99vh]'}>
           <Image
             src={product?.image?.sourceUrl ?? ""}

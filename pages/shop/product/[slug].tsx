@@ -1,26 +1,26 @@
-import Layout from "../../src/components/Layouts/LayoutShop";
+import Layout from "../../../src/components/Layouts/LayoutShop";
 import { useRouter } from "next/router";
-import client from "../../src/components/ApolloClient";
-import AddToCartButton from "../../src/components/cart/AddToCartButton";
+import client from "../../../src/components/ApolloClient";
+import AddToCartButton from "../../../src/components/cart/AddToCartButton";
 import {
   PRODUCT_BY_SLUG_QUERY,
   PRODUCT_SLUGS,
-} from "../../src/queries/product-by-slug";
-import RELATED_ITEMS_QUERY from "../../src/queries/related-items.js";
+} from "../../../src/queries/product-by-slug";
+import RELATED_ITEMS_QUERY from "../../../src/queries/related-items.js";
 
 import { Controller, Scene } from "react-scrollmagic";
 import { Tween } from "react-gsap";
-import prodstyles from "../../src/styles/product.module.css";
+import prodstyles from "../../../src/styles/product.module.css";
 
 import { Key, SetStateAction, useEffect, useRef, useState } from "react";
 
-import Product from "../../src/components/Product";
-import { ArrowDown } from "../../src/components/icons";
-import useJustifiedText from "../../src/hooks/useJustifyText";
+import Product from "../../../src/components/Product";
+import { ArrowDown } from "../../../src/components/icons";
+import useJustifiedText from "../../../src/hooks/useJustifyText";
 import { isEmpty, size } from "lodash";
-import { GET_POST_BY_SLUG, GET_SIZE_CHARTS } from "../../src/queries/get-posts";
-import SizeChart from "../../src/components/SizeChart";
-import Accordion from "../../src/components/Accordion";
+import { GET_POST_BY_SLUG, GET_SIZE_CHARTS } from "../../../src/queries/get-posts";
+import SizeChart from "../../../src/components/SizeChart";
+import Accordion from "../../../src/components/Accordion";
 
 export default function product({
   product,

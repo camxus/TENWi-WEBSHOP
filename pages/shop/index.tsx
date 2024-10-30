@@ -1,12 +1,12 @@
-import Layout from "../src/components/Layout";
-import client from "../src/components/ApolloClient";
-import PRODUCTS_AND_CATEGORIES_QUERY from "../src/queries/product-and-categories";
+import Layout from "../../src/components/Layouts/LayoutShop";
+import client from "../../src/components/ApolloClient";
+import PRODUCTS_AND_CATEGORIES_QUERY from "../../src/queries/product-and-categories";
 import Link from "next/link";
-import styles from "../src/styles/categories.module.css";
-import intro from "../src/styles/intro.module.css";
+import styles from "../../src/styles/categories.module.css";
+import intro from "../../src/styles/intro.module.css";
 import Image from "next/image";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
-import VimeoEmbed from "../src/components/VimeoEmbed";
+import VimeoEmbed from "../../src/components/VimeoEmbed";
 // import NewsletterSubmit from  "../src/components/NewsletterSubmit.js";
 
 function Categories({ categories }: any) {
@@ -16,7 +16,7 @@ function Categories({ categories }: any) {
         <div className={intro[`intro-background`]}>
           <div className={intro[`intro-image`]}>
             <Image
-              src={require("../public/assets/gif/tenwi.gif")}
+              src={require("../../public/assets/gif/tenwi.gif")}
               objectFit="cover"
               alt={""}
             ></Image>
@@ -32,7 +32,7 @@ function Categories({ categories }: any) {
           style={{ height: "100vh" }}
         >
           <VimeoEmbed videoId={424448504} className={styles.vimeo} />
-          <Link href={`/category/all`}>
+          <Link href={`/shop/category/all`}>
             <div className={`${styles["category-name"]}`}>{"ALL"}</div>
           </Link>
         </div>

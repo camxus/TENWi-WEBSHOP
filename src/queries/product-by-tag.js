@@ -5,7 +5,7 @@ export const PRODUCT_BY_TAG_SLUG = gql`
     productTag(id: $slug, idType: SLUG) {
       id
       name
-      products(first: 50) {
+      products(first: 50, where: { orderby: { field: DATE } }) {
         nodes {
           id
           productId: databaseId

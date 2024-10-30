@@ -1,4 +1,4 @@
-import LayoutPortfolio from "../../../src/components/LayoutPortfolio.js";
+import LayoutPortfolio from "../../../src/components/Layouts/LayoutPortfolio";
 import Gallery from "../../../src/components/Portfolio/Gallery.js";
 
 import { useRouter } from "next/router";

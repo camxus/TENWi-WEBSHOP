@@ -12,7 +12,7 @@ const CartIcon = () => {
     null !== cart && Object.keys(cart).length ? cart.totalProductsPrice : "";
 
   return (
-    <Link className="block text-black ml-auto" href="/cart">
+    <Link className="block text-black ml-auto" href="/shop/cart">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="block m-auto"

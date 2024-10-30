@@ -1,9 +1,9 @@
-import { Instagram, Youtube, TikTok } from "./icons";
+import { Instagram, Youtube, TikTok } from "../icons";
 import { useContext, useState } from "react";
-import { FooterContext } from "./context/FooterContext";
+import { FooterContext } from "../context/FooterContext";
 
-import styles from "../styles/footer.module.css";
-import Dialog from "./Dialog";
+import styles from "../../styles/footer.module.css";
+import Dialog from "../Dialog";
 
 interface IFooter extends React.HTMLAttributes<any> {}
 
@@ -53,7 +53,7 @@ const Footer = ({ className, style }: IFooter) => {
                         title: string;
                       };
                     }) => (
-                      <a href={`/post/${post.node.slug}`}>
+                      <a href={`/shop/post/${post.node.slug}`}>
                         <li>{post.node.title}</li>
                       </a>
                     )

@@ -56,7 +56,7 @@ const Nav = () => {
 
               <ul className={navbar.nav_list}>
                 <div className={navbar.nav_item_box}>
-                  <Link href="/category/all" className={navbar.nav_link}>
+                  <Link href="/shop/category/all" className={navbar.nav_link}>
                     <li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
                       ALL
                     </li>
@@ -74,7 +74,7 @@ const Nav = () => {
                         {categories.map((category) => (
                           <div>
                             <Link
-                              href={`/category/${category.slug}`}
+                              href={`/shop/category/${category.slug}`}
                               className={`${navbar.nav_link} ${navbar.sub}`}
                             >
                               <li className={navbar.nav_item}>
@@ -100,7 +100,7 @@ const Nav = () => {
                         {tags.map((tag) => (
                           <div>
                             <Link
-                              href={`/feature/${tag.slug}`}
+                              href={`/shop/feature/${tag.slug}`}
                               className={`${navbar.nav_link} ${navbar.sub}`}
                             >
                               <li className={navbar.nav_item}>{tag.name}</li>
@@ -117,7 +117,7 @@ const Nav = () => {
                   )}
                 </div>
 
-                <Link href="/cart" className={navbar.nav_link}>
+                <Link href="/shop/cart" className={navbar.nav_link}>
                   <li className={`${navbar["nav_item"]} ${navbar["head"]}`}>
                     CART
                   </li>

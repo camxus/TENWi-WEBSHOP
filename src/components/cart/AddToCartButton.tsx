@@ -284,7 +284,7 @@ const AddToCart = ({
           </a>
         </Link>
       ) : showViewCart ? (
-        <Link href="/cart">
+        <Link href="/shop/cart">
           <button className={`${styles["view-cart"]}`}>VIEW CART</button>
         </Link>
       ) : !requestError ? (

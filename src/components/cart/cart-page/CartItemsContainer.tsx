@@ -307,7 +307,7 @@ const CartItemsContainer = () => {
                 </div>
 
                 <Link
-                  href="/checkout"
+                  href="/shop/checkout"
                   legacyBehavior
                   aria-disabled={checkoutDisabled}
                 >

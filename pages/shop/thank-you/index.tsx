@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import Router from "next/router";
 import Link from "next/link";
-import Layout from "../src/components/Layout";
-import { AppContext } from "../src/components/context/AppContext";
+import Layout from "../../../src/components/Layouts/LayoutShop";
+import { AppContext } from "../../../src/components/context/AppContext";
 
 const ThankYouContent = () => {
   const {

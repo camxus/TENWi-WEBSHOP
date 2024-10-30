@@ -1,12 +1,12 @@
-import IntroImage from "../src/components/IntroImage";
+import IntroImage from "../../src/components/IntroImage";
 import { useRouter } from "next/router";
-import client from "../src/components/ApolloClient";
-import GALLERY_IMAGES from "../src/queries/gallery-images.js";
+import client from "../../src/components/ApolloClient";
+import GALLERY_IMAGES from "../../src/queries/gallery-images.js";
 import Image from "next/image";
 
-import gallery from "../src/styles/gallery.module.css";
+import gallery from "../../src/styles/gallery.module.css";
 
-import LayoutStart from "../src/components/LayoutStart";
+import LayoutStart from "../../src/components/Layouts/LayoutStart";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 export default function Gallery({ images }: any) {
@@ -20,8 +20,8 @@ export default function Gallery({ images }: any) {
 
   return (
     <LayoutStart>
-      <div>
-        {images &&
+      <div className="w-screen h-screen flex items-center justify-center">
+        {!!images.length ? (
           images.map(
             (image: { node: { sourceUrl: string | StaticImport } }) => (
               <div className={gallery.image}>
@@ -33,8 +33,10 @@ export default function Gallery({ images }: any) {
                 ></Image>
               </div>
             )
-          )}
-        {/* <CartIcon/> */}
+          )
+        ) : (
+          <h1>Nohting to see here</h1>
+        )}
       </div>
     </LayoutStart>
   );

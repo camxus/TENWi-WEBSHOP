@@ -1,4 +1,4 @@
-import LayoutStart from "../src/components/LayoutStart";
+import LayoutStart from "../src/components/Layouts/LayoutStart";
 import client from "../src/components/ApolloClient";
 import { GET_POST_CATEGORIES } from "../src/queries/get-posts";
 import Link from "next/link";
@@ -77,25 +77,6 @@ export default function Home({ notifications }: any) {
                     </li>
                   </ul>
                 ))}
-            </div>
-            <div>
-              <dialog open={open}>
-                <Dialog setOpen={setOpen} />
-              </dialog>
-
-              <button
-                onClick={() => setOpen(!open)}
-                className="bg-black text-white p-2 rounded-full text-sm outline-black hover:bg-white hover:text-black"
-                style={{ transition: "all 0.3s ease-in-out" }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.backgroundColor = "white")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.backgroundColor = "black")
-                }
-              >
-                Sign up for Newsletter
-              </button>
             </div>
           </main>
         </div>

@@ -115,6 +115,9 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
     variables: {
       input: orderData,
     },
+    onCompleted: ({ checkout: { order: id } }) => {
+      window.location.replace(`/thank-you?order_id=${id}`);
+    },
     onError: (error) => {
       if (
         error?.graphQLErrors?.[0]?.message ===
@@ -202,11 +205,15 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
       );
       return null;
     }
-    if ("ppcp-gateway" === input.paymentMethod) {
+    if (
+      "ppcp-gateway" === input.paymentMethod &&
+      !!Number(cart?.total.replace(",", ".").slice(0, -1))
+    ) {
       localStorage.setItem("user-info", JSON.stringify(input));
       setPaypalLoaded(true);
       return null;
     }
+
     const checkOutData = createCheckoutData(input);
     setRequestError(null);
     /**

@@ -81,7 +81,7 @@ const CartItem = ({
       </td>
 
       <td className={cartbar[`cart-element`]}>
-        <Link href={`/product/${item?.slug ? item.slug : ""}`}>
+        <Link href={`/shop/product/${item?.slug ? item.slug : ""}`}>
           {item.name}
         </Link>
       </td>
