@@ -224,6 +224,7 @@ export const getFormattedCart = (cart, shippingPrice = 0) => {
   }
 
   const givenProducts = cart.contents.nodes;
+  const appliedCoupons = cart.appliedCoupons;
 
   // Create an empty object.
   const formattedCart = {};
@@ -256,6 +257,7 @@ export const getFormattedCart = (cart, shippingPrice = 0) => {
     formattedCart.products.push(product);
   }
 
+  formattedCart.appliedCoupons = appliedCoupons ?? [];
   formattedCart.shippingPrice = shippingPrice;
   formattedCart.totalProductsCount = totalProductsCount;
   formattedCart.totalProductsPrice = cart?.total ?? "";

@@ -116,7 +116,7 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
       input: orderData,
     },
     onCompleted: ({ checkout: { order: id } }) => {
-      window.location.replace(`/thank-you?order_id=${id}`);
+      window.location.replace(`/shop/thank-you?order_id=${id}`);
     },
     onError: (error) => {
       if (

@@ -8,10 +8,12 @@ import { useMutation } from "@apollo/client";
 import UPDATE_CART from "../../../mutations/update-cart";
 import { POST_SHIPPING_METHOD } from "../../../mutations/shipping.js";
 import REMOVE_ITEMS_FROM_CART_MUTATION from "../../../mutations/clear-cart";
+import REMOVE_COUPONS_MUTATION from "../../../mutations/remove-coupons";
 import APPLY_COUPON_MUTATION from "../../../mutations/apply-coupon";
 import ShippingModes from "../../checkout/ShippingModes";
 
 import axios from "axios";
+import { X } from "react-feather";
 
 const CartItemsContainer = () => {
   const {
@@ -42,6 +44,64 @@ const CartItemsContainer = () => {
       },
     }
   );
+
+  // Remove from Cart Mutation.
+  const [
+    removeFromCart,
+    {
+      data: removeFromCartRes,
+      loading: removeFromCartProcessing,
+      error: removeFromCartError,
+    },
+  ] = useMutation(REMOVE_ITEMS_FROM_CART_MUTATION, {
+    onCompleted: ({ removeItemsFromCart }) => {
+      const { cart } = removeItemsFromCart;
+      setCart((handleSetCart(cart, chosenShippingMethod) as unknown) as ICart);
+    },
+  });
+
+  // Apply Coupon Mutation
+  const [
+    applyCoupon,
+    {
+      data: applyCouponRes,
+      loading: applyCouponLoading,
+      error: applyCouponError,
+    },
+  ] = useMutation(APPLY_COUPON_MUTATION, {
+    variables: {
+      input: {
+        code: coupon,
+      },
+    },
+    onCompleted: ({ applyCoupon }) => {
+      if (refetch) {
+        refetch();
+      }
+    },
+    onError: (error) => {
+      return error.message;
+    },
+  });
+
+  // Apply Coupon Mutation
+  const [
+    removeCoupons,
+    {
+      data: removeCouponRes,
+      loading: removeCouponLoading,
+      error: removeCouponError,
+    },
+  ] = useMutation(REMOVE_COUPONS_MUTATION, {
+    onCompleted: () => {
+      if (refetch) {
+        refetch();
+      }
+    },
+    onError: (error) => {
+      return error.message;
+    },
+  });
 
   useEffect(() => {
     if (availableShippingMethods.length) {
@@ -82,45 +142,6 @@ const CartItemsContainer = () => {
       if (refetch) {
         refetch();
       }
-    },
-  });
-
-  // Remove from Cart Mutation.
-  const [
-    removeFromCart,
-    {
-      data: removeFromCartRes,
-      loading: removeFromCartProcessing,
-      error: removeFromCartError,
-    },
-  ] = useMutation(REMOVE_ITEMS_FROM_CART_MUTATION, {
-    onCompleted: ({ removeItemsFromCart }) => {
-      const { cart } = removeItemsFromCart;
-      setCart((handleSetCart(cart, chosenShippingMethod) as unknown) as ICart);
-    },
-  });
-
-  // Apply Coupon Mutation
-  const [
-    applyCoupon,
-    {
-      data: applyCouponRes,
-      loading: applyCouponLoading,
-      error: applyCouponError,
-    },
-  ] = useMutation(APPLY_COUPON_MUTATION, {
-    variables: {
-      input: {
-        code: coupon,
-      },
-    },
-    onCompleted: ({ applyCoupon }) => {
-      if (refetch) {
-        refetch();
-      }
-    },
-    onError: (error) => {
-      return error.message;
     },
   });
 
@@ -281,6 +302,21 @@ const CartItemsContainer = () => {
                       placeholder="Apply Coupon"
                       onChange={(e) => setCoupon(e.target.value)}
                     />
+                    <div className="flex gap-1">
+                      {cart.appliedCoupons.map((coupon) => (
+                        <div
+                          className="flex items-center justify-center gap-1 bg-black border-black text-white text-xs p-1 transition-all hover:bg-white hover:text-black cursor-pointer"
+                          onClick={() =>
+                            removeCoupons({
+                              variables: { input: { codes: [coupon.code] } },
+                            })
+                          }
+                        >
+                          {coupon.code.toUpperCase()}
+                          <X width={10} />
+                        </div>
+                      ))}
+                    </div>
                     <button
                       className="text-white px-5 py-3 rounded-sm w-full transition-all"
                       style={{

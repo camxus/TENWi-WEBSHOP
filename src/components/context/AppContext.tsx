@@ -9,9 +9,14 @@ import GET_CART from "../../queries/get-cart";
 
 export type ICart = {
   products: {
-    variation: { variations: any; productId: any; };
+    variation: { variations: any; productId: any };
     variations: any;
     productId: any;
+  }[];
+  appliedCoupons: {
+    code: string;
+    discountAmount: string;
+    discountTax: string;
   }[];
   totalProductsPrice: string;
   total: string;

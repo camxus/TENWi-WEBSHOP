@@ -54,7 +54,7 @@ function Paypal({
       );
       if (actions.order) {
         await actions.order.capture();
-        window.location.replace(`/thank-you?order_id=${orderId}`);
+        window.location.replace(`/shop/thank-you?order_id=${orderId}`);
       }
     } catch (e: any) {
       console.error(e);
