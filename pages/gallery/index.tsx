@@ -20,15 +20,15 @@ export default function Gallery({ images }: any) {
 
   return (
     <LayoutStart>
-      <div className="w-screen h-screen flex items-center justify-center">
+      <div className="w-screen h-screen flex flex-col items-center justify-center">
         {!!images.length ? (
           images.map(
             (image: { node: { sourceUrl: string | StaticImport } }) => (
               <div className={gallery.image}>
                 <Image
+                  className="object-cover"
                   src={image.node.sourceUrl}
                   fill
-                  objectFit="cover"
                   alt={""}
                 ></Image>
               </div>
