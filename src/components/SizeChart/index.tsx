@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik";
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useMemo, useRef, useState } from "react";
 import { X } from "react-feather";
 import { PuffLoader } from "react-spinners";
 import { object, string } from "yup";
@@ -14,6 +14,42 @@ interface ISizeChart {
 export default function SizeChart({ open, setOpen, children }: ISizeChart) {
   const [show, setShow] = useState(false);
   const [exiting, setExiting] = useState(false);
+
+  const outerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const innerElement = outerRef.current?.querySelector(
+      ".wp-block-group"
+    ) as HTMLElement;
+
+    console.log(innerElement.scrollHeight)
+
+    const isOverflow =
+      innerElement.scrollHeight > (outerRef.current?.clientHeight ?? 0);
+
+    if (!outerRef.current) return;
+
+    // Apply styles directly if ref is available
+    if (isOverflow) {
+      Object.assign(outerRef.current.style, {
+        // ...outerRef.current.style,
+        ...{
+          display: "grid",
+          placeItems: isOverflow ? "start center" : "center", // Center or top-center based on overflow
+          overflow: "scroll",
+        },
+      });
+      if (innerElement) {
+        Object.assign(innerElement.style, {
+          // ...(innerElement?.style ?? {}),
+          ...{
+            width: "90%",
+            alignSelf: isOverflow ? "start" : "center",
+          },
+        });
+      }
+    }
+  }, [outerRef, show]);
 
   useEffect(() => {
     setShow(open);
@@ -47,7 +83,8 @@ export default function SizeChart({ open, setOpen, children }: ISizeChart) {
         }}
       >
         <div
-          className={`relative h-full bg-white border-r-black max-w-[30rem] ${
+          ref={outerRef}
+          className={`relative h-full text-xs flex flex-col justify-center p-6 bg-white border-r-black max-w-[30rem] ${
             !exiting ? "slide-in-from-left" : "slide-out-to-left"
           }`}
         >
