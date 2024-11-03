@@ -12,3 +12,7 @@
     font-weight: bold;
     font-size: small;
 }
+
+summary::-webkit-details-marker {
+  display: none;
+}

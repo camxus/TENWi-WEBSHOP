@@ -18,7 +18,10 @@ import Product from "../../../src/components/Product";
 import { ArrowDown } from "../../../src/components/icons";
 import useJustifiedText from "../../../src/hooks/useJustifyText";
 import { isEmpty, size } from "lodash";
-import { GET_POST_BY_SLUG, GET_SIZE_CHARTS } from "../../../src/queries/get-posts";
+import {
+  GET_POST_BY_SLUG,
+  GET_SIZE_CHARTS,
+} from "../../../src/queries/get-posts";
 import SizeChart from "../../../src/components/SizeChart";
 import Accordion from "../../../src/components/Accordion";
 
@@ -42,13 +45,17 @@ export default function product({
   const subtitleRef = useRef<HTMLHeadingElement>(null);
 
   const [images, setImages] = useState<any>([]);
+  const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [sizeChartOpen, setSizeChartOpen] = useState<boolean>(false);
   const [selectedVariation, setSelectedVariation] = useState<any>({});
 
   useJustifiedText(subtitleRef);
 
   useEffect(() => {
-    if (!isEmpty(selectedVariation)) {
+    if (
+      !isEmpty(selectedVariation) &&
+      Object.values(selectedOptions).length === options.length
+    ) {
       setImages([selectedVariation.image]);
     } else {
       setImages([product.image, ...product?.galleryImages?.nodes]);
@@ -207,6 +214,8 @@ export default function product({
                       product={product}
                       selectedVariation={selectedVariation}
                       setSelectedVariation={setSelectedVariation}
+                      selectedOptions={selectedOptions} 
+                      setSelectedOptions={setSelectedOptions}
                     />
                   )}
                 </div>
@@ -235,10 +244,7 @@ export default function product({
       )}
       <SizeChart open={sizeChartOpen} setOpen={setSizeChartOpen}>
         <div
-          className={[
-            "wp-block-group",
-            prodstyles["size-chart"],
-          ].join(" ")}
+          className={["wp-block-group", prodstyles["size-chart"]].join(" ")}
           dangerouslySetInnerHTML={{ __html: sizeChart.content }}
         />
       </SizeChart>

@@ -17,13 +17,14 @@ const AddToCart = ({
   variations,
   selectedVariation,
   setSelectedVariation,
+  selectedOptions,
+  setSelectedOptions
 }: any) => {
   const { refetch } = useContext(AppContext);
   const [showViewCart, setShowViewCart] = useState(false);
   const [requestError, setRequestError] = useState<string | null>(null);
 
   //REACT SELECT
-  const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [productQryInput, setProductQryInput] = useState({});
 
   function optionsHandler({ value, label }: any) {
