@@ -33,7 +33,8 @@ function Categories({ categories }: any) {
         >
           <Image
             className="w-full h-full object-cover"
-            src={require("../../public/assets/gif/IMG_3319.gif")}
+            layout="fill"
+            src="/assets/gif/IMG_3319.gif"
             alt={""}
           />
           {/* <VimeoEmbed videoId={424448504} className={styles.vimeo} /> */}
