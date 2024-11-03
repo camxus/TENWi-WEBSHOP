@@ -34,7 +34,7 @@ function Categories({ categories }: any) {
           <Image
             className="w-full h-full object-cover"
             layout="fill"
-            src="/assets/gif/IMG_3319.gif"
+            src="/assets/images/png/HOMEPAGE2.png"
             alt={""}
           />
           {/* <VimeoEmbed videoId={424448504} className={styles.vimeo} /> */}

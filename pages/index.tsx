@@ -23,7 +23,7 @@ export default function Home({ notifications }: any) {
       <div>
         <div className="before">
           <Image
-            src={require("../public/assets/gif/IMG_3319.GIF")}
+            src="/assets/images/png/HOMEPAGE.png"
             layout="fill"
             objectFit="cover"
             alt={""}
