@@ -18,7 +18,7 @@ const AddToCart = ({
   selectedVariation,
   setSelectedVariation,
   selectedOptions,
-  setSelectedOptions
+  setSelectedOptions,
 }: any) => {
   const { refetch } = useContext(AppContext);
   const [showViewCart, setShowViewCart] = useState(false);
@@ -64,7 +64,7 @@ const AddToCart = ({
         findMatchingItems(
           variations,
           Object.entries(selectedOptions).map(([label, value]) => ({
-            name: label,
+            name: label.toLowerCase(),
             value: value,
           }))
         )
@@ -191,7 +191,7 @@ const AddToCart = ({
       padding: "0",
       textAlign: "center",
       textTransform: "uppercase",
-      fontSize: "small"
+      fontSize: "small",
     }),
     singleValue: (provided: any, state: any) => {
       // const opacity = state.isDisabled ? 0.5 : 1;
