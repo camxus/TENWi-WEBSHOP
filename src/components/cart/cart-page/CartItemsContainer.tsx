@@ -118,6 +118,11 @@ const CartItemsContainer = () => {
           );
         })
         .catch((error) => {
+          setDisplayedShippingMethods(
+            availableShippingMethods.filter(
+              (method) => method.label.includes("INT") || !Number(method.cost)
+            )
+          );
           console.log(error);
         });
     }
