@@ -22,8 +22,6 @@ export default function SizeChart({ open, setOpen, children }: ISizeChart) {
       ".wp-block-group"
     ) as HTMLElement;
 
-    console.log(innerElement.scrollHeight)
-
     const isOverflow =
       innerElement.scrollHeight > (outerRef.current?.clientHeight ?? 0);
 

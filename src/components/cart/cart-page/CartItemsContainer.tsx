@@ -109,20 +109,22 @@ const CartItemsContainer = () => {
         .get("https://ipapi.co/json/")
         .then((response) => {
           const { continent_code } = response.data;
-          setDisplayedShippingMethods(
-            availableShippingMethods.filter(
-              (method) =>
-                (method.label.includes("EU") && continent_code === "EU") ||
-                !Number(method.cost)
-            )
-          );
+
+          if (continent_code === "EU") {
+            setDisplayedShippingMethods(
+              availableShippingMethods.filter(
+                (method) => method.label.includes("EU") || !Number(method.cost)
+              )
+            );
+          } else {
+            setDisplayedShippingMethods(
+              availableShippingMethods.filter(
+                (method) => method.label.includes("INT") || !Number(method.cost)
+              )
+            );
+          }
         })
         .catch((error) => {
-          setDisplayedShippingMethods(
-            availableShippingMethods.filter(
-              (method) => method.label.includes("INT") || !Number(method.cost)
-            )
-          );
           console.log(error);
         });
     }
@@ -308,7 +310,7 @@ const CartItemsContainer = () => {
                       onChange={(e) => setCoupon(e.target.value)}
                     />
                     <div className="flex gap-1">
-                      {cart.appliedCoupons.map((coupon) => (
+                      {cart.appliedCoupons?.map((coupon) => (
                         <div
                           className="flex items-center justify-center gap-1 bg-black border-black text-white text-xs p-1 transition-all hover:bg-white hover:text-black cursor-pointer"
                           onClick={() =>
