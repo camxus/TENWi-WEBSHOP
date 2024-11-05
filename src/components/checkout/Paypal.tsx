@@ -44,6 +44,18 @@ function Paypal({
     actions
   ) => {
     try {
+      if (!actions.order) {
+        throw new Error("payment failed");
+      }
+
+      // Capture the payment first
+      const captureResult = await actions.order.capture();
+
+      if (captureResult.status !== "COMPLETED") {
+        throw new Error("Payment capture was not completed");
+      }
+
+      // Only proceed with order creation after successful capture
       const { orderId } = await handlePaypalCheckout(
         input,
         products,
@@ -52,10 +64,8 @@ function Paypal({
         setIsStripeOrderProcessing,
         setCreatedOrderData
       );
-      if (actions.order) {
-        await actions.order.capture();
-        window.location.replace(`/shop/thank-you?order_id=${orderId}`);
-      }
+
+      window.location.replace(`/shop/thank-you?order_id=${orderId}`);
     } catch (e: any) {
       console.error(e);
       // dispatchPaypal({
