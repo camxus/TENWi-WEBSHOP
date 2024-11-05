@@ -77,6 +77,7 @@ function Paypal({
         fundingSource={undefined}
         createOrder={createOrder}
         onApprove={onApprove}
+        onError={(err) => alert("Create order failed: " + JSON.stringify(err))}
       />
     </>
   );
