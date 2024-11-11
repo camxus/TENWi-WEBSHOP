@@ -93,20 +93,20 @@ export async function getStaticProps() {
     message: any;
     link: string;
   }[] = [
-    {
-    header : "TENWi",
-    timestamp : "Now",
-    sender: "TENWi",
-    message: "WEBSHOP",
-    link: "/shop"
-    },
     // {
-    //   header: "TENWi",
-    //   timestamp: "Now",
-    //   sender: "TENWi",
-    //   message: "GALLERY",
-    //   link: "/gallery",
+    // header : "TENWi",
+    // timestamp : "Now",
+    // sender: "TENWi",
+    // message: "WEBSHOP",
+    // link: "/shop"
     // },
+    {
+      header: "TENWi",
+      timestamp: "Now",
+      sender: "TENWi",
+      message: "GALLERY",
+      link: "/gallery",
+    },
   ];
 
   const { data } = await client.query({
