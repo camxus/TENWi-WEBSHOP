@@ -5,7 +5,7 @@ import {
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
 import React from "react";
-import { handlePaypalCheckout } from "../../utils/checkout";
+import { handleCheckout, handlePaypalCheckout } from "../../utils/checkout";
 
 // This value is from the props in the UI
 const style: PayPalButtonsComponentProps["style"] = { layout: "vertical" };

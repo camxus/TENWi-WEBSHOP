@@ -26,6 +26,14 @@ import REMOVE_ITEMS_FROM_CART_MUTATION from "../../mutations/clear-cart";
 import Link from "next/link";
 import Dialog, { submitMailchimp } from "../Dialog";
 
+import {
+  PaymentElement,
+  Elements,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+import Stripe from "./Stripe";
+
 interface ICustromerInfo {
   firstName: string;
   lastName: string;
@@ -65,7 +73,12 @@ const defaultCustomerInfo = {
   errors: null,
 };
 
-const CheckoutForm = ({ countriesData, dialogState }: any) => {
+const CheckoutForm = ({
+  countriesData,
+  dialogState,
+  stripeOptions,
+  setStripeOptions,
+}: any) => {
   const { billingCountries, shippingCountries } = countriesData || {};
 
   const initialState = {
@@ -100,8 +113,6 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
   const [errorHandler, setErrorHandler] = useState("");
 
   const [paypalLoaded, setPaypalLoaded] = useState(false);
-
-  const ShippingMethods = ["Express Shipping", "Standard Shipping"];
 
   useEffect(() => {
     if (user) setInput((input) => ({ ...input, ...user }));
@@ -205,6 +216,7 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
       );
       return null;
     }
+
     if (
       "ppcp-gateway" === input.paymentMethod &&
       !!Number(cart?.total.replace(",", ".").slice(0, -1))
@@ -290,6 +302,21 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
     }
   }, [orderData]);
 
+  useEffect(() => {
+    if (cart) {
+      setStripeOptions({
+        ...stripeOptions,
+        mode: "payment",
+        amount: Number(cart.total.replace(",", ".").slice(0, -1)),
+        currency: "eur",
+        // Fully customizable with appearance API.
+        appearance: {
+          /*...*/
+        },
+      });
+    }
+  }, [cart]);
+
   // Loading Data
   const isOrderProcessing = checkoutLoading || isStripeOrderProcessing;
 
@@ -369,6 +396,16 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
                     Place Order
                   </button>
                 )}
+                <Stripe
+                  cart={cart}
+                  input={input}
+                  products={cart?.products}
+                  requestError={requestError}
+                  setRequestError={setRequestError}
+                  clearCartMutation={clearCartMutation}
+                  setIsStripeOrderProcessing={setIsStripeOrderProcessing}
+                  stripeOptions={stripeOptions}
+                />
 
                 {paypalLoaded && (
                   <Paypal
@@ -379,7 +416,6 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
                     setRequestError={setRequestError}
                     clearCartMutation={clearCartMutation}
                     setIsStripeOrderProcessing={setIsStripeOrderProcessing}
-                    setCreatedOrderData={setCreatedOrderData}
                   />
                 )}
               </div>

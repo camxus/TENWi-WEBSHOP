@@ -87,74 +87,28 @@ export const handleStripeCheckout = async (
   setIsStripeOrderProcessing,
   setCreatedOrderData
 ) => {
-  setIsStripeOrderProcessing(true);
-  const orderData = getCreateOrderData(input, products, (system = "stripe"));
-  const createCustomerOrder = await createTheOrder(
-    orderData,
-    setRequestError,
-    ""
-  );
-  const cartCleared = await clearTheCart(
-    clearCartMutation,
-    createCustomerOrder?.error
-  );
-  setIsStripeOrderProcessing(false);
-
-  if (isEmpty(createCustomerOrder?.orderId) || cartCleared?.error) {
-    setRequestError("Clear cart failed");
-    return null;
-  }
-
-  // On success show stripe form.
-  setCreatedOrderData(createCustomerOrder);
-  await createCheckoutSessionAndRedirect(
-    products,
-    input,
-    createCustomerOrder?.orderId
-  );
-
-  return createCustomerOrder;
-};
-export const handlePaypalCheckout = async (
-  input,
-  products,
-  setRequestError,
-  clearCartMutation,
-  setIsStripeOrderProcessing,
-  setCreatedOrderData
-) => {
-  setIsStripeOrderProcessing(true);
-  let system = "paypal";
-  const orderData = getCreateOrderData(input, products, system);
-  const createCustomerOrder = await createTheOrder(
-    orderData,
-    setRequestError,
-    ""
-  )
-
-  if (createCustomerOrder?.error) {
-    setRequestError(createCustomerOrder?.error);
-    throw new Error(createCustomerOrder?.error);
-  }
-
+  // createCheckoutSessionAndRedirect
   try {
-    await clearTheCart(clearCartMutation, createCustomerOrder?.error);
+    setIsStripeOrderProcessing(true);
+    const createCustomerOrder = await handleCheckout(
+      "stripe",
+      input,
+      products,
+      setRequestError,
+      clearCartMutation
+    );
     setIsStripeOrderProcessing(false);
-  } catch (e) {
-    setRequestError("Clear cart failed");
-    throw new Error(e);
+    // On success show stripe form.
+    setCreatedOrderData(createCustomerOrder);
+    return createCustomerOrder;
+  } catch (error) {
+    throw error;
   }
-
-  // await createCheckoutSessionAndRedirect( products, input, createCustomerOrder?.orderId );
-  setCreatedOrderData(createCustomerOrder);
-  return createCustomerOrder;
 };
 
 const createCheckoutSessionAndRedirect = async (products, input, orderId) => {
   const sessionData = {
-    success_url:
-      window.location.origin +
-      `/thank-you?session_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`,
+    success_url: window.location.origin + `/thank-you?order_id=${orderId}`,
     cancel_url: window.location.href,
     customer_email: input.billingDifferentThanShipping
       ? input?.billing?.email
@@ -166,9 +120,7 @@ const createCheckoutSessionAndRedirect = async (products, input, orderId) => {
   };
   const session = await createCheckoutSession(sessionData);
   try {
-    const stripe = await loadStripe(
-      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-    );
+    const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_CLIENT);
     if (stripe) {
       stripe.redirectToCheckout({ sessionId: session.id });
     }
@@ -216,4 +168,49 @@ export const getMetaData = (input, orderId) => {
   // if ( customerId ) {
   //     metadata.customerId = customerId;
   // }
+};
+
+export const handlePaypalCheckout = async (
+  input,
+  products,
+  setRequestError,
+  clearCartMutation,
+  setIsStripeOrderProcessing,
+  setCreatedOrderData
+) => {
+  try {
+    setIsStripeOrderProcessing(true);
+    const createCustomerOrder = await handleCheckout(
+      "paypal",
+      input,
+      products,
+      setRequestError,
+      clearCartMutation
+    );
+    setCreatedOrderData(createCustomerOrder);
+    return createCustomerOrder;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleCheckout = async (
+  system,
+  input,
+  products,
+  setRequestError,
+  clearCartMutation
+) => {
+  const orderData = getCreateOrderData(input, products, system);
+
+  try {
+    const createCustomerOrder = await createTheOrder(orderData);
+
+    await clearTheCart(clearCartMutation);
+
+    return createCustomerOrder;
+  } catch (error) {
+    setRequestError(error.message);
+    throw new Error(e);
+  }
 };
