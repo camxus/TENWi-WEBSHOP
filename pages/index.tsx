@@ -5,9 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { UrlObject } from "url";
 import Dialog from "../src/components/Dialog";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import Countdown from "react-countdown";
 
 interface Notification {
+  onClick?: React.DOMAttributes<HTMLDivElement>["onClick"]
   link: string | UrlObject;
   header: string;
   timestamp: string;
@@ -16,10 +18,23 @@ interface Notification {
 }
 
 export default function Home({ notifications }: any) {
-  const [open, setOpen] = useState(false);
+  const [newsletterOpen, setNewsletterOpen] = useState(false);
+  const notifs = useMemo(() => {
+    return [
+      ...notifications,
+      {
+        header: "TENWI",
+        timestamp: <Countdown date={Date.now() + 10000} />,
+        sender: "TENWi",
+        message: "SIGN UP FOR NEWSLETTER",
+        link: "",
+        onClick: () => setNewsletterOpen(true)
+      },
+    ];
+  }, [notifications]);
 
   return (
-    <LayoutStart>
+    <LayoutStart {...{newsletterOpen, setNewsletterOpen}}>
       <div>
         <div className="before">
           <Image
@@ -33,11 +48,11 @@ export default function Home({ notifications }: any) {
         <div className="startpage-wrapper">
           <main id="main">
             <div className="notification-wrapper">
-              {notifications &&
-                notifications.map((item: Notification) => (
+              {!!notifs.length &&
+                notifs.map((item: Notification) => (
                   <ul id="one" className="notification-button">
                     <li className="one">
-                      <div className="container">
+                      <div className="container" onClick={item.onClick}>
                         <Link href={item.link}>
                           <div className="notification">
                             <span className="notification-before"></span>
@@ -87,9 +102,9 @@ export default function Home({ notifications }: any) {
 
 export async function getStaticProps() {
   const notifications: {
-    header: string;
+    header: React.ReactElement | string | number;
     timestamp: string;
-    sender: string;
+    sender: React.ReactElement | string | number;
     message: any;
     link: string;
   }[] = [
@@ -100,13 +115,13 @@ export async function getStaticProps() {
     // message: "WEBSHOP",
     // link: "/shop"
     // },
-    {
-      header: "TENWi",
-      timestamp: "Now",
-      sender: "TENWi",
-      message: "GALLERY",
-      link: "/gallery",
-    },
+    // {
+    //   header: "TENWi",
+    //   timestamp: "Now",
+    //   sender: "TENWi",
+    //   message: "GALLERY",
+    //   link: "/gallery",
+    // },
   ];
 
   const { data } = await client.query({
