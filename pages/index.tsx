@@ -9,12 +9,13 @@ import { useMemo, useState } from "react";
 import Countdown from "react-countdown";
 
 interface Notification {
-  onClick?: React.DOMAttributes<HTMLDivElement>["onClick"]
+  onClick?: React.DOMAttributes<HTMLDivElement>["onClick"];
   link: string | UrlObject;
   header: string;
   timestamp: string;
   sender: string;
   message: string;
+  more: string
 }
 
 export default function Home({ notifications }: any) {
@@ -24,17 +25,18 @@ export default function Home({ notifications }: any) {
       ...notifications,
       {
         header: "TENWI",
-        timestamp: <Countdown date={Date.now() + 10000} />,
-        sender: "TENWi",
-        message: "SIGN UP FOR NEWSLETTER",
+        timestamp: <Countdown date={new Date("2024-11-29T18:00:00")} />,
+        sender: <Countdown date={new Date("2024-11-29T18:00:00")} />,
+        message: "SIGN UP FOR MEMBER DISCOUNT ++ BLACK FRIDAY",
         link: "",
-        onClick: () => setNewsletterOpen(true)
+        more: "2 new messages from TENWI",
+        onClick: () => setNewsletterOpen(true),
       },
     ];
   }, [notifications]);
 
   return (
-    <LayoutStart {...{newsletterOpen, setNewsletterOpen}}>
+    <LayoutStart {...{ newsletterOpen, setNewsletterOpen }}>
       <div>
         <div className="before">
           <Image
@@ -66,9 +68,7 @@ export default function Home({ notifications }: any) {
                             <div className="content">
                               <span className="sender">{item.sender}</span>
                               <span className="message">{item.message}</span>
-                              <span className="more">
-                                2 more messages from {item.sender}
-                              </span>
+                              <span className="more">{item.more}</span>
                             </div>
                           </div>
                         </Link>
@@ -113,14 +113,18 @@ export async function getStaticProps() {
     // timestamp : "Now",
     // sender: "TENWi",
     // message: "WEBSHOP",
-    // link: "/shop"
+    // link: "/shop",
+            // more: "2 new messages from TENWI",
+
     // },
     // {
     //   header: "TENWi",
     //   timestamp: "Now",
     //   sender: "TENWi",
     //   message: "GALLERY",
-    //   link: "/gallery",
+    //   link: "/gallery",,
+            // more: "2 new messages from TENWI",
+
     // },
   ];
 
@@ -146,6 +150,7 @@ export async function getStaticProps() {
             sender: "TENWi",
             message: category.node.name,
             link: `portfolio/${slug}`,
+            more: "2 new messages from TENWI",
           } ?? null
         );
     }
