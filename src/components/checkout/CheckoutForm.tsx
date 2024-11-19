@@ -91,7 +91,7 @@ const CheckoutForm = ({
     createAccount: false,
     orderNotes: "",
     billingDifferentThanShipping: false,
-    paymentMethod: "ppcp-gateway",
+    paymentMethod: "",
   };
 
   const {
@@ -201,29 +201,6 @@ const CheckoutForm = ({
           lastName: input.shipping.lastName,
         });
       } catch (e) {}
-    }
-
-    if ("stripe-mode" === input.paymentMethod) {
-      setOrderData(
-        await handleStripeCheckout(
-          input,
-          cart?.products,
-          setRequestError,
-          clearCartMutation,
-          setIsStripeOrderProcessing,
-          setCreatedOrderData
-        )
-      );
-      return null;
-    }
-
-    if (
-      "ppcp-gateway" === input.paymentMethod &&
-      !!Number(cart?.total.replace(",", ".").slice(0, -1))
-    ) {
-      localStorage.setItem("user-info", JSON.stringify(input));
-      setPaypalLoaded(true);
-      return null;
     }
 
     const checkOutData = createCheckoutData(input);
@@ -387,36 +364,37 @@ const CheckoutForm = ({
                 <label htmlFor="newsletter">Sign up for Newsletter</label>
               </div>
               <div className="place-order-btn-wrap mt-5">
-                {!paypalLoaded && (
+                {!Number(cart?.total.replace(",", ".").slice(0, -1)) ? (
                   <button
                     disabled={isOrderProcessing}
-                    className="bg-black text-white px-5 py-3 rounded-sm w-auto xl:w-full"
+                    className="rounded-md p-2 w-full bg-black text-white border border-gray-300 my-4 fade-in disabled:bg-gray-500 disabled:text-gray-300 disabled:cursor-not-allowed transition-all"
                     type="submit"
                   >
                     Place Order
                   </button>
-                )}
-                <Stripe
-                  cart={cart}
-                  input={input}
-                  products={cart?.products}
-                  requestError={requestError}
-                  setRequestError={setRequestError}
-                  clearCartMutation={clearCartMutation}
-                  setIsStripeOrderProcessing={setIsStripeOrderProcessing}
-                  stripeOptions={stripeOptions}
-                />
+                ) : (
+                  <>
+                    <Stripe
+                      cart={cart}
+                      input={input}
+                      products={cart?.products}
+                      requestError={requestError}
+                      setRequestError={setRequestError}
+                      clearCartMutation={clearCartMutation}
+                      setIsStripeOrderProcessing={setIsStripeOrderProcessing}
+                      stripeOptions={stripeOptions}
+                    />
 
-                {paypalLoaded && (
-                  <Paypal
-                    cart={cart}
-                    input={input}
-                    products={cart?.products}
-                    requestError={requestError}
-                    setRequestError={setRequestError}
-                    clearCartMutation={clearCartMutation}
-                    setIsStripeOrderProcessing={setIsStripeOrderProcessing}
-                  />
+                    <Paypal
+                      cart={cart}
+                      input={input}
+                      products={cart?.products}
+                      requestError={requestError}
+                      setRequestError={setRequestError}
+                      clearCartMutation={clearCartMutation}
+                      setIsStripeOrderProcessing={setIsStripeOrderProcessing}
+                    />
+                  </>
                 )}
               </div>
 

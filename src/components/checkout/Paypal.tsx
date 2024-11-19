@@ -84,7 +84,7 @@ function Paypal({
       <PayPalButtons
         style={style}
         disabled={false}
-        fundingSource={undefined}
+        fundingSource={"paypal"}
         createOrder={createOrder}
         onApprove={onApprove}
         onError={(err) => alert("Create order failed: " + JSON.stringify(err))}
