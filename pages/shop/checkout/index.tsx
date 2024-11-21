@@ -19,13 +19,13 @@ const stripePromise = loadStripe(
 );
 
 const Checkout = ({ countries }: ICheckout) => {
-  console.log(process.env.NEXT_PUBLIC_STRIPE_CLIENT)
+  console.log(process.env.NEXT_PUBLIC_STRIPE_CLIENT);
   const [open, setOpen] = useState(false);
   const [stripeOptions, setStripeOptions] = useState({
     mode: "payment",
     amount: 100,
     currency: "eur",
-    payment_method_types: ['card'],
+    payment_method_types: ["card"],
     // Fully customizable with appearance API.
     appearance: {
       /*...*/
@@ -34,7 +34,10 @@ const Checkout = ({ countries }: ICheckout) => {
 
   return (
     <Elements
-      stripe={stripePromise}
+      stripe={loadStripe(
+        process.env.NEXT_PUBLIC_STRIPE_CLIENT ||
+          "pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+      )}
       options={stripeOptions}
     >
       <Layout>
