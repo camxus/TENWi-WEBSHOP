@@ -3,7 +3,7 @@ import CheckoutForm from "../../../src/components/checkout/CheckoutForm";
 import GET_COUNTRIES from "../../../src/queries/get-countries";
 import client from "../../../src/components/ApolloClient";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dialog from "../../../src/components/Dialog";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
@@ -32,6 +32,9 @@ const Checkout = ({ countries }: ICheckout) => {
     },
   });
 
+  useEffect(() => {
+    console.log(stripeOptions)
+  }, [stripeOptions])
   return (
     <Elements
       stripe={stripePromise}
