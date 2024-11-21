@@ -24,7 +24,7 @@ const Checkout = ({ countries }: ICheckout) => {
     mode: "payment",
     amount: 100,
     currency: "eur",
-    payment_method_types: ['card', 'link'],
+    payment_method_types: ['card'],
     // Fully customizable with appearance API.
     appearance: {
       /*...*/
