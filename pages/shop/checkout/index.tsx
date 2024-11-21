@@ -19,7 +19,7 @@ const stripePromise = loadStripe(
 );
 
 const Checkout = ({ countries }: ICheckout) => {
-  console.log(process.env)
+  console.log(process.env.NEXT_PUBLIC_STRIPE_CLIENT)
   const [open, setOpen] = useState(false);
   const [stripeOptions, setStripeOptions] = useState({
     mode: "payment",
