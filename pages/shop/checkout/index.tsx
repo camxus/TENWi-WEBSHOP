@@ -3,11 +3,10 @@ import CheckoutForm from "../../../src/components/checkout/CheckoutForm";
 import GET_COUNTRIES from "../../../src/queries/get-countries";
 import client from "../../../src/components/ApolloClient";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Dialog from "../../../src/components/Dialog";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import * as stripeJs from "@stripe/stripe-js";
 
 interface ICheckout {
   countries: any;
@@ -21,20 +20,17 @@ const stripePromise = loadStripe(
 
 const Checkout = ({ countries }: ICheckout) => {
   const [open, setOpen] = useState(false);
-  const [stripeOptions, setStripeOptions] = useState<stripeJs.StripeElementsOptions>({
+  const [stripeOptions, setStripeOptions] = useState({
     mode: "payment",
     amount: 100,
     currency: "eur",
-    payment_method_types: ['card'],
+    payment_method_types: ['card', 'link'],
     // Fully customizable with appearance API.
     appearance: {
-      theme: "stripe"
+      /*...*/
     },
   });
 
-  useEffect(() => {
-    console.log(stripeOptions)
-  }, [stripeOptions])
   return (
     <Elements
       stripe={stripePromise}

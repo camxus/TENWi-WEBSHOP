@@ -283,13 +283,7 @@ const CheckoutForm = ({
     if (cart) {
       setStripeOptions({
         ...stripeOptions,
-        mode: "payment",
-        amount: Number(cart.total.replace(",", ".").slice(0, -1)),
-        currency: "eur",
-        // Fully customizable with appearance API.
-        appearance: {
-          /*...*/
-        },
+        amount: Number(cart.total.replace(",", ".").slice(0, -1)) * 100,
       });
     }
   }, [cart]);
