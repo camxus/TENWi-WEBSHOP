@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import Dialog from "../../../src/components/Dialog";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+import * as stripeJs from "@stripe/stripe-js";
 
 interface ICheckout {
   countries: any;
@@ -19,9 +20,8 @@ const stripePromise = loadStripe(
 );
 
 const Checkout = ({ countries }: ICheckout) => {
-  console.log(process.env.NEXT_PUBLIC_STRIPE_CLIENT)
   const [open, setOpen] = useState(false);
-  const [stripeOptions, setStripeOptions] = useState({
+  const [stripeOptions, setStripeOptions] = useState<stripeJs.StripeElementsOptions>({
     mode: "payment",
     amount: 100,
     currency: "eur",
