@@ -46,7 +46,7 @@ function Stripe({
       const {
         data: { clientSecret },
       } = await axios.post("/api/stripe/create-intent", {
-        amount: 50 ?? stripeOptions.amount * 100,
+        amount: stripeOptions.amount * 100,
         currency: stripeOptions.currency,
         payment_method_types: stripeOptions.payment_methpod_types,
       });
