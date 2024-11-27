@@ -9,6 +9,7 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import axios from "axios";
+import { clearTheCart } from "../../utils/cart";
 
 function Stripe({
   cart,
@@ -75,6 +76,8 @@ function Stripe({
         setCreatedOrderData
       );
 
+      clearTheCart(clearCartMutation);
+      
       console.log("Order ID:", orderId);
       window.location.replace(`/shop/thank-you?order_id=${orderId}`);
       setProcessing(false);

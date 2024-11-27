@@ -95,6 +95,7 @@ const CheckoutForm = ({
   };
 
   const {
+    refetch,
     cartState: [cart],
   } = useContext(AppContext);
   const [signedUp, setSignedUp] = useState(false);
@@ -150,7 +151,11 @@ const CheckoutForm = ({
     },
   });
 
-  const [clearCartMutation] = useMutation(REMOVE_ITEMS_FROM_CART_MUTATION);
+  const [clearCartMutation] = useMutation(REMOVE_ITEMS_FROM_CART_MUTATION, {
+    onCompleted: () => {
+      refetch?.();
+    },
+  });
 
   /*
    * Handle form submit.

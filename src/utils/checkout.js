@@ -205,9 +205,6 @@ export const handleCheckout = async (
 
   try {
     const createCustomerOrder = await createTheOrder(orderData);
-
-    clearTheCart(clearCartMutation);
-
     return createCustomerOrder;
   } catch (error) {
     setRequestError(error.message);
