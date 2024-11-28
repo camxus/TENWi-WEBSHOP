@@ -62,6 +62,8 @@ function Paypal({
       //   throw new Error("Payment capture was not completed");
       // }
 
+      console.log("Paypal2", JSON.stringify(input))
+
       // Only proceed with order creation after successful capture
       const { orderId } = await handlePaypalCheckout(
         input,
