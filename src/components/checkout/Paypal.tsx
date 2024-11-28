@@ -22,10 +22,6 @@ function Paypal({
   checkoutEnabled,
   signUpNewsletter,
 }: any) {
-  useEffect(() => {
-    console.log("Paypal", JSON.stringify(input));
-  }, [input]);
-
   const [{ isPending }, dispatchPaypal] = usePayPalScriptReducer();
 
   const createOrder: PayPalButtonsComponentProps["createOrder"] = (
@@ -56,12 +52,10 @@ function Paypal({
         }
 
         // Optionally capture the payment
-        // const captureResult = await actions.order.capture();
-        // if (captureResult.status !== "COMPLETED") {
-        //   throw new Error("Payment capture was not completed");
-        // }
-
-        console.log("Paypal2", JSON.stringify(input));
+        const captureResult = await actions.order.capture();
+        if (captureResult.status !== "COMPLETED") {
+          throw new Error("Payment capture was not completed");
+        }
 
         // Proceed with order creation
         const { orderId } = await handlePaypalCheckout(

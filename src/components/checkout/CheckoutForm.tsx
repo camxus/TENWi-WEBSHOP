@@ -118,14 +118,9 @@ const CheckoutForm = ({
 
   useEffect(() => {
     if (user) {
-      console.log("user", user);
       setInput((input) => ({ ...input, ...user }));
     }
   }, [user]);
-
-  useEffect(() => {
-    console.log(JSON.stringify(input));
-  }, [input]);
 
   // Create New order: Checkout Mutation.
   const [
