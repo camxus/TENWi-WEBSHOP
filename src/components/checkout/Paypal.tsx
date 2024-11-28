@@ -46,7 +46,9 @@ function Paypal({
     });
   };
 
-  const onApprove = useCallback<NonNullable<PayPalButtonsComponentProps["onApprove"]>>(
+  const onApprove = useCallback<
+    NonNullable<PayPalButtonsComponentProps["onApprove"]>
+  >(
     async (data, actions) => {
       try {
         if (!actions?.order) {
@@ -88,6 +90,10 @@ function Paypal({
     },
     [input, products]
   );
+
+  if (!checkoutEnabled) {
+    return null;
+  }
 
   return (
     <div className="fade-in">
