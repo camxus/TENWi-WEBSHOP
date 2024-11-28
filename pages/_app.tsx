@@ -11,7 +11,6 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { ApolloProvider } from "@apollo/client";
 import client from "../src/components/ApolloClient";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
-import ReactPixel from "react-facebook-pixel";
 import { useEffect } from "react";
 
 NProgress.configure({ showSpinner: false });
@@ -30,9 +29,11 @@ function MyApp({ Component, pageProps, router }: any) {
   };
 
   useEffect(() => {
-    if (window)
+    if (typeof window !== "undefined") {
+      const ReactPixel = require("react-facebook-pixel").default;
       ReactPixel.init(process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID || "");
-  }, [window]);
+    }
+  }, []);
 
   return (
     <ApolloProvider client={client}>
