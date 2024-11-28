@@ -194,7 +194,7 @@ export const handleCheckout = async (
   setRequestError
 ) => {
   const orderData = getCreateOrderData(input, products, system);
-
+  
   try {
     const createCustomerOrder = await createTheOrder(orderData);
     return createCustomerOrder;

@@ -52,7 +52,7 @@ function Paypal({
       }
 
       // Capture the payment first
-      const captureResult = await actions.order.capture();
+      // const captureResult = await actions.order.capture();
 
       if (captureResult.status !== "COMPLETED") {
         throw new Error("Payment capture was not completed");

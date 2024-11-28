@@ -67,6 +67,8 @@ export const getCreateOrderData = (order, products, system) => {
     ? order.billing
     : order.shipping;
 
+  console.log(order);
+
   // Checkout data.
   return {
     shipping: {
