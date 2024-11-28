@@ -5,8 +5,9 @@ import {
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
 import React from "react";
-import { handleCheckout, handlePaypalCheckout } from "../../utils/checkout";
+import { handlePaypalCheckout } from "../../utils/checkout";
 import { submitMailchimp } from "../Dialog";
+import { clearTheCart } from "../../utils/cart";
 
 // This value is from the props in the UI
 const style: PayPalButtonsComponentProps["style"] = { layout: "vertical" };
@@ -62,7 +63,6 @@ function Paypal({
         input,
         products,
         setRequestError,
-        clearCartMutation,
         setIsStripeOrderProcessing
       );
 
@@ -73,6 +73,8 @@ function Paypal({
           lastName: input.shipping.lastName,
         });
       }
+
+      clearTheCart(clearCartMutation);
 
       window.location.replace(`/shop/thank-you?order_id=${orderId}`);
     } catch (e: any) {

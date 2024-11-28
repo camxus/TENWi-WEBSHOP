@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import {
-  handlePaypalCheckout,
-  handleStripeCheckout,
-} from "../../utils/checkout";
+import { handleStripeCheckout } from "../../utils/checkout";
 import {
   PaymentElement,
   useElements,
@@ -19,7 +16,6 @@ function Stripe({
   setRequestError,
   clearCartMutation,
   setIsStripeOrderProcessing,
-  setCreatedOrderData,
   stripeOptions,
   checkoutEnabled,
   signUpNewsletter,
@@ -74,9 +70,7 @@ function Stripe({
         input,
         products,
         setRequestError,
-        clearCartMutation,
-        setIsStripeOrderProcessing,
-        setCreatedOrderData
+        setIsStripeOrderProcessing
       );
 
       if (signUpNewsletter) {

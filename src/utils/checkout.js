@@ -83,9 +83,7 @@ export const handleStripeCheckout = async (
   input,
   products,
   setRequestError,
-  clearCartMutation,
   setIsStripeOrderProcessing,
-  setCreatedOrderData
 ) => {
   // createCheckoutSessionAndRedirect
   try {
@@ -94,8 +92,7 @@ export const handleStripeCheckout = async (
       "stripe",
       input,
       products,
-      setRequestError,
-      clearCartMutation
+      setRequestError
     );
     setIsStripeOrderProcessing(false);
     // On success show stripe form.
@@ -174,8 +171,7 @@ export const handlePaypalCheckout = async (
   input,
   products,
   setRequestError,
-  clearCartMutation,
-  setIsStripeOrderProcessing,
+  setIsStripeOrderProcessing
 ) => {
   try {
     setIsStripeOrderProcessing(true);
@@ -183,8 +179,7 @@ export const handlePaypalCheckout = async (
       "paypal",
       input,
       products,
-      setRequestError,
-      clearCartMutation
+      setRequestError
     );
     return createCustomerOrder;
   } catch (error) {
@@ -196,8 +191,7 @@ export const handleCheckout = async (
   system,
   input,
   products,
-  setRequestError,
-  clearCartMutation
+  setRequestError
 ) => {
   const orderData = getCreateOrderData(input, products, system);
 
