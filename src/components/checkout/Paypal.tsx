@@ -4,8 +4,11 @@ import {
   SCRIPT_LOADING_STATE,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { handlePaypalCheckout } from "../../utils/checkout";
+import { submitMailchimp } from "../Dialog";
+import { clearTheCart } from "../../utils/cart";
+import ReactPixel from "react-facebook-pixel";
 
 // This value is from the props in the UI
 const style: PayPalButtonsComponentProps["style"] = { layout: "vertical" };
@@ -17,7 +20,8 @@ function Paypal({
   setRequestError,
   clearCartMutation,
   setIsStripeOrderProcessing,
-  setCreatedOrderData,
+  checkoutEnabled,
+  signUpNewsletter,
 }: any) {
   const [{ isPending }, dispatchPaypal] = usePayPalScriptReducer();
 
@@ -39,57 +43,68 @@ function Paypal({
     });
   };
 
-  const onApprove: PayPalButtonsComponentProps["onApprove"] = async (
-    data,
-    actions
-  ) => {
-    try {
-      if (!actions.order) {
-        throw new Error("payment failed");
+  const onApprove = useCallback<
+    NonNullable<PayPalButtonsComponentProps["onApprove"]>
+  >(
+    async (data, actions) => {
+      try {
+        if (!actions?.order) {
+          throw new Error("Payment failed");
+        }
+
+        // Optionally capture the payment
+        const captureResult = await actions.order.capture();
+        if (captureResult.status !== "COMPLETED") {
+          throw new Error("Payment capture was not completed");
+        }
+
+        // Proceed with order creation
+        const { orderId } = await handlePaypalCheckout(
+          input,
+          products,
+          setRequestError,
+          setIsStripeOrderProcessing
+        );
+
+        if (signUpNewsletter) {
+          submitMailchimp({
+            email: input.shipping.email,
+            firstName: input.shipping.firstName,
+            lastName: input.shipping.lastName,
+          });
+        }
+
+        clearTheCart(clearCartMutation);
+        ReactPixel.track("Purchase", {
+          value: Number(cart.total.replace(",", ".").slice(0, -1)),
+          currency: "eur",
+        });
+
+        // Redirect to thank-you page
+        window.location.replace(`/shop/thank-you?order_id=${orderId}`);
+      } catch (e: any) {
+        console.error(e);
+        alert("Create order failed: " + e.message);
       }
+    },
+    [input, products]
+  );
 
-      // Capture the payment first
-      const captureResult = await actions.order.capture();
-
-      if (captureResult.status !== "COMPLETED") {
-        throw new Error("Payment capture was not completed");
-      }
-
-      // Only proceed with order creation after successful capture
-      const { orderId } = await handlePaypalCheckout(
-        input,
-        products,
-        setRequestError,
-        clearCartMutation,
-        setIsStripeOrderProcessing,
-        setCreatedOrderData
-      );
-
-      window.location.replace(`/shop/thank-you?order_id=${orderId}`);
-    } catch (e: any) {
-      console.error(e);
-      // dispatchPaypal({
-      //   type: "setLoadingStatus",
-      //   value: {
-      //     state: SCRIPT_LOADING_STATE.INITIAL,
-      //     message: "Please try again",
-      //   },
-      // });
-      alert("Create order failed: " + e.message);
-    }
-  };
+  if (!checkoutEnabled) {
+    return null;
+  }
 
   return (
-    <>
+    <div className="fade-in">
       <PayPalButtons
         style={style}
-        disabled={false}
-        fundingSource={undefined}
+        // disabled={!checkoutEnabled}
+        fundingSource={"paypal"}
         createOrder={createOrder}
         onApprove={onApprove}
         onError={(err) => alert("Create order failed: " + JSON.stringify(err))}
       />
-    </>
+    </div>
   );
 }
 
