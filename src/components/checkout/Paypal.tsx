@@ -93,7 +93,7 @@ function Paypal({
     <div className="fade-in">
       <PayPalButtons
         style={style}
-        disabled={!checkoutEnabled}
+        // disabled={!checkoutEnabled}
         fundingSource={"paypal"}
         createOrder={createOrder}
         onApprove={onApprove}
