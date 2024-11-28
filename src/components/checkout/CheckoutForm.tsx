@@ -298,22 +298,22 @@ const CheckoutForm = ({
     }
   }, [cart]);
 
-  // useEffect(() => {
-  //   const billingValidationResult = input?.billingDifferentThanShipping
-  //     ? validateAndSanitizeCheckoutForm(input?.billing, !!billingStates?.length)
-  //     : { errors: null, isValid: true };
+  useEffect(() => {
+    const billingValidationResult = input?.billingDifferentThanShipping
+      ? validateAndSanitizeCheckoutForm(input?.billing, !!billingStates?.length)
+      : { errors: null, isValid: true };
 
-  //   const shippingValidationResult = validateAndSanitizeCheckoutForm(
-  //     input?.shipping,
-  //     !!shippingStates?.length
-  //   );
+    const shippingValidationResult = validateAndSanitizeCheckoutForm(
+      input?.shipping,
+      !!shippingStates?.length
+    );
 
-  //   if (shippingValidationResult.isValid && billingValidationResult.isValid) {
-  //     setCheckoutEnabled(true);
-  //     return;
-  //   }
-  //   setCheckoutEnabled(false);
-  // }, [input]);
+    if (shippingValidationResult.isValid && billingValidationResult.isValid) {
+      setCheckoutEnabled(true);
+      return;
+    }
+    setCheckoutEnabled(false);
+  }, [input]);
 
   // Loading Data
   const isOrderProcessing = checkoutLoading || isStripeOrderProcessing;
@@ -321,7 +321,7 @@ const CheckoutForm = ({
   return (
     <>
       {cart ? (
-        <form onSubmit={handleFormSubmit} className="checkout-form">
+        <form className="checkout-form">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
             <div>
               {/*Shipping Details*/}
