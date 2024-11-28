@@ -98,7 +98,7 @@ const CheckoutForm = ({
     refetch,
     cartState: [cart],
   } = useContext(AppContext);
-  const [signedUp, setSignedUp] = useState(false);
+  const [signUpNewsletter, setSignUpNewsletter] = useState(false);
   const [user] = useContext(UserContext);
   const [input, setInput] = useState<IInput & typeof user>(initialState);
   const [orderData, setOrderData] = useState<any>(null);
@@ -110,6 +110,7 @@ const CheckoutForm = ({
   const [billingStates, setBillingStates] = useState([]);
   const [isStripeOrderProcessing, setIsStripeOrderProcessing] = useState(false);
   const [isFetchingBillingStates, setIsFetchingBillingStates] = useState(false);
+  const [checkoutEnabled, setCheckoutEnabled] = useState(false);
   const [createdOrderData, setCreatedOrderData] = useState({});
   const [errorHandler, setErrorHandler] = useState("");
 
@@ -198,7 +199,7 @@ const CheckoutForm = ({
       return;
     }
 
-    if (signedUp) {
+    if (signUpNewsletter) {
       try {
         await submitMailchimp({
           email: input.shipping.email,
@@ -293,6 +294,23 @@ const CheckoutForm = ({
     }
   }, [cart]);
 
+  useEffect(() => {
+    const billingValidationResult = input?.billingDifferentThanShipping
+      ? validateAndSanitizeCheckoutForm(input?.billing, !!billingStates?.length)
+      : { errors: null, isValid: true };
+
+    const shippingValidationResult = validateAndSanitizeCheckoutForm(
+      input?.shipping,
+      !!shippingStates?.length
+    );
+
+    if (shippingValidationResult.isValid && billingValidationResult.isValid) {
+      setCheckoutEnabled(true);
+      return
+    }
+    setCheckoutEnabled(false);
+  }, [input]);
+
   // Loading Data
   const isOrderProcessing = checkoutLoading || isStripeOrderProcessing;
 
@@ -358,7 +376,7 @@ const CheckoutForm = ({
                   className="checked:bg-black"
                   type="checkbox"
                   id="newsletter"
-                  onChange={() => setSignedUp(true)}
+                  onChange={() => setSignUpNewsletter(true)}
                 />
                 <label htmlFor="newsletter">Sign up for Newsletter</label>
               </div>
@@ -374,6 +392,7 @@ const CheckoutForm = ({
                 ) : (
                   <>
                     <Stripe
+                      checkoutEnabled={checkoutEnabled}
                       cart={cart}
                       input={input}
                       products={cart?.products}
@@ -382,9 +401,11 @@ const CheckoutForm = ({
                       clearCartMutation={clearCartMutation}
                       setIsStripeOrderProcessing={setIsStripeOrderProcessing}
                       stripeOptions={stripeOptions}
+                      signUpNewsletter={signUpNewsletter}
                     />
 
                     <Paypal
+                      checkoutEnabled={checkoutEnabled}
                       cart={cart}
                       input={input}
                       products={cart?.products}
@@ -392,6 +413,7 @@ const CheckoutForm = ({
                       setRequestError={setRequestError}
                       clearCartMutation={clearCartMutation}
                       setIsStripeOrderProcessing={setIsStripeOrderProcessing}
+                      signUpNewsletter={signUpNewsletter}
                     />
                   </>
                 )}

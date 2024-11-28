@@ -10,6 +10,7 @@ import {
 } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { clearTheCart } from "../../utils/cart";
+import { submitMailchimp } from "../Dialog";
 
 function Stripe({
   cart,
@@ -20,6 +21,8 @@ function Stripe({
   setIsStripeOrderProcessing,
   setCreatedOrderData,
   stripeOptions,
+  checkoutEnabled,
+  signUpNewsletter,
 }: any) {
   const stripe = useStripe();
   const elements = useElements();
@@ -76,8 +79,16 @@ function Stripe({
         setCreatedOrderData
       );
 
+      if (signUpNewsletter) {
+        submitMailchimp({
+          email: input.shipping.email,
+          firstName: input.shipping.firstName,
+          lastName: input.shipping.lastName,
+        });
+      }
+
       clearTheCart(clearCartMutation);
-      
+
       console.log("Order ID:", orderId);
       window.location.replace(`/shop/thank-you?order_id=${orderId}`);
       setProcessing(false);
@@ -99,7 +110,7 @@ function Stripe({
           className="rounded-md p-2 w-full bg-black text-white border border-gray-300 my-4 fade-in disabled:bg-gray-500 disabled:text-gray-300 disabled:cursor-not-allowed transition-all"
           onClick={handleSubmit}
           type="submit"
-          disabled={processing}
+          disabled={processing || !checkoutEnabled}
         >
           Pay
         </button>

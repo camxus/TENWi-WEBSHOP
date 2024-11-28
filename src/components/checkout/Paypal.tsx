@@ -6,6 +6,7 @@ import {
 } from "@paypal/react-paypal-js";
 import React from "react";
 import { handleCheckout, handlePaypalCheckout } from "../../utils/checkout";
+import { submitMailchimp } from "../Dialog";
 
 // This value is from the props in the UI
 const style: PayPalButtonsComponentProps["style"] = { layout: "vertical" };
@@ -18,6 +19,8 @@ function Paypal({
   clearCartMutation,
   setIsStripeOrderProcessing,
   setCreatedOrderData,
+  checkoutEnabled,
+  signUpNewsletter,
 }: any) {
   const [{ isPending }, dispatchPaypal] = usePayPalScriptReducer();
 
@@ -65,6 +68,14 @@ function Paypal({
         setCreatedOrderData
       );
 
+      if (signUpNewsletter) {
+        submitMailchimp({
+          email: input.shipping.email,
+          firstName: input.shipping.firstName,
+          lastName: input.shipping.lastName,
+        });
+      }
+
       window.location.replace(`/shop/thank-you?order_id=${orderId}`);
     } catch (e: any) {
       console.error(e);
@@ -80,16 +91,16 @@ function Paypal({
   };
 
   return (
-    <>
+    <div className="fade-in">
       <PayPalButtons
         style={style}
-        disabled={false}
+        disabled={!checkoutEnabled}
         fundingSource={"paypal"}
         createOrder={createOrder}
         onApprove={onApprove}
         onError={(err) => alert("Create order failed: " + JSON.stringify(err))}
       />
-    </>
+    </div>
   );
 }
 
