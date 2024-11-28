@@ -99,7 +99,7 @@ export const handleStripeCheckout = async (
     );
     setIsStripeOrderProcessing(false);
     // On success show stripe form.
-    setCreatedOrderData(createCustomerOrder);
+    // setCreatedOrderData(createCustomerOrder);
     return createCustomerOrder;
   } catch (error) {
     throw error;
