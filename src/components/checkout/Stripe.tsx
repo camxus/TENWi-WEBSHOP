@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { handleStripeCheckout } from "../../utils/checkout";
 import {
   PaymentElement,
@@ -23,6 +23,15 @@ function Stripe({
   const stripe = useStripe();
   const elements = useElements();
   const [processing, setProcessing] = useState(false);
+
+  useEffect(() => {
+    elements?.create("expressCheckout", {
+      buttonType: {
+        applePay: "buy",
+        googlePay: "buy",
+      },
+    });
+  }, []);
 
   const handleSubmit = async (
     event: React.MouseEventHandler<HTMLButtonElement>
