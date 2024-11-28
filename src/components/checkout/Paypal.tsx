@@ -54,9 +54,9 @@ function Paypal({
       // Capture the payment first
       // const captureResult = await actions.order.capture();
 
-      if (captureResult.status !== "COMPLETED") {
-        throw new Error("Payment capture was not completed");
-      }
+      // if (captureResult.status !== "COMPLETED") {
+      //   throw new Error("Payment capture was not completed");
+      // }
 
       // Only proceed with order creation after successful capture
       const { orderId } = await handlePaypalCheckout(
