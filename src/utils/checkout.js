@@ -176,7 +176,7 @@ export const handlePaypalCheckout = async (
   try {
     setIsStripeOrderProcessing(true);
 
-    console.log(JSON.stringify(input))
+    console.log("handlePaypalCheckout", JSON.stringify(input));
 
     const createCustomerOrder = await handleCheckout(
       "paypal",
@@ -196,7 +196,7 @@ export const handleCheckout = async (
   products,
   setRequestError
 ) => {
-  console.log(JSON.stringify(input))
+  console.log("handleCheckout", JSON.stringify(input));
 
   const orderData = getCreateOrderData(input, products, system);
 
