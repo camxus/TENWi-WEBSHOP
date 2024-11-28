@@ -120,6 +120,10 @@ const CheckoutForm = ({
     if (user) setInput((input) => ({ ...input, ...user }));
   }, [user]);
 
+  useEffect(() => {
+    console.log(JSON.stringify(input));
+  }, [input]);
+
   // Create New order: Checkout Mutation.
   const [
     checkout,
@@ -306,7 +310,7 @@ const CheckoutForm = ({
 
     if (shippingValidationResult.isValid && billingValidationResult.isValid) {
       setCheckoutEnabled(true);
-      return
+      return;
     }
     setCheckoutEnabled(false);
   }, [input]);
