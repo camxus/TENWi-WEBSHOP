@@ -8,7 +8,6 @@ import {
 import axios from "axios";
 import { clearTheCart } from "../../utils/cart";
 import { submitMailchimp } from "../Dialog";
-import ReactPixel from "react-facebook-pixel"
 
 function Stripe({
   cart,
@@ -95,6 +94,7 @@ function Stripe({
 
       console.log("Order ID:", orderId);
 
+      const ReactPixel = require("react-facebook-pixel").default;
       ReactPixel.track("Purchase", { value: stripeOptions.amount / 100, currency: stripeOptions.currency });
       window.location.replace(`/shop/thank-you?order_id=${orderId}`);
       setProcessing(false);
