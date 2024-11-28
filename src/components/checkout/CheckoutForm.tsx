@@ -117,7 +117,10 @@ const CheckoutForm = ({
   const [paypalLoaded, setPaypalLoaded] = useState(false);
 
   useEffect(() => {
-    if (user) setInput((input) => ({ ...input, ...user }));
+    if (user) {
+      console.log("user", user);
+      setInput((input) => ({ ...input, ...user }));
+    }
   }, [user]);
 
   useEffect(() => {
@@ -251,6 +254,7 @@ const CheckoutForm = ({
         }
       } else {
         const newState = { ...input, [target.name]: target.value };
+        console.log("state", newState)
         setInput(newState);
       }
     }
