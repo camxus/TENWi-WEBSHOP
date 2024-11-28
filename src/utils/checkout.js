@@ -83,7 +83,7 @@ export const handleStripeCheckout = async (
   input,
   products,
   setRequestError,
-  setIsStripeOrderProcessing,
+  setIsStripeOrderProcessing
 ) => {
   // createCheckoutSessionAndRedirect
   try {
@@ -175,6 +175,9 @@ export const handlePaypalCheckout = async (
 ) => {
   try {
     setIsStripeOrderProcessing(true);
+
+    console.log(input);
+
     const createCustomerOrder = await handleCheckout(
       "paypal",
       input,
@@ -193,8 +196,10 @@ export const handleCheckout = async (
   products,
   setRequestError
 ) => {
+  console.log(input);
+
   const orderData = getCreateOrderData(input, products, system);
-  
+
   try {
     const createCustomerOrder = await createTheOrder(orderData);
     return createCustomerOrder;

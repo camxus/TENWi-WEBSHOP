@@ -59,6 +59,8 @@ function Paypal({
       // }
 
       // Only proceed with order creation after successful capture
+      console.log(input)
+      
       const { orderId } = await handlePaypalCheckout(
         input,
         products,
