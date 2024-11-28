@@ -18,7 +18,6 @@ function Paypal({
   setRequestError,
   clearCartMutation,
   setIsStripeOrderProcessing,
-  setCreatedOrderData,
   checkoutEnabled,
   signUpNewsletter,
 }: any) {
@@ -64,8 +63,7 @@ function Paypal({
         products,
         setRequestError,
         clearCartMutation,
-        setIsStripeOrderProcessing,
-        setCreatedOrderData
+        setIsStripeOrderProcessing
       );
 
       if (signUpNewsletter) {

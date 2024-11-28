@@ -176,7 +176,6 @@ export const handlePaypalCheckout = async (
   setRequestError,
   clearCartMutation,
   setIsStripeOrderProcessing,
-  setCreatedOrderData
 ) => {
   try {
     setIsStripeOrderProcessing(true);
@@ -187,7 +186,6 @@ export const handlePaypalCheckout = async (
       setRequestError,
       clearCartMutation
     );
-    setCreatedOrderData(createCustomerOrder);
     return createCustomerOrder;
   } catch (error) {
     throw error;
