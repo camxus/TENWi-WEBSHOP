@@ -4,7 +4,7 @@ import {
   SCRIPT_LOADING_STATE,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
-import React from "react";
+import React, { useEffect } from "react";
 import { handlePaypalCheckout } from "../../utils/checkout";
 import { submitMailchimp } from "../Dialog";
 import { clearTheCart } from "../../utils/cart";
@@ -22,6 +22,10 @@ function Paypal({
   checkoutEnabled,
   signUpNewsletter,
 }: any) {
+  useEffect(() => {
+    console.log("Paypal", JSON.stringify(input))
+  }, [input])
+
   const [{ isPending }, dispatchPaypal] = usePayPalScriptReducer();
 
   const createOrder: PayPalButtonsComponentProps["createOrder"] = (
@@ -59,8 +63,6 @@ function Paypal({
       // }
 
       // Only proceed with order creation after successful capture
-      console.log("Paypal", JSON.stringify(input))
-
       const { orderId } = await handlePaypalCheckout(
         input,
         products,
