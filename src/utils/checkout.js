@@ -200,6 +200,6 @@ export const handleCheckout = async (
     return createCustomerOrder;
   } catch (error) {
     setRequestError(error.message);
-    throw new Error(e);
+    throw new Error(error);
   }
 };
