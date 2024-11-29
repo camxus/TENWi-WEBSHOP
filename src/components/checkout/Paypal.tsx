@@ -8,6 +8,7 @@ import React, { useCallback, useEffect } from "react";
 import { handlePaypalCheckout } from "../../utils/checkout";
 import { submitMailchimp } from "../Dialog";
 import { clearTheCart } from "../../utils/cart";
+import ReactPixel from "react-facebook-pixel";
 
 // This value is from the props in the UI
 const style: PayPalButtonsComponentProps["style"] = { layout: "vertical" };
@@ -74,6 +75,10 @@ function Paypal({
         }
 
         clearTheCart(clearCartMutation);
+        ReactPixel.track("Purchase", {
+          value: Number(cart.total.replace(",", ".").slice(0, -1)),
+          currency: "eur",
+        });
 
         // Redirect to thank-you page
         window.location.replace(`/shop/thank-you?order_id=${orderId}`);
