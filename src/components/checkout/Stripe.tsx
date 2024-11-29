@@ -94,7 +94,8 @@ function Stripe({
       clearTheCart(clearCartMutation);
 
       console.log("Order ID:", orderId);
-
+      
+      const ReactPixel = require("react-facebook-pixel").default;
       ReactPixel.track("Purchase", { value: stripeOptions.amount / 100, currency: stripeOptions.currency });
       window.location.replace(`/shop/thank-you?order_id=${orderId}`);
       setProcessing(false);
