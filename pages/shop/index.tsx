@@ -31,13 +31,13 @@ function Categories({ categories }: any) {
           className="flex items-center justify-center"
           style={{ height: "100vh" }}
         >
-          <Image
+          {/* <Image
             className="w-full h-full object-cover"
             layout="fill"
             src={require("../../public/assets/images/png/HOMEPAGE2.png")}
             alt={""}
-          />
-          {/* <VimeoEmbed videoId={424448504} className={styles.vimeo} /> */}
+          /> */}
+          <VimeoEmbed videoId={1034597644} className={styles.vimeo} />
           <Link href={`/shop/category/all`}>
             <div className={`${styles["category-name"]}`}>{"ALL"}</div>
           </Link>
