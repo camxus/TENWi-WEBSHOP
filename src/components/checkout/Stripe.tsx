@@ -101,24 +101,24 @@ function Stripe({
     }
   };
 
-  if (!stripeOptions) {
-    return;
+  if (!stripeOptions || !checkoutEnabled) {
+    return null;
   }
 
   return (
-    <>
+    <div className="fade-in">
       <PaymentElement />
       {stripe && elements && (
         <button
           className="rounded-md p-2 w-full bg-black text-white border border-gray-300 my-4 fade-in disabled:bg-gray-500 disabled:text-gray-300 disabled:cursor-not-allowed transition-all"
           onClick={handleSubmit}
           type="submit"
-          disabled={processing || !checkoutEnabled}
+          disabled={processing}
         >
           Pay
         </button>
       )}
-    </>
+    </div>
   );
 }
 
