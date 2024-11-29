@@ -23,7 +23,7 @@ export default function Home({ notifications }: any) {
       <div>
         <div className="before">
           <Image
-            src={require("../public/assets/images/png/HOMEPAGE.png")}
+            src={require("../public/assets/images/png/HOMEPAGE2.png")}
             layout="fill"
             objectFit="cover"
             alt={""}
