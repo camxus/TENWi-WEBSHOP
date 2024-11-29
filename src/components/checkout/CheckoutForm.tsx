@@ -59,7 +59,7 @@ interface IInput {
 }
 
 const defaultCustomerInfo = {
-  firstName: "here",
+  firstName: "",
   lastName: "",
   address1: "",
   address2: "",
