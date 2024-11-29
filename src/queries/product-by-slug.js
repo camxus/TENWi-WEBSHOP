@@ -33,12 +33,14 @@ export const PRODUCT_BY_SLUG_QUERY = gql`
       ... on SimpleProduct {
         price
         id
+        salePrice
         regularPrice
         stockStatus
       }
       ... on VariableProduct {
         price
         id
+        salePrice
         regularPrice
         stockStatus
         localAttributes {
@@ -74,6 +76,7 @@ export const PRODUCT_BY_SLUG_QUERY = gql`
       ... on ExternalProduct {
         price
         id
+        salePrice
         regularPrice
         externalUrl
       }
@@ -83,6 +86,7 @@ export const PRODUCT_BY_SLUG_QUERY = gql`
             ... on SimpleProduct {
               id
               price
+              salePrice
               regularPrice
             }
           }

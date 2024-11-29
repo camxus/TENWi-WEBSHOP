@@ -18,6 +18,10 @@
   color: white;
 }
 
+.card:hover .salePrice{
+  color: white;
+}
+
 @media only screen and (max-width: 768px) {
   .card {
     width: 100vw;
@@ -32,6 +36,10 @@
   bottom: 0;
   padding: 0.5rem;
   background-color: transparent;
+  transition: all 0.5s ease-in-out;
+}
+
+.salePrice {
   transition: all 0.5s ease-in-out;
 }
 
