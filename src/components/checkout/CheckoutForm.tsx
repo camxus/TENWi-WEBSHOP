@@ -305,16 +305,7 @@ const CheckoutForm = ({
       input?.shipping,
       !!shippingStates?.length
     );
-
-    console.log(
-      Object.entries(input.billing).find(
-        ([key, value]) => key !== "errors" && !!value
-      ),
-      Object.entries(input.shipping).find(
-        ([key, value]) => key !== "errors" && !!value
-      )
-    );
-
+    
     if (
       !Object.entries(input.billing).find(
         ([key, value]) => key !== "errors" && !!value
