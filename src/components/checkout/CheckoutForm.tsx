@@ -249,7 +249,6 @@ const CheckoutForm = ({
         }
       } else {
         const newState = { ...input, [target.name]: target.value };
-        console.log("state", newState)
         setInput(newState);
       }
     }
@@ -307,10 +306,32 @@ const CheckoutForm = ({
       !!shippingStates?.length
     );
 
-    if (shippingValidationResult.isValid && billingValidationResult.isValid) {
-      setCheckoutEnabled(true);
-      return;
+    if (!Object.values(input).find((value) => value === !value)) {
+      if (shippingValidationResult.isValid && billingValidationResult.isValid) {
+        setInput({
+          ...input,
+          billing: { ...input.billing, errors: null },
+          shipping: {
+            ...input.shipping,
+            errors: null,
+          },
+        });
+        setCheckoutEnabled(true);
+        return;
+      }
+
+      if (shippingValidationResult.errors || billingValidationResult.errors) {
+        setInput({
+          ...input,
+          billing: { ...input.billing, errors: billingValidationResult.errors },
+          shipping: {
+            ...input.shipping,
+            errors: shippingValidationResult.errors,
+          },
+        });
+      }
     }
+
     setCheckoutEnabled(false);
   }, [input]);
 
@@ -320,7 +341,7 @@ const CheckoutForm = ({
   return (
     <>
       {cart ? (
-        <form className="checkout-form">
+        <form onSubmit={handleFormSubmit} className="checkout-form">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
             <div>
               {/*Shipping Details*/}

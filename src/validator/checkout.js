@@ -47,7 +47,12 @@ const validateAndSanitizeCheckoutForm = (data, hasStates = true) => {
     type = "string",
     required = false
   ) => {
-    const value = formData[fieldName];
+    let value = formData[fieldName];
+
+    // Remove spaces for phone validation
+    if (type === "phone") {
+      value = value.replace(/\s+/g, "");
+    }
 
     // Validate length
     if (!validator.isLength(value, { min, max })) {
@@ -73,6 +78,8 @@ const validateAndSanitizeCheckoutForm = (data, hasStates = true) => {
         sanitizedData[fieldName] = validator.normalizeEmail(
           sanitizedData[fieldName]
         );
+      } else if (type === "phone") {
+        sanitizedData[fieldName] = value; // Store sanitized phone without spaces
       }
     }
   };
