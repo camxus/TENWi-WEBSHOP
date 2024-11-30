@@ -306,30 +306,49 @@ const CheckoutForm = ({
       !!shippingStates?.length
     );
 
-    if (!Object.values(input).find((value) => value === !value)) {
-      if (shippingValidationResult.isValid && billingValidationResult.isValid) {
-        setInput({
-          ...input,
-          billing: { ...input.billing, errors: null },
-          shipping: {
-            ...input.shipping,
-            errors: null,
-          },
-        });
-        setCheckoutEnabled(true);
-        return;
-      }
+    console.log(
+      Object.entries(input.billing).find(
+        ([key, value]) => key !== "errors" && !!value
+      ),
+      Object.entries(input.shipping).find(
+        ([key, value]) => key !== "errors" && !!value
+      )
+    );
 
-      if (shippingValidationResult.errors || billingValidationResult.errors) {
-        setInput({
-          ...input,
-          billing: { ...input.billing, errors: billingValidationResult.errors },
-          shipping: {
-            ...input.shipping,
-            errors: shippingValidationResult.errors,
-          },
-        });
-      }
+    if (
+      !Object.entries(input.billing).find(
+        ([key, value]) => key !== "errors" && !!value
+      ) &&
+      !Object.entries(input.shipping).find(
+        ([key, value]) => key !== "errors" && !!value
+      )
+    ) {
+      setCheckoutEnabled(false);
+      return;
+    }
+
+    if (shippingValidationResult.isValid && billingValidationResult.isValid) {
+      setInput({
+        ...input,
+        billing: { ...input.billing, errors: null },
+        shipping: {
+          ...input.shipping,
+          errors: null,
+        },
+      });
+      setCheckoutEnabled(true);
+      return;
+    }
+
+    if (shippingValidationResult.errors || billingValidationResult.errors) {
+      setInput({
+        ...input,
+        billing: { ...input.billing, errors: billingValidationResult.errors },
+        shipping: {
+          ...input.shipping,
+          errors: shippingValidationResult.errors,
+        },
+      });
     }
 
     setCheckoutEnabled(false);
