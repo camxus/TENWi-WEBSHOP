@@ -32,7 +32,32 @@ function MyApp({ Component, pageProps, router }: any) {
     if (typeof window !== "undefined") {
       const ReactPixel = require("react-facebook-pixel").default;
       ReactPixel.init(process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID || "");
-      ReactPixel.track("PageView")
+      ReactPixel.track("PageView");
+      ReactPixel.track("Purchase", {
+        content_ids: [
+          "wc_post_id_1864",
+          "wc_post_id_1863",
+          "wc_post_id_1923",
+          "wc_post_id_1924",
+          "wc_post_id_1927",
+          "wc_post_id_1926",
+        ], // 'REQUIRED': array of product IDs
+        value: 1234.99, // REQUIRED, up to 2 decimals optional
+        currency: "USD", // REQUIRED
+        content_type: "product", // RECOMMENDED: Either product or product_group based on the content_ids or contents being passed.
+      });
+
+      ReactPixel.track("ViewContent", {
+        content_ids: [
+          "wc_post_id_1864",
+          "wc_post_id_1863",
+          "wc_post_id_1923",
+          "wc_post_id_1924",
+          "wc_post_id_1927",
+          "wc_post_id_1926",
+        ], // 'REQUIRED': array of product IDs
+        content_type: "product", // RECOMMENDED: Either product or product_group based on the content_ids or contents being passed.
+      });
     }
   }, []);
 

@@ -75,6 +75,16 @@ function Stripe({
         setRequestError(error.message);
         throw error.message;
       }
+      
+      const ReactPixel = require("react-facebook-pixel").default;
+        ReactPixel.track("Purchase", {
+          content_ids: [
+            products.map((product: { productId: any }) => product.productId),
+          ],
+          value: stripeOptions.amount / 100,
+          currency: stripeOptions.currency,
+          content_type: "product",
+        });
 
       const { orderId } = await handleStripeCheckout(
         input,
@@ -94,8 +104,6 @@ function Stripe({
       clearTheCart(clearCartMutation);
 
       console.log("Order ID:", orderId);
-
-      ReactPixel.track("Purchase", { value: stripeOptions.amount / 100, currency: stripeOptions.currency });
       window.location.replace(`/shop/thank-you?order_id=${orderId}`);
       setProcessing(false);
     } catch (err) {
