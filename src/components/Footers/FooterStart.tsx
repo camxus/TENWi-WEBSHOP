@@ -6,28 +6,37 @@ import styles from "../styles/footer.module.css";
 import Dialog from "../Dialog";
 import Link from "next/link";
 
-interface IFooter extends React.HTMLAttributes<any> {}
+interface IFooter extends React.HTMLAttributes<any> {
+  newsletterOpen: boolean;
+  setNewsletterOpen?: React.Dispatch<boolean>;
+}
 
-const Footer = ({ className, style }: IFooter) => {
+const FooterStart = ({
+  className,
+  style,
+  newsletterOpen,
+  setNewsletterOpen,
+}: IFooter) => {
   const [footerLeft, , footerRight] = useContext(FooterContext);
-  const [open, setOpen] = useState(false);
 
   return (
     <div className={`footer ${className} p-6 text-white`} style={{ zIndex: 1 }}>
       <div className="w-full flex flex-col items-center justify-center gap-2">
-        <button
-          onClick={() => setOpen(!open)}
-          className="bg-black text-white p-2 rounded-full text-sm outline-black hover:bg-white hover:text-black"
-          style={{ transition: "all 0.3s ease-in-out" }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.backgroundColor = "white")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.backgroundColor = "black")
-          }
-        >
-          Sign up for Newsletter
-        </button>
+        {setNewsletterOpen && (
+          <button
+            onClick={() => setNewsletterOpen(!newsletterOpen)}
+            className="bg-black text-white p-2 rounded-full text-sm outline-black hover:bg-white hover:text-black"
+            style={{ transition: "all 0.3s ease-in-out" }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.backgroundColor = "white")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.backgroundColor = "black")
+            }
+          >
+            Sign up for Newsletter
+          </button>
+        )}
         <div>
           <ul className="social-social-links flex items-center justify-center gap-3">
             {/* <li><a href="https://www.facebook.com/codeytek" className="fa fa-facebook" target="_blank"><Facebook/></a></li> */}
@@ -72,11 +81,11 @@ const Footer = ({ className, style }: IFooter) => {
         </div>
       </div>
 
-      <dialog open={open}>
-        <Dialog setOpen={setOpen} />
+      <dialog open={newsletterOpen}>
+        <Dialog setOpen={setNewsletterOpen} />
       </dialog>
     </div>
   );
 };
 
-export default Footer;
+export default FooterStart;

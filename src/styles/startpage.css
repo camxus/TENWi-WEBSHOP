@@ -174,11 +174,10 @@ main .after {
   line-height: 1.4;
 }
 .notification .content .message {
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.notification .content .sender,
+.notification .content .sender span,
 .notification .content .event {
   font-weight: 600;
 }

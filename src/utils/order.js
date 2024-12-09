@@ -61,12 +61,13 @@ export const getCreateOrderLineItems = (products) => {
  * @return {{shipping: {country: *, city: *, phone: *, address_1: (string|*), address_2: (string|*), postcode: (string|*), last_name: (string|*), company: *, state: *, first_name: (string|*), email: *}, payment_method_title: string, line_items: (*[]|*), payment_method: string, billing: {country: *, city: *, phone: *, address_1: (string|*), address_2: (string|*), postcode: (string|*), last_name: (string|*), company: *, state: *, first_name: (string|*), email: *}}}
  */
 export const getCreateOrderData = (order, products, system) => {
-  console.log(system);
   const systemTitle = system.charAt(0).toUpperCase() + system.slice(1);
   // Set the billing Data to shipping, if applicable.
   const billingData = order.billingDifferentThanShipping
     ? order.billing
     : order.shipping;
+
+  console.log(order);
 
   // Checkout data.
   return {
@@ -111,25 +112,13 @@ export const getCreateOrderData = (order, products, system) => {
  *
  * @returns {Promise<{orderId: null, error: string}>}
  */
-export const createTheOrder = async (
-  orderData,
-  setOrderFailedError,
-  previousRequestError
-) => {
+export const createTheOrder = async (orderData) => {
   let response = {
     orderId: null,
     total: "",
     currency: "",
     error: "",
   };
-
-  // Don't proceed if previous request has error.
-  if (previousRequestError) {
-    response.error = previousRequestError;
-    return response;
-  }
-
-  setOrderFailedError("");
 
   try {
     const request = await fetch("/api/create-order", {
@@ -143,7 +132,8 @@ export const createTheOrder = async (
     const result = await request.json();
     if (result.error) {
       response.error = result.error;
-      setOrderFailedError(
+
+      throw new Error(
         "Something went wrong. Order creation failed. Please try again"
       );
     }
@@ -153,7 +143,8 @@ export const createTheOrder = async (
   } catch (error) {
     // @TODO to be handled later.
     console.warn("Handle create order error", error?.message);
+    throw error;
   }
-  console.log(response);
+
   return response;
 };

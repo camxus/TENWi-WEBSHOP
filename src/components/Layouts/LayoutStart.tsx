@@ -2,12 +2,13 @@ import Head from "next/head";
 import HeaderStart from "../Headers/HeaderStart";
 import { FooterProvider } from "../context/FooterContext";
 import FooterStart from "../Footers/FooterStart";
+import { useState } from "react";
 
 // Router.events.on("routeChangeStart", () => NProgress.start());
 // Router.events.on("routeChangeComplete", () => NProgress.done());
 // Router.events.on("routeChangeError", () => NProgress.done());
 
-const LayoutStart = (props) => {
+const LayoutStart = ({ newsletterOpen, setNewsletterOpen, ...props }) => {
   return (
     <FooterProvider>
       <div
@@ -23,7 +24,7 @@ const LayoutStart = (props) => {
         </Head>
         <HeaderStart {...props} />
         <div style={{ flex: 1 }}>{props.children}</div>
-        <FooterStart />
+        <FooterStart {...{ newsletterOpen, setNewsletterOpen }} />
       </div>
     </FooterProvider>
   );

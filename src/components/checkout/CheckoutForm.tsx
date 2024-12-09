@@ -26,6 +26,14 @@ import REMOVE_ITEMS_FROM_CART_MUTATION from "../../mutations/clear-cart";
 import Link from "next/link";
 import Dialog, { submitMailchimp } from "../Dialog";
 
+import {
+  PaymentElement,
+  Elements,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+import Stripe from "./Stripe";
+
 interface ICustromerInfo {
   firstName: string;
   lastName: string;
@@ -51,7 +59,7 @@ interface IInput {
 }
 
 const defaultCustomerInfo = {
-  firstName: "",
+  firstName: "here",
   lastName: "",
   address1: "",
   address2: "",
@@ -65,7 +73,12 @@ const defaultCustomerInfo = {
   errors: null,
 };
 
-const CheckoutForm = ({ countriesData, dialogState }: any) => {
+const CheckoutForm = ({
+  countriesData,
+  dialogState,
+  stripeOptions,
+  setStripeOptions,
+}: any) => {
   const { billingCountries, shippingCountries } = countriesData || {};
 
   const initialState = {
@@ -78,13 +91,14 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
     createAccount: false,
     orderNotes: "",
     billingDifferentThanShipping: false,
-    paymentMethod: "ppcp-gateway",
+    paymentMethod: "",
   };
 
   const {
+    refetch,
     cartState: [cart],
   } = useContext(AppContext);
-  const [signedUp, setSignedUp] = useState(false);
+  const [signUpNewsletter, setSignUpNewsletter] = useState(false);
   const [user] = useContext(UserContext);
   const [input, setInput] = useState<IInput & typeof user>(initialState);
   const [orderData, setOrderData] = useState<any>(null);
@@ -96,15 +110,16 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
   const [billingStates, setBillingStates] = useState([]);
   const [isStripeOrderProcessing, setIsStripeOrderProcessing] = useState(false);
   const [isFetchingBillingStates, setIsFetchingBillingStates] = useState(false);
+  const [checkoutEnabled, setCheckoutEnabled] = useState(true);
   const [createdOrderData, setCreatedOrderData] = useState({});
   const [errorHandler, setErrorHandler] = useState("");
 
   const [paypalLoaded, setPaypalLoaded] = useState(false);
 
-  const ShippingMethods = ["Express Shipping", "Standard Shipping"];
-
   useEffect(() => {
-    if (user) setInput((input) => ({ ...input, ...user }));
+    if (user) {
+      setInput((input) => ({ ...input, ...user }));
+    }
   }, [user]);
 
   // Create New order: Checkout Mutation.
@@ -139,7 +154,11 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
     },
   });
 
-  const [clearCartMutation] = useMutation(REMOVE_ITEMS_FROM_CART_MUTATION);
+  const [clearCartMutation] = useMutation(REMOVE_ITEMS_FROM_CART_MUTATION, {
+    onCompleted: () => {
+      refetch?.();
+    },
+  });
 
   /*
    * Handle form submit.
@@ -182,7 +201,7 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
       return;
     }
 
-    if (signedUp) {
+    if (signUpNewsletter) {
       try {
         await submitMailchimp({
           email: input.shipping.email,
@@ -190,28 +209,6 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
           lastName: input.shipping.lastName,
         });
       } catch (e) {}
-    }
-
-    if ("stripe-mode" === input.paymentMethod) {
-      setOrderData(
-        await handleStripeCheckout(
-          input,
-          cart?.products,
-          setRequestError,
-          clearCartMutation,
-          setIsStripeOrderProcessing,
-          setCreatedOrderData
-        )
-      );
-      return null;
-    }
-    if (
-      "ppcp-gateway" === input.paymentMethod &&
-      !!Number(cart?.total.replace(",", ".").slice(0, -1))
-    ) {
-      localStorage.setItem("user-info", JSON.stringify(input));
-      setPaypalLoaded(true);
-      return null;
     }
 
     const checkOutData = createCheckoutData(input);
@@ -252,6 +249,7 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
         }
       } else {
         const newState = { ...input, [target.name]: target.value };
+        console.log("state", newState)
         setInput(newState);
       }
     }
@@ -290,13 +288,39 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
     }
   }, [orderData]);
 
+  useEffect(() => {
+    if (cart) {
+      setStripeOptions({
+        ...stripeOptions,
+        amount: Number(cart.total.replace(",", ".").slice(0, -1)) * 100,
+      });
+    }
+  }, [cart]);
+
+  useEffect(() => {
+    const billingValidationResult = input?.billingDifferentThanShipping
+      ? validateAndSanitizeCheckoutForm(input?.billing, !!billingStates?.length)
+      : { errors: null, isValid: true };
+
+    const shippingValidationResult = validateAndSanitizeCheckoutForm(
+      input?.shipping,
+      !!shippingStates?.length
+    );
+
+    if (shippingValidationResult.isValid && billingValidationResult.isValid) {
+      setCheckoutEnabled(true);
+      return;
+    }
+    setCheckoutEnabled(false);
+  }, [input]);
+
   // Loading Data
   const isOrderProcessing = checkoutLoading || isStripeOrderProcessing;
 
   return (
     <>
       {cart ? (
-        <form onSubmit={handleFormSubmit} className="checkout-form">
+        <form className="checkout-form">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
             <div>
               {/*Shipping Details*/}
@@ -355,32 +379,46 @@ const CheckoutForm = ({ countriesData, dialogState }: any) => {
                   className="checked:bg-black"
                   type="checkbox"
                   id="newsletter"
-                  onChange={() => setSignedUp(true)}
+                  onChange={() => setSignUpNewsletter(true)}
                 />
                 <label htmlFor="newsletter">Sign up for Newsletter</label>
               </div>
               <div className="place-order-btn-wrap mt-5">
-                {!paypalLoaded && (
+                {!Number(cart?.total.replace(",", ".").slice(0, -1)) ? (
                   <button
                     disabled={isOrderProcessing}
-                    className="bg-black text-white px-5 py-3 rounded-sm w-auto xl:w-full"
+                    className="rounded-md p-2 w-full bg-black text-white border border-gray-300 my-4 fade-in disabled:bg-gray-500 disabled:text-gray-300 disabled:cursor-not-allowed transition-all"
                     type="submit"
                   >
                     Place Order
                   </button>
-                )}
+                ) : (
+                  <>
+                    <Stripe
+                      checkoutEnabled={checkoutEnabled}
+                      cart={cart}
+                      input={input}
+                      products={cart?.products}
+                      requestError={requestError}
+                      setRequestError={setRequestError}
+                      clearCartMutation={clearCartMutation}
+                      setIsStripeOrderProcessing={setIsStripeOrderProcessing}
+                      stripeOptions={stripeOptions}
+                      signUpNewsletter={signUpNewsletter}
+                    />
 
-                {paypalLoaded && (
-                  <Paypal
-                    cart={cart}
-                    input={input}
-                    products={cart?.products}
-                    requestError={requestError}
-                    setRequestError={setRequestError}
-                    clearCartMutation={clearCartMutation}
-                    setIsStripeOrderProcessing={setIsStripeOrderProcessing}
-                    setCreatedOrderData={setCreatedOrderData}
-                  />
+                    <Paypal
+                      checkoutEnabled={checkoutEnabled}
+                      cart={cart}
+                      input={input}
+                      products={cart?.products}
+                      requestError={requestError}
+                      setRequestError={setRequestError}
+                      clearCartMutation={clearCartMutation}
+                      setIsStripeOrderProcessing={setIsStripeOrderProcessing}
+                      signUpNewsletter={signUpNewsletter}
+                    />
+                  </>
                 )}
               </div>
 

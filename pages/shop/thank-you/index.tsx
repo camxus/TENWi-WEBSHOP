@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Router from "next/router";
 import Link from "next/link";
 import Layout from "../../../src/components/Layouts/LayoutShop";

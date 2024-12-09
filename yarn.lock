@@ -196,7 +196,7 @@
 
 "@babel/runtime@7.12.5":
   version "7.12.5"
-  resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.12.5.tgz"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
   integrity sha512-plcc+hbExy3McchJCEQG3knOsuh3HH+Prx1P6cLIkET/0dLuQDEnrT+s27Axgc9bqfsmNUNHfscgMUdBpC9xfg==
   dependencies:
     regenerator-runtime "^0.13.4"
@@ -479,6 +479,13 @@
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
+
+"@stripe/react-stripe-js@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-3.0.0.tgz#8970af4283478662a277870ddb1ea173de635ba8"
+  integrity sha512-Crn9t+uvfEJnFSEE8Le9Boj3+J4QdB7DrIa+VyhDgTAHC1z9fk7d/cfSrjNO2RcdRh9zN9Blk/XKccHq9kUlTw==
+  dependencies:
+    prop-types "^15.7.2"
 
 "@stripe/stripe-js@^1.22.0":
   version "1.22.0"
@@ -2345,7 +2352,7 @@ napi-build-utils@^1.0.1:
 
 next-stripe@^1.0.0-beta.9:
   version "1.0.0-beta.9"
-  resolved "https://registry.npmjs.org/next-stripe/-/next-stripe-1.0.0-beta.9.tgz"
+  resolved "https://registry.yarnpkg.com/next-stripe/-/next-stripe-1.0.0-beta.9.tgz#8c34ec9cbe95c6c5fc2cf06df198802e9916d34e"
   integrity sha512-gjYcy81qDikkz3/4EBaCmzNEa4/yccQGUQzSRQD2oW2VwXuuSAflwy9JzgcnGt8/B6amrobDN2uBHlmy/iyybg==
   dependencies:
     "@babel/runtime" "7.12.5"
@@ -3165,6 +3172,13 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-countdown@^2.3.6:
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/react-countdown/-/react-countdown-2.3.6.tgz#26699ea87e548bd7c981281e5a8fd8b511f774ff"
+  integrity sha512-ZfX6S08Hb6x6W6eCn1hMDvxPICI/T30fd+gaeVTCR/2cGZ2WJ3f26e4ImNIMX1fHkopJrUdnRpWXP13/D39+gg==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-dom@^18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
@@ -3632,7 +3646,7 @@ strip-json-comments@~2.0.1:
 
 stripe@8.132.0:
   version "8.132.0"
-  resolved "https://registry.npmjs.org/stripe/-/stripe-8.132.0.tgz"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.132.0.tgz#3c6403dea9699ee112d515388f7cfbadb2375600"
   integrity sha512-VFKQJWgPt2X0r/jh4wS6Kgx6/VH1IHw1466wIwahgWzgSANme5iNaJ+1AW45hvRUZJ+T15f2hTfQkQGyP73ZCg==
   dependencies:
     "@types/node" ">=8.1.0"

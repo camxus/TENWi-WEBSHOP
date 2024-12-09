@@ -32,6 +32,7 @@ function MyApp({ Component, pageProps, router }: any) {
     if (typeof window !== "undefined") {
       const ReactPixel = require("react-facebook-pixel").default;
       ReactPixel.init(process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID || "");
+      ReactPixel.track("PageView")
     }
   }, []);
 
