@@ -24,7 +24,7 @@ const FooterStart = ({
       <div className="w-full flex flex-col items-center justify-center gap-2">
         {setNewsletterOpen && (
           <button
-            onClick={() => setNewsletterOpen(!open)}
+            onClick={() => setNewsletterOpen(!newsletterOpen)}
             className="bg-black text-white p-2 rounded-full text-sm outline-black hover:bg-white hover:text-black"
             style={{ transition: "all 0.3s ease-in-out" }}
             onMouseEnter={(e) =>
