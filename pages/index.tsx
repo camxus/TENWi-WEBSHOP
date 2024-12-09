@@ -6,7 +6,6 @@ import Image from "next/image";
 import { UrlObject } from "url";
 import Dialog from "../src/components/Dialog";
 import { useMemo, useState } from "react";
-import Countdown from "react-countdown";
 
 interface Notification {
   onClick?: React.DOMAttributes<HTMLDivElement>["onClick"];
@@ -15,7 +14,7 @@ interface Notification {
   timestamp: string;
   sender: string;
   message: string;
-  more: string
+  more: string;
 }
 
 export default function Home({ notifications }: any) {
@@ -25,9 +24,9 @@ export default function Home({ notifications }: any) {
       ...notifications,
       {
         header: "TENWI",
-        timestamp: <Countdown date={new Date("2024-11-29T18:00:00")} />,
-        sender: <Countdown date={new Date("2024-11-29T18:00:00")} />,
-        message: "SIGN UP FOR MEMBER DISCOUNT ++ BLACK FRIDAY",
+        timestamp: "Now",
+        sender: "TENWI",
+        message: "JOIN THE CULT",
         link: "",
         more: "2 new messages from TENWI",
         onClick: () => setNewsletterOpen(true),
@@ -107,24 +106,23 @@ export async function getStaticProps() {
     sender: React.ReactElement | string | number;
     message: any;
     link: string;
+    more: string;
   }[] = [
-    // {
-    // header : "TENWi",
-    // timestamp : "Now",
-    // sender: "TENWi",
-    // message: "WEBSHOP",
-    // link: "/shop",
-            // more: "2 new messages from TENWI",
-
-    // },
+    {
+      header: "TENWi",
+      timestamp: "Now",
+      sender: "TENWi",
+      message: "WEBSHOP",
+      link: "/shop",
+      more: "2 new messages from TENWI",
+    },
     // {
     //   header: "TENWi",
     //   timestamp: "Now",
     //   sender: "TENWi",
     //   message: "GALLERY",
     //   link: "/gallery",,
-            // more: "2 new messages from TENWI",
-
+    // more: "2 new messages from TENWI",
     // },
   ];
 
@@ -143,16 +141,14 @@ export async function getStaticProps() {
       slug !== "uncategorized"
     ) {
       !notifications.find((element) => element.link === `portfolio/${slug}`) &&
-        notifications.push(
-          {
-            header: "TENWi",
-            timestamp: "Now",
-            sender: "TENWi",
-            message: category.node.name,
-            link: `portfolio/${slug}`,
-            more: "2 new messages from TENWI",
-          } ?? null
-        );
+        notifications.push({
+          header: "TENWi",
+          timestamp: "Now",
+          sender: "TENWi",
+          message: category.node.name,
+          link: `portfolio/${slug}`,
+          more: "2 new messages from TENWI",
+        });
     }
   });
 
