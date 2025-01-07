@@ -52,6 +52,14 @@ export default function product({
   useJustifiedText(subtitleRef);
 
   useEffect(() => {
+    const ReactPixel = require("react-facebook-pixel").default;
+    ReactPixel.track("ViewContent", {
+      content_ids: [`wc_post_id_${product.productId}`],
+      content_type: "product",
+    });
+  }, []);
+
+  useEffect(() => {
     if (
       !isEmpty(selectedVariation) &&
       Object.values(selectedOptions).length === options.length
@@ -214,7 +222,7 @@ export default function product({
                       product={product}
                       selectedVariation={selectedVariation}
                       setSelectedVariation={setSelectedVariation}
-                      selectedOptions={selectedOptions} 
+                      selectedOptions={selectedOptions}
                       setSelectedOptions={setSelectedOptions}
                     />
                   )}

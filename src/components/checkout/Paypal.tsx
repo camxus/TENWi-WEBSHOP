@@ -77,8 +77,12 @@ function Paypal({
 
         const ReactPixel = require("react-facebook-pixel").default;
         ReactPixel.track("Purchase", {
+          content_ids: [
+            products.map((product: { productId: any }) => `wc_post_id_${product.productId}`),
+          ],
           value: Number(cart.total.replace(",", ".").slice(0, -1)),
           currency: "eur",
+          content_type: "product",
         });
 
         // Redirect to thank-you page
