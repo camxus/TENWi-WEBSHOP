@@ -65,7 +65,7 @@ export default function Home({ notifications }: any) {
                               </span>
                             </header>
                             <div className="content">
-                              <span className="sender">{item.sender}</span>
+                              <span className="sender font-bold">{item.sender}</span>
                               <span className="message">{item.message}</span>
                               <span className="more">{item.more}</span>
                             </div>
