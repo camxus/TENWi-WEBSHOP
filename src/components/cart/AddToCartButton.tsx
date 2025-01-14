@@ -119,6 +119,12 @@ const AddToCart = ({
   });
 
   const handleAddToCartClick = async () => {
+    const ReactPixel = require("react-facebook-pixel").default;
+    ReactPixel.track("track", "AddToCart", {
+      content_ids: [`wc_post_id_${product.productId}`],
+      content_type: "product",
+    });
+
     setRequestError(null);
     await addToCart();
   };
