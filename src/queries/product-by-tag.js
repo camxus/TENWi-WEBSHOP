@@ -22,12 +22,14 @@ export const PRODUCT_BY_TAG_SLUG = gql`
           name
           ... on SimpleProduct {
             price
+            salePrice
             regularPrice
             stockStatus
             id
           }
           ... on VariableProduct {
             price
+            salePrice
             regularPrice
             stockStatus
             id
@@ -35,6 +37,7 @@ export const PRODUCT_BY_TAG_SLUG = gql`
           ... on ExternalProduct {
             price
             id
+            salePrice
             regularPrice
             externalUrl
           }
@@ -43,6 +46,7 @@ export const PRODUCT_BY_TAG_SLUG = gql`
               nodes {
                 ... on SimpleProduct {
                   id
+                  salePrice
                   regularPrice
                   price
                 }

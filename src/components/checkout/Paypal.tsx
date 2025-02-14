@@ -74,7 +74,6 @@ function Paypal({
         }
 
         clearTheCart(clearCartMutation);
-
         const ReactPixel = require("react-facebook-pixel").default;
         ReactPixel.track("Purchase", {
           content_ids: [

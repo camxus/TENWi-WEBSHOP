@@ -59,7 +59,7 @@ interface IInput {
 }
 
 const defaultCustomerInfo = {
-  firstName: "here",
+  firstName: "",
   lastName: "",
   address1: "",
   address2: "",
@@ -249,7 +249,6 @@ const CheckoutForm = ({
         }
       } else {
         const newState = { ...input, [target.name]: target.value };
-        console.log("state", newState)
         setInput(newState);
       }
     }
@@ -306,11 +305,43 @@ const CheckoutForm = ({
       input?.shipping,
       !!shippingStates?.length
     );
+    
+    if (
+      !Object.entries(input.billing).find(
+        ([key, value]) => key !== "errors" && !!value
+      ) &&
+      !Object.entries(input.shipping).find(
+        ([key, value]) => key !== "errors" && !!value
+      )
+    ) {
+      setCheckoutEnabled(false);
+      return;
+    }
 
     if (shippingValidationResult.isValid && billingValidationResult.isValid) {
+      setInput({
+        ...input,
+        billing: { ...input.billing, errors: null },
+        shipping: {
+          ...input.shipping,
+          errors: null,
+        },
+      });
       setCheckoutEnabled(true);
       return;
     }
+
+    if (shippingValidationResult.errors || billingValidationResult.errors) {
+      setInput({
+        ...input,
+        billing: { ...input.billing, errors: billingValidationResult.errors },
+        shipping: {
+          ...input.shipping,
+          errors: shippingValidationResult.errors,
+        },
+      });
+    }
+
     setCheckoutEnabled(false);
   }, [input]);
 
@@ -320,7 +351,7 @@ const CheckoutForm = ({
   return (
     <>
       {cart ? (
-        <form className="checkout-form">
+        <form onSubmit={handleFormSubmit} className="checkout-form">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
             <div>
               {/*Shipping Details*/}

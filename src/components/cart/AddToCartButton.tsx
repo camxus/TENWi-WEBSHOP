@@ -248,12 +248,24 @@ const AddToCart = ({
             />
           </div>
           <div className="flex items-center justify-between bg-white border-black border-t-[1px]">
-            <h1
-              className="text-sm uppercase px-4 py-2"
-              dangerouslySetInnerHTML={{
-                __html: product.price ? product.price : "SOLD OUT",
-              }}
-            />
+            <div className="flex text-sm uppercase px-4 py-2 gap-2">
+              <h1
+                className={`${
+                  !!product.salePrice && "line-through"
+                }`}
+                dangerouslySetInnerHTML={{
+                  __html: product.regularPrice
+                    ? product.regularPrice
+                    : "SOLD OUT",
+                }}
+              />
+              {product.salePrice && (
+                <div
+                  className={`flex text-gray-600 ${styles.salePrice}`}
+                  dangerouslySetInnerHTML={{ __html: product.salePrice }}
+                ></div>
+              )}
+            </div>
           </div>
           {options
             .filter(
