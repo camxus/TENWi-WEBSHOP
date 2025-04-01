@@ -7,10 +7,18 @@ import { v4 } from "uuid";
  * @return {any}
  */
 export const getFloatVal = (string) => {
-  let floatValue = string.match(/[+-]?\d+(\.\d+)?/g)[0];
-  return null !== floatValue
-    ? parseFloat(parseFloat(floatValue).toFixed(2))
-    : "";
+  // Remove non-numeric characters except for dots and commas
+  let sanitizedString = string.replace(/[^\d.,-]/g, "");
+
+  // Handle European number formats
+  if (sanitizedString.includes(",") && sanitizedString.includes(".")) {
+    sanitizedString = sanitizedString.replace(/\./g, "").replace(",", ".");
+  } else if (sanitizedString.includes(",")) {
+    sanitizedString = sanitizedString.replace(",", ".");
+  }
+
+  let floatValue = parseFloat(sanitizedString);
+  return isNaN(floatValue) ? "" : parseFloat(floatValue.toFixed(2));
 };
 
 /**
