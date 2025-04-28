@@ -65,7 +65,9 @@ export default function Home({ notifications }: any) {
                               </span>
                             </header>
                             <div className="content">
-                              <span className="sender font-bold">{item.sender}</span>
+                              <span className="sender font-bold">
+                                {item.sender}
+                              </span>
                               <span className="message">{item.message}</span>
                               <span className="more">{item.more}</span>
                             </div>
@@ -116,14 +118,14 @@ export async function getStaticProps() {
       link: "/shop",
       more: "2 new messages from TENWI",
     },
-    // {
-    //   header: "TENWi",
-    //   timestamp: "Now",
-    //   sender: "TENWi",
-    //   message: "GALLERY",
-    //   link: "/gallery",,
-    // more: "2 new messages from TENWI",
-    // },
+    {
+      header: "TENWi",
+      timestamp: "Now",
+      sender: "TENWi",
+      message: "GALLERY",
+      link: "/gallery",
+      more: "2 new messages from TENWI",
+    },
   ];
 
   const { data } = await client.query({
