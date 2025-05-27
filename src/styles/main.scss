@@ -14,6 +14,10 @@
         flex-direction: column;
         align-items: flex-start;
     }
+
+    .wp-block-separator {
+        margin: 0.5rem
+    }
     
     .is-layout-flex > :is(*, div) {
         margin: 0;
