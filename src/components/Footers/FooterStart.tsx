@@ -78,6 +78,10 @@ const FooterStart = ({
           <Link className="text-[9px]" href={"/post/contact"}>
             Contact
           </Link>
+          •
+          <Link className="text-[9px]" href={"/post/privacy-policy"}>
+            Privacy Policy
+          </Link>
         </div>
       </div>
 
