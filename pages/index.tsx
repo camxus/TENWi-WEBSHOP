@@ -110,22 +110,22 @@ export async function getStaticProps() {
     link: string;
     more: string;
   }[] = [
-    {
-      header: "TENWi",
-      timestamp: "Now",
-      sender: "TENWi",
-      message: "WEBSHOP",
-      link: "/shop",
-      more: "2 new messages from TENWI",
-    },
-    {
-      header: "TENWi",
-      timestamp: "Now",
-      sender: "TENWi",
-      message: "GALLERY",
-      link: "/gallery",
-      more: "2 new messages from TENWI",
-    },
+    // {
+    //   header: "TENWi",
+    //   timestamp: "Now",
+    //   sender: "TENWi",
+    //   message: "WEBSHOP",
+    //   link: "/shop",
+    //   more: "2 new messages from TENWI",
+    // },
+    // {
+    //   header: "TENWi",
+    //   timestamp: "Now",
+    //   sender: "TENWi",
+    //   message: "GALLERY",
+    //   link: "/gallery",
+    //   more: "2 new messages from TENWI",
+    // },
   ];
 
   const { data } = await client.query({
