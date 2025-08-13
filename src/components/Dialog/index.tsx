@@ -26,7 +26,7 @@ function Dialog({ setOpen }: IDialog) {
     firstName: string().required("First Name is required"),
     lastName: string().required("Last Name is required"),
     email: string().email("Invalid email").required("Email is required"),
-    phone: string().phone("Invalid phone number"),
+    phone: string().matches(/^\+?[1-9]\d{1,14}$/, "Invalid phone number"),
   });
 
   const onSubmit = async (values: any) => {
@@ -153,7 +153,7 @@ export const submitMailchimp = async (values: {
   email: string;
   firstName: string;
   lastName: string;
-  phone: string
+  phone: string;
 }) => {
   const requestBody = {
     email_address: "",
