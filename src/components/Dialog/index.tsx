@@ -13,6 +13,7 @@ function Dialog({ setOpen }: IDialog) {
     firstName: "",
     lastName: "",
     email: "",
+    phone: "",
   };
 
   const [status, setStatus] = useState({
@@ -25,6 +26,7 @@ function Dialog({ setOpen }: IDialog) {
     firstName: string().required("First Name is required"),
     lastName: string().required("Last Name is required"),
     email: string().email("Invalid email").required("Email is required"),
+    phone: string().phone("Invalid phone number"),
   });
 
   const onSubmit = async (values: any) => {
@@ -106,6 +108,19 @@ function Dialog({ setOpen }: IDialog) {
             />
           </div>
 
+          <div className="text-left">
+            <Field
+              name="phone"
+              placeholder="Phone Number (optional)"
+              className="w-full p-2 rounded border border-gray-300"
+            />
+            <ErrorMessage
+              name="phone"
+              component="span"
+              className="text-red-500"
+            />
+          </div>
+
           {status.status === "success" ? (
             "You've been added to the mailing list"
           ) : (
@@ -138,12 +153,13 @@ export const submitMailchimp = async (values: {
   email: string;
   firstName: string;
   lastName: string;
+  phone: string
 }) => {
   const requestBody = {
     email_address: "",
     email_type: "html",
     status: "subscribed",
-    merge_fields: { FNAME: "", LNAME: "" },
+    merge_fields: { FNAME: "", LNAME: "", PHONE: "" },
     interests: {},
     language: "",
     vip: false,
@@ -168,6 +184,7 @@ export const submitMailchimp = async (values: {
         merge_fields: {
           FNAME: values["firstName"],
           LNAME: values["lastName"],
+          PHONE: values["phone"],
         },
       },
       {

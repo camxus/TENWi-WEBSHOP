@@ -26,7 +26,7 @@ export default function Home({ notifications }: any) {
         header: "TENWI",
         timestamp: "Now",
         sender: "TENWI",
-        message: "JOIN THE CULT",
+        message: "CLAIM YOUR -10% MEMBER'S DISCOUNT. JOIN THE CULT",
         link: "",
         more: "2 new messages from TENWI",
         onClick: () => setNewsletterOpen(true),
