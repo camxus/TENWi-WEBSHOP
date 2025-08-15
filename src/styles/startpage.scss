@@ -137,7 +137,7 @@ ul {
 			line-height: 1.4;
 		}
 		.message {
-			white-space: nowrap;
+			white-space: pre-line;
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
