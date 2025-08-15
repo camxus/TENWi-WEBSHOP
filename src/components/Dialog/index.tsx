@@ -3,6 +3,9 @@ import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik";
 import { useRef, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import { object, string } from "yup";
+import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion"; // ✅ Added
+import { X } from "react-feather";
 
 interface IDialog {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,7 +39,7 @@ function Dialog({ setOpen }: IDialog) {
       setStatus({ status: "success", loading: false });
     } catch (e: any) {
       setStatus({ status: "error", loading: false });
-      console.error("Error:", e.response.data);
+      console.error("Error:", e.response?.data || e);
     }
   };
 
@@ -47,108 +50,135 @@ function Dialog({ setOpen }: IDialog) {
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
-      // Click occurred outside the dialog
       handleDialogClose();
     }
   };
 
   return (
-    <div
-      className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-lg fade-in"
-      onClick={handleOverlayClick}
-      style={{ backgroundColor: "rgb(0 0 0 / 50%)" }}
-    >
-      <Formik
-        initialValues={initialValues}
-        onSubmit={(e) => onSubmit(e)}
-        validationSchema={validationSchema}
-        innerRef={formikRef}
+    <AnimatePresence>
+      <motion.div
+        key="overlay"
+        className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-lg fade-in"
+        onClick={handleOverlayClick}
+        style={{ backgroundColor: "rgb(0 0 0 / 50%)" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }} // ✅ Fade out on close
+        transition={{ duration: 0.3 }}
       >
-        <Form className="flex flex-col gap-5 w-full max-w-md p-8 bg-white rounded-lg shadow-md ">
-          {/* <X
-              onClick={handleDialogClose}
-              className="absolute top-2 right-2 bg-blend-difference cursor-pointer"
-            /> */}
-          <div className="text-left">
-            <Field
-              name="firstName"
-              placeholder="First Name"
-              className="w-full p-2 rounded border border-gray-300"
-            />
-            <ErrorMessage
-              name="firstName"
-              component="span"
-              className="text-red-500"
-            />
-          </div>
-
-          <div className="text-left">
-            <Field
-              name="lastName"
-              placeholder="Last Name"
-              className="w-full p-2 rounded border border-gray-300"
-            />
-            <ErrorMessage
-              name="lastName"
-              component="span"
-              className="text-red-500"
+        <motion.div
+          className="relative flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden h-[80vh] w-[70vw]"
+          onClick={(e) => e.stopPropagation()}
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.95, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <X className="fill-black md:fill-white absolute top-1 right-1 z-10 cursor-pointer" height={30} onClick={() => setOpen(false)}/>
+          <div className="relative w-full md:w-1/2 h-64 md:h-auto">
+            <Image
+              src="/assets/images/png/newsletter.png"
+              alt="Newsletter"
+              fill
+              className="object-cover"
             />
           </div>
 
-          <div className="text-left">
-            <Field
-              name="email"
-              placeholder="E-Mail"
-              className="w-full p-2 rounded border border-gray-300"
-            />
-            <ErrorMessage
-              name="email"
-              component="span"
-              className="text-red-500"
-            />
-          </div>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={(e) => onSubmit(e)}
+            validationSchema={validationSchema}
+            innerRef={formikRef}
+          >
+            <Form className="flex flex-col gap-5 w-full md:w-1/2 p-8">
+              <h2 className="text-xl font-bold text-center md:text-left leading-tight">
+                CLAIM YOUR -10% MEMBER&apos;S DISCOUNT.
+                <br /> JOIN THE CULT.
+              </h2>
 
-          <div className="text-left">
-            <Field
-              name="phone"
-              placeholder="Phone Number (optional)"
-              className="w-full p-2 rounded border border-gray-300"
-            />
-            <ErrorMessage
-              name="phone"
-              component="span"
-              className="text-red-500"
-            />
-          </div>
+              <div className="text-left w-full">
+                <Field
+                  name="firstName"
+                  placeholder="First Name"
+                  className="w-full p-2 rounded border border-gray-300"
+                />
+                <ErrorMessage
+                  name="firstName"
+                  component="span"
+                  className="text-red-500"
+                />
+              </div>
 
-          {status.status === "success" ? (
-            "You've been added to the mailing list"
-          ) : (
-            <button
-              type="submit"
-              className="w-full text-white py-2 px-4 rounded flex justify-center"
-              disabled={status.loading}
-              style={{
-                background: status.status === "error" ? "red" : "black",
-              }}
-            >
-              {status.loading ? (
-                <PuffLoader size={24} color="white" />
-              ) : status.status === "error" ? (
-                "Try Again"
+              <div className="text-left w-full">
+                <Field
+                  name="lastName"
+                  placeholder="Last Name"
+                  className="w-full p-2 rounded border border-gray-300"
+                />
+                <ErrorMessage
+                  name="lastName"
+                  component="span"
+                  className="text-red-500"
+                />
+              </div>
+
+              <div className="text-left w-full">
+                <Field
+                  name="email"
+                  placeholder="E-Mail"
+                  className="w-full p-2 rounded border border-gray-300"
+                />
+                <ErrorMessage
+                  name="email"
+                  component="span"
+                  className="text-red-500"
+                />
+              </div>
+
+              <div className="text-left w-full">
+                <Field
+                  name="phone"
+                  placeholder="Phone Number (optional)"
+                  className="w-full p-2 rounded border border-gray-300"
+                />
+                <ErrorMessage
+                  name="phone"
+                  component="span"
+                  className="text-red-500"
+                />
+              </div>
+
+              {status.status === "success" ? (
+                "You've been added to the mailing list"
               ) : (
-                "Submit"
+                <button
+                  type="submit"
+                  className="w-full text-white py-2 px-4 rounded flex justify-center"
+                  disabled={status.loading}
+                  style={{
+                    background: status.status === "error" ? "red" : "black",
+                  }}
+                >
+                  {status.loading ? (
+                    <PuffLoader size={24} color="white" />
+                  ) : status.status === "error" ? (
+                    "Try Again"
+                  ) : (
+                    "Submit"
+                  )}
+                </button>
               )}
-            </button>
-          )}
-        </Form>
-      </Formik>
-    </div>
+            </Form>
+          </Formik>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
 export default Dialog;
 
+// unchanged submitMailchimp function
 export const submitMailchimp = async (values: {
   email: string;
   firstName: string;
@@ -163,10 +193,7 @@ export const submitMailchimp = async (values: {
     interests: {},
     language: "",
     vip: false,
-    location: {
-      latitude: 0,
-      longitude: 0,
-    },
+    location: { latitude: 0, longitude: 0 },
     marketing_permissions: [],
     ip_signup: "",
     timestamp_signup: "",
@@ -175,25 +202,19 @@ export const submitMailchimp = async (values: {
     tags: [],
   };
 
-  try {
-    await axios.post(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/mailchimp`,
-      {
-        ...requestBody,
-        email_address: values["email"],
-        merge_fields: {
-          FNAME: values["firstName"],
-          LNAME: values["lastName"],
-          PHONE: values["phone"],
-        },
+  await axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/mailchimp`,
+    {
+      ...requestBody,
+      email_address: values.email,
+      merge_fields: {
+        FNAME: values.firstName,
+        LNAME: values.lastName,
+        PHONE: values.phone,
       },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-  } catch (e: any) {
-    throw e;
-  }
+    },
+    {
+      headers: { "Content-Type": "application/json" },
+    }
+  );
 };

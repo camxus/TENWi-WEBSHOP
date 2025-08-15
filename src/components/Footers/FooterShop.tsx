@@ -1,5 +1,5 @@
 import { Instagram, Youtube, TikTok } from "../icons";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FooterContext } from "../context/FooterContext";
 
 import styles from "../../styles/footer.module.css";
@@ -10,6 +10,10 @@ interface IFooter extends React.HTMLAttributes<any> {}
 const Footer = ({ className, style }: IFooter) => {
   const [footerLeft, , footerRight] = useContext(FooterContext);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(true)
+  }, [])
 
   return (
     <div
