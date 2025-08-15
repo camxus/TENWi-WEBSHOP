@@ -27,7 +27,7 @@ export default function Home({ notifications }: any) {
         header: "TENWI",
         timestamp: <Countdown date={new Date("2025-08-17T18:00:00+02:00")} />,
         sender: <Countdown date={new Date("2025-08-17T18:00:00+02:00")} />,
-        message: "SUMMER 25 ESSENTIALS\n«F1NE SH1T II» RELEASING 17/08 | 18:00 PARIS TIME",
+        message: "SUMMER 25 ESSENTIALS RELEASING 17/08 | 18:00 PARIS TIME",
         link: "",
         more: "2 new messages from TENWI",
         onClick: () => setNewsletterOpen(true),
