@@ -18,7 +18,7 @@
   color: white;
 }
 
-.card:hover .salePrice{
+.card:hover .salePrice {
   color: white;
 }
 
@@ -26,6 +26,17 @@
   /* .card {
     width: 100vw;
   } */
+}
+@media only screen and (max-width: 768px) {
+  .card-main {
+    background-color: rgb(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+  }
+
+  .card-main:hover {
+    background-color: rgb(255, 255, 255, 0);
+    backdrop-filter: blur(0);
+  }
 }
 
 .card-main {
