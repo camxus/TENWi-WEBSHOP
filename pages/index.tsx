@@ -49,9 +49,9 @@ export default function Home({ notifications }: any) {
       <div>
         <div className="before">
           <Image
-            src={require("../public/assets/images/png/HOMEPAGE.png")}
-            layout="fill"
+            src={"/assets/images/gif/homepage.gif"}
             objectFit="cover"
+            layout="fill"
             alt={""}
           />
           <div className="after"></div>
