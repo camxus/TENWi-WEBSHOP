@@ -15,7 +15,7 @@ const Footer = ({ className, style }: IFooter) => {
 const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname === "/shop") {
+    if (pathname === "/shop/") {
       setOpen(true);
     }
   }, [pathname]);
