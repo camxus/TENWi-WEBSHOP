@@ -23,6 +23,11 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .card-header,
+  .subtitle {
+    font-size: smaller;
+  }
+
   /* .card {
     width: 100vw;
   } */
