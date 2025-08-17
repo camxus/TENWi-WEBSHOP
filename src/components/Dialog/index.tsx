@@ -58,7 +58,7 @@ function Dialog({ setOpen }: IDialog) {
     <AnimatePresence>
       <motion.div
         key="overlay"
-        className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-lg fade-in"
+        className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-lg fade-in z-10"
         onClick={handleOverlayClick}
         style={{ backgroundColor: "rgb(0 0 0 / 50%)" }}
         initial={{ opacity: 0 }}
