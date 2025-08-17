@@ -4,6 +4,7 @@ import { FooterContext } from "../context/FooterContext";
 
 import styles from "../../styles/footer.module.css";
 import Dialog from "../Dialog";
+import { usePathname } from "next/navigation";
 
 interface IFooter extends React.HTMLAttributes<any> {}
 
@@ -11,9 +12,14 @@ const Footer = ({ className, style }: IFooter) => {
   const [footerLeft, , footerRight] = useContext(FooterContext);
   const [open, setOpen] = useState(false);
 
+const pathname = usePathname();
+
   useEffect(() => {
-    setOpen(true)
-  }, [])
+    if (pathname === "/shop") {
+      setOpen(true);
+    }
+  }, [pathname]);
+
 
   return (
     <div
