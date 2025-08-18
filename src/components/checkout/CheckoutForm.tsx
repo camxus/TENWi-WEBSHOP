@@ -291,7 +291,9 @@ const CheckoutForm = ({
     if (cart && Number(cart.total.replace(",", ".").slice(0, -1))) {
       setStripeOptions({
         ...stripeOptions,
-        amount: (Number(cart.total.replace(",", ".").slice(0, -1)) * 100).toFixed(2),
+        amount: (
+          Number(cart.total.replace(",", ".").slice(0, -1)) * 100
+        ).toFixed(2),
       });
     }
   }, [cart]);
@@ -305,7 +307,7 @@ const CheckoutForm = ({
       input?.shipping,
       !!shippingStates?.length
     );
-    
+
     if (
       !Object.entries(input.billing).find(
         ([key, value]) => key !== "errors" && !!value
