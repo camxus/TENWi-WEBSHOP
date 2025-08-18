@@ -289,10 +289,16 @@ const CheckoutForm = ({
 
   useEffect(() => {
     if (cart && Number(cart.total.replace(",", ".").slice(0, -1))) {
+      const cleanedTotal = cart.total
+        .replace(/[^0-9,.-]/g, "") // Remove currency symbols and spaces
+        .replace(/\./g, "") // Remove thousands separator (dot)
+        .replace(",", "."); // Convert decimal comma to dot
+
+      const amountInCents = Math.round(parseFloat(cleanedTotal) * 100);
+
       setStripeOptions({
         ...stripeOptions,
-        amount:
-          Number(Number(cart.total.replace(",", ".").slice(0, -1)).toFixed(2)) * 100,
+        amount: amountInCents,
       });
     }
   }, [cart]);
