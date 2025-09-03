@@ -11,7 +11,7 @@ import REMOVE_ITEMS_FROM_CART_MUTATION from "../../../mutations/clear-cart";
 import REMOVE_COUPONS_MUTATION from "../../../mutations/remove-coupons";
 import APPLY_COUPON_MUTATION from "../../../mutations/apply-coupon";
 import ShippingModes from "../../checkout/ShippingModes";
-
+import euCountries from "../../../lib/euCountries.json"
 import axios from "axios";
 import { X } from "react-feather";
 
@@ -108,9 +108,14 @@ const CartItemsContainer = () => {
       axios
         .get("https://ipapi.co/json/")
         .then((response) => {
-          const { continent_code } = response.data;
+          const { country_code } = response.data;
 
-          if (continent_code === "EU") {
+          // check if the detected country is in our EU list
+          const isEU = euCountries.some(
+            (c) => c.code.toUpperCase() === country_code.toUpperCase()
+          );
+          
+          if (isEU) {
             setDisplayedShippingMethods(
               availableShippingMethods.filter(
                 (method) => method.label.includes("EU") || !Number(method.cost)

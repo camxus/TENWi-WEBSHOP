@@ -1,0 +1,170 @@
+[
+  {
+    "name": "Switzerland",
+    "code": "CH",
+    "capital": "Zurich",
+    "currency": "EUR"
+  },
+  {
+    "name": "Austria",
+    "code": "AT",
+    "capital": "Vienna",
+    "currency": "EUR"
+  },
+  {
+    "name": "Belgium",
+    "code": "BE",
+    "capital": "Brussels",
+    "currency": "EUR"
+  },
+  {
+    "name": "Bulgaria",
+    "code": "BG",
+    "capital": "Sofia",
+    "currency": "BGN"
+  },
+  {
+    "name": "Croatia",
+    "code": "HR",
+    "capital": "Zagreb",
+    "currency": "EUR"
+  },
+  {
+    "name": "Cyprus",
+    "code": "CY",
+    "capital": "Nicosia",
+    "currency": "EUR"
+  },
+  {
+    "name": "Czech Republic",
+    "code": "CZ",
+    "capital": "Prague",
+    "currency": "CZK"
+  },
+  {
+    "name": "Denmark",
+    "code": "DK",
+    "capital": "Copenhagen",
+    "currency": "DKK"
+  },
+  {
+    "name": "Estonia",
+    "code": "EE",
+    "capital": "Tallinn",
+    "currency": "EUR"
+  },
+  {
+    "name": "Finland",
+    "code": "FI",
+    "capital": "Helsinki",
+    "currency": "EUR"
+  },
+  {
+    "name": "France",
+    "code": "FR",
+    "capital": "Paris",
+    "currency": "EUR"
+  },
+  {
+    "name": "Germany",
+    "code": "DE",
+    "capital": "Berlin",
+    "currency": "EUR"
+  },
+  {
+    "name": "Greece",
+    "code": "GR",
+    "capital": "Athens",
+    "currency": "EUR"
+  },
+  {
+    "name": "Hungary",
+    "code": "HU",
+    "capital": "Budapest",
+    "currency": "HUF"
+  },
+  {
+    "name": "Ireland",
+    "code": "IE",
+    "capital": "Dublin",
+    "currency": "EUR"
+  },
+  {
+    "name": "Italy",
+    "code": "IT",
+    "capital": "Rome",
+    "currency": "EUR"
+  },
+  {
+    "name": "Latvia",
+    "code": "LV",
+    "capital": "Riga",
+    "currency": "EUR"
+  },
+  {
+    "name": "Lithuania",
+    "code": "LT",
+    "capital": "Vilnius",
+    "currency": "EUR"
+  },
+  {
+    "name": "Luxembourg",
+    "code": "LU",
+    "capital": "Luxembourg City",
+    "currency": "EUR"
+  },
+  {
+    "name": "Malta",
+    "code": "MT",
+    "capital": "Valletta",
+    "currency": "EUR"
+  },
+  {
+    "name": "Netherlands",
+    "code": "NL",
+    "capital": "Amsterdam",
+    "currency": "EUR"
+  },
+  {
+    "name": "Poland",
+    "code": "PL",
+    "capital": "Warsaw",
+    "currency": "PLN"
+  },
+  {
+    "name": "Portugal",
+    "code": "PT",
+    "capital": "Lisbon",
+    "currency": "EUR"
+  },
+  {
+    "name": "Romania",
+    "code": "RO",
+    "capital": "Bucharest",
+    "currency": "RON"
+  },
+  {
+    "name": "Slovakia",
+    "code": "SK",
+    "capital": "Bratislava",
+    "currency": "EUR"
+  },
+  {
+    "name": "Slovenia",
+    "code": "SI",
+    "capital": "Ljubljana",
+    "currency": "EUR"
+  },
+  {
+    "name": "Spain",
+    "code": "ES",
+    "capital": "Madrid",
+    "currency": "EUR"
+  },
+  {
+    "name": "Sweden",
+    "code": "SE",
+    "capital": "Stockholm",
+    "currency": "SEK"
+  }
+]
