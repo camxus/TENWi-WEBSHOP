@@ -11,6 +11,7 @@ import { submitMailchimp } from "../Dialog";
 
 function Stripe({
   cart,
+  chosenShippingMethod,
   input,
   products,
   setRequestError,
@@ -78,7 +79,9 @@ function Stripe({
       const ReactPixel = require("react-facebook-pixel").default;
       ReactPixel.track("Purchase", {
         content_ids: [
-          products.map((product: { productId: any }) => `wc_post_id_${product.productId}`),
+          products.map(
+            (product: { productId: any }) => `wc_post_id_${product.productId}`
+          ),
         ],
         value: stripeOptions.amount / 100,
         currency: stripeOptions.currency,
@@ -89,7 +92,8 @@ function Stripe({
         input,
         products,
         setRequestError,
-        setIsStripeOrderProcessing
+        setIsStripeOrderProcessing,
+        chosenShippingMethod
       );
 
       if (signUpNewsletter) {

@@ -97,6 +97,7 @@ const CheckoutForm = ({
   const {
     refetch,
     cartState: [cart],
+    chosenShippingMethodState: [chosenShippingMethod],
   } = useContext(AppContext);
   const [signUpNewsletter, setSignUpNewsletter] = useState(false);
   const [user] = useContext(UserContext);
@@ -434,6 +435,7 @@ const CheckoutForm = ({
                   <>
                     <Stripe
                       checkoutEnabled={checkoutEnabled}
+                      chosenShippingMethod={chosenShippingMethod}
                       cart={cart}
                       input={input}
                       products={cart?.products}
@@ -447,6 +449,7 @@ const CheckoutForm = ({
 
                     <Paypal
                       checkoutEnabled={checkoutEnabled}
+                      chosenShippingMethod={chosenShippingMethod}
                       cart={cart}
                       input={input}
                       products={cart?.products}

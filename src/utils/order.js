@@ -60,7 +60,12 @@ export const getCreateOrderLineItems = (products) => {
  * @param products
  * @return {{shipping: {country: *, city: *, phone: *, address_1: (string|*), address_2: (string|*), postcode: (string|*), last_name: (string|*), company: *, state: *, first_name: (string|*), email: *}, payment_method_title: string, line_items: (*[]|*), payment_method: string, billing: {country: *, city: *, phone: *, address_1: (string|*), address_2: (string|*), postcode: (string|*), last_name: (string|*), company: *, state: *, first_name: (string|*), email: *}}}
  */
-export const getCreateOrderData = (order, products, system) => {
+export const getCreateOrderData = (
+  order,
+  products,
+  system,
+  chosenShippingMethod
+) => {
   const systemTitle = system.charAt(0).toUpperCase() + system.slice(1);
   // Set the billing Data to shipping, if applicable.
   const billingData = order.billingDifferentThanShipping
@@ -83,6 +88,7 @@ export const getCreateOrderData = (order, products, system) => {
       email: order?.shipping?.email,
       phone: order?.shipping?.phone,
       company: order?.shipping?.company,
+      shipping_price: order?.shipping?.price || chosenShippingMethod?.cost || 0, // You can replace the default value (0) with an actual value
     },
     billing: {
       first_name: billingData?.firstName,
@@ -100,6 +106,12 @@ export const getCreateOrderData = (order, products, system) => {
     payment_method: system ? system : [],
     payment_method_title: systemTitle,
     line_items: getCreateOrderLineItems(products),
+    shipping_lines: [
+      {
+        method_title: chosenShippingMethod?.label || "Shipping", // You can customize this with the actual shipping method
+        total: order?.shipping?.price ||chosenShippingMethod?.cost || 0, // Include the actual shipping price here
+      },
+    ],
   };
 };
 
