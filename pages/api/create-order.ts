@@ -3,11 +3,10 @@ import OAuth from "oauth-1.0a";
 import crypto from "crypto";
 import axios from "axios";
 
-// Setup OAuth
 const oauth = new OAuth({
   consumer: {
-    key: process.env.NEXT_APP_WC_CONSUMER_KEY || "", // Replace with your WooCommerce consumer key
-    secret: process.env.NEXT_APP_WC_CONSUMER_SECRET || "", // Replace with your WooCommerce consumer secret
+    key: process.env.NEXT_APP_WC_CONSUMER_KEY || "",
+    secret: process.env.NEXT_APP_WC_CONSUMER_SECRET || "",
   },
   signature_method: "HMAC-SHA1",
   hash_function(base_string, key) {
@@ -15,18 +14,7 @@ const oauth = new OAuth({
   },
 });
 
-/**
- * Create order endpoint.
- *
- * @see http://woocommerce.github.io/woocommerce-rest-api-docs/?javascript#create-an-order
- *
- * @param {Object} req Request.
- * @param {Object} res Response.
- *
- * @return {Promise<{orderId: string, success: boolean, error: string}>}
- */
-
-export default async function handler(req: { body: any }, res: Response) {
+export default async function handler(req: any, res: any) {
   const responseData = {
     success: false,
     orderId: "",
@@ -34,19 +22,23 @@ export default async function handler(req: { body: any }, res: Response) {
     currency: "",
     error: "",
   };
+
   if (isEmpty(req.body)) {
     responseData.error = "Required data not sent";
-    return responseData;
+    return res.status(400).json(responseData);
   }
 
-  const data = req.body;
-  data.status = "pending";
-  data.set_paid = true;
+  const data = {
+    ...req.body,
+    customer_id: 0,       // guest checkout
+    status: "pending",    // keep pending unless payment is processed
+    set_paid: true,      // true if you want it marked paid immediately
+  };
 
   try {
-    const { data } = await axios.post(
+    const response = await axios.post(
       `${process.env.NEXT_PUBLIC_WORDPRESS_URL}/wp-json/wc/v3/orders`,
-      req.body,
+      data,
       {
         params: oauth.authorize({
           url: `${process.env.NEXT_PUBLIC_WORDPRESS_URL}/wp-json/wc/v3/orders`,
@@ -58,22 +50,17 @@ export default async function handler(req: { body: any }, res: Response) {
       }
     );
 
-    responseData.success = true;
-    responseData.orderId = data.number;
-    responseData.total = data.total;
-    responseData.currency = data.currency;
+    const order = response.data;
 
-    res.json(responseData);
+    responseData.success = true;
+    responseData.orderId = order.id.toString(); // or order.number if you prefer
+    responseData.total = order.total;
+    responseData.currency = order.currency;
+
+    return res.json(responseData);
   } catch (error: any) {
-    console.log(error);
-    /**
-     * Request usually fails if the data in req.body is not sent in the format required.
-     *
-     * @see Data shape expected: https://stackoverflow.com/questions/49349396/create-an-order-with-coupon-lines-in-woocomerce-rest-api
-     */
+    console.error(error.response?.data || error.message);
     responseData.error = error.message;
-    res.status(500).json(responseData);
-    console.log("error", responseData);
+    return res.status(500).json(responseData);
   }
-  console.log("data", data);
 }
