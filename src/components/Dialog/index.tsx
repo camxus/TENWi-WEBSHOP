@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import { object, string } from "yup";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion"; // ✅ Added
+import { AnimatePresence, motion } from "framer-motion";
 import { X } from "react-feather";
 
 interface IDialog {
@@ -74,7 +74,13 @@ function Dialog({ setOpen }: IDialog) {
           exit={{ scale: 0.95, opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <X className="fill-black md:fill-white absolute top-1 right-1 z-10 cursor-pointer" height={30} onClick={() => setOpen(false)}/>
+          <X
+            className="fill-black md:fill-white absolute top-1 right-1 z-10 cursor-pointer"
+            height={30}
+            onClick={() => setOpen(false)}
+          />
+
+          {/* Image Section */}
           <div className="relative w-full md:w-1/2 h-64 md:h-auto">
             <Image
               src="/assets/images/png/newsletter.png"
@@ -82,8 +88,17 @@ function Dialog({ setOpen }: IDialog) {
               fill
               className="object-cover"
             />
+
+            {/* Mobile headline overlay */}
+            <div className="absolute inset-0 flex items-center justify-center md:hidden">
+              <h2 className="text-xl font-bold text-center text-white px-4 leading-tight drop-shadow-lg">
+                CLAIM YOUR -10% MEMBER&apos;S DISCOUNT.
+                <br /> JOIN THE CULT.
+              </h2>
+            </div>
           </div>
 
+          {/* Form Section */}
           <Formik
             initialValues={initialValues}
             onSubmit={(e) => onSubmit(e)}
@@ -91,7 +106,8 @@ function Dialog({ setOpen }: IDialog) {
             innerRef={formikRef}
           >
             <Form className="flex flex-col gap-5 w-full md:w-1/2 p-8">
-              <h2 className="text-xl font-bold text-center md:text-left leading-tight">
+              {/* Desktop headline */}
+              <h2 className="hidden md:block text-xl font-bold text-center md:text-left leading-tight">
                 CLAIM YOUR -10% MEMBER&apos;S DISCOUNT.
                 <br /> JOIN THE CULT.
               </h2>
