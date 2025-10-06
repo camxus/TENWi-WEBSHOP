@@ -47,7 +47,7 @@ export default function Home({ notifications }: any) {
   const notifs = useMemo(() => {
     return [
       ...notifications,
-      shopMessages,
+      // shopMessages,
       {
         header: "TENWI",
         timestamp: "Now",
