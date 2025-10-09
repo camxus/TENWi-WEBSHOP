@@ -236,7 +236,7 @@ export default function product({
                 <div className={`${prodstyles["related-items-header"]}`}>
                   <h1>RELATED ITEMS</h1>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-1">
                   {relatedItems.map((item: { id: string; node: any }) => (
                     <Product key={item.id} product={item.node} />
                   ))}
