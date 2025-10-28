@@ -4,8 +4,8 @@ import Gallery from "../../../src/components/Portfolio/Gallery.js";
 import { useRouter } from "next/router";
 import client from "../../../src/components/ApolloClient.js";
 
-import { GET_POST_BY_SLUG } from "../../../src/queries/get-posts.js";
-import GALLERY_IMAGES from "../../../src/queries/gallery-images.js";
+import { GET_POST_BY_SLUG } from "../../../src/queries/get-posts";
+import GALLERY_IMAGES from "../../../src/queries/gallery-images";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";

@@ -8,8 +8,8 @@ import {
   GET_POSTS_BY,
   GET_POST_CATEGORY_BY,
   POSTS_SLUGS,
-} from "../../src/queries/get-posts.js";
-import GALLERY_IMAGES from "../../src/queries/gallery-images.js";
+} from "../../src/queries/get-posts";
+import GALLERY_IMAGES from "../../src/queries/gallery-images";
 
 import style from "../../src/styles/postcards.module.css";
 

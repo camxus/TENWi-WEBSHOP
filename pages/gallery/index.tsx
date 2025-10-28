@@ -1,7 +1,7 @@
 import IntroImage from "../../src/components/IntroImage";
 import { useRouter } from "next/router";
 import client from "../../src/components/ApolloClient";
-import GALLERY_IMAGES from "../../src/queries/gallery-images.js";
+import GALLERY_IMAGES from "../../src/queries/gallery-images";
 import Image from "next/image";
 
 import gallery from "../../src/styles/gallery.module.css";
