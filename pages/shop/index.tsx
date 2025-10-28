@@ -5,8 +5,6 @@ import Link from "next/link";
 import styles from "../../src/styles/categories.module.css";
 import intro from "../../src/styles/intro.module.css";
 import Image from "next/image";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
-import VimeoEmbed from "../../src/components/VimeoEmbed";
 import { getWebshopImages } from "../../src/utils";
 // import NewsletterSubmit from  "../src/components/NewsletterSubmit.js";
 
@@ -40,7 +38,9 @@ function Categories({ categories, images }: any) {
           <Image
             className="w-full h-full object-cover"
             layout="fill"
-            src={"/assets/images/png/webshop.png"}
+            src={
+              images.find((image: any) => !!image.webshop).node.sourceUrl || ""
+            }
             alt={""}
           />
           {/* <VimeoEmbed videoId={424448504} className={styles.vimeo} /> */}
