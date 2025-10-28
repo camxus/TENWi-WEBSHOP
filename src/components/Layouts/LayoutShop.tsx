@@ -57,7 +57,7 @@ const LayoutShop = (props: ILayout) => {
             >
               <Header {...props} />
               <div style={{ flex: 1 }}>{props.children}</div>
-              <Footer newsletterImage={newsletterImage} />
+              <Footer newsletterImage={props.newsletterImage} />
             </div>
           </NavProvider>
         </FooterProvider>

@@ -6,7 +6,7 @@ import {
   PRODUCT_BY_SLUG_QUERY,
   PRODUCT_SLUGS,
 } from "../../../src/queries/product-by-slug";
-import RELATED_ITEMS_QUERY from "../../../src/queries/related-items.js";
+import RELATED_ITEMS_QUERY from "../../../src/queries/related-items";
 
 import { Controller, Scene } from "react-scrollmagic";
 import { Tween } from "react-gsap";

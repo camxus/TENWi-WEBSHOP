@@ -17,15 +17,10 @@ const Cart = ({ images }: any) => {
 
 export default Cart;
 
-export async function getStaticProps(context: { params: { slug: any } }) {
-  const {
-    params: { slug },
-  } = context;
-
+export async function getStaticProps() {
   return {
     props: {
       images: await getWebshopImages(),
-      slug: slug,
     },
     revalidate: 1,
   };
