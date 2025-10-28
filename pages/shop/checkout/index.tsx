@@ -4,27 +4,28 @@ import GET_COUNTRIES from "../../../src/queries/get-countries";
 import client from "../../../src/components/ApolloClient";
 
 import React, { useState } from "react";
-import Dialog from "../../../src/components/Dialog";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+import { getWebshopImages } from "../../../src/utils";
 
 interface ICheckout {
   countries: any;
   categories: any;
   tags: any;
   methods: any;
+  images: any;
 }
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_CLIENT || "pk_test_6pRNASCoBOKtIshFeQd4XMUh"
 );
 
-const Checkout = ({ countries }: ICheckout) => {
+const Checkout = ({ countries, images }: ICheckout) => {
   const [open, setOpen] = useState(false);
   const [stripeOptions, setStripeOptions] = useState({
     mode: "payment",
     amount: 100,
     currency: "eur",
-    payment_method_types: ['card'],
+    payment_method_types: ["card"],
     // Fully customizable with appearance API.
     appearance: {
       /*...*/
@@ -32,11 +33,13 @@ const Checkout = ({ countries }: ICheckout) => {
   });
 
   return (
-    <Elements
-      stripe={stripePromise}
-      options={stripeOptions}
-    >
-      <Layout>
+    <Elements stripe={stripePromise} options={stripeOptions}>
+      <Layout
+        newsletterImage={
+          images.find((image: { newsletter: any }) => !!image.newsletter)?.node
+            .sourceUrl || ""
+        }
+      >
         <div className="checkout container mx-auto my-32 px-4 xl:px-0">
           <h1 className="mb-5 text-2xl uppercase">Checkout Page</h1>
           <CheckoutForm
@@ -62,6 +65,7 @@ export async function getStaticProps() {
 
   return {
     props: {
+      images: await getWebshopImages(),
       countries: wooCountries || {},
     },
     revalidate: 1,

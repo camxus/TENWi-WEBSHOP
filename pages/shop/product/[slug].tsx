@@ -24,6 +24,7 @@ import {
 } from "../../../src/queries/get-posts";
 import SizeChart from "../../../src/components/SizeChart";
 import Accordion from "../../../src/components/Accordion";
+import { getWebshopImages } from "../../../src/utils";
 
 export default function product({
   product,
@@ -31,6 +32,7 @@ export default function product({
   variations,
   relatedItems,
   sizeChart,
+  ...props
 }: any) {
   const router = useRouter();
 
@@ -95,7 +97,12 @@ export default function product({
   }, [imageContainer]);
 
   return (
-    <Layout>
+    <Layout
+      newsletterImage={
+        props.images.find((image: { newsletter: any }) => !!image.newsletter)
+          ?.node.sourceUrl || ""
+      }
+    >
       {!isEmpty(product) ? (
         <div>
           <div className={prodstyles.card}>
@@ -309,6 +316,7 @@ export async function getStaticProps(context: any) {
 
   return {
     props: {
+      images: await getWebshopImages(),
       product: product || {},
       options: options || [],
       variations: variations || [],

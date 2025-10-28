@@ -16,6 +16,7 @@ const FooterStart = ({
   style,
   newsletterOpen,
   setNewsletterOpen,
+  newsletterImage
 }: IFooter) => {
   const [footerLeft, , footerRight] = useContext(FooterContext);
 
@@ -86,7 +87,7 @@ const FooterStart = ({
       </div>
 
       <dialog open={newsletterOpen}>
-        <Dialog setOpen={setNewsletterOpen} />
+        <Dialog setOpen={setNewsletterOpen} newsletterImage={newsletterImage}/>
       </dialog>
     </div>
   );

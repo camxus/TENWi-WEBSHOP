@@ -8,7 +8,12 @@ import { useState } from "react";
 // Router.events.on("routeChangeComplete", () => NProgress.done());
 // Router.events.on("routeChangeError", () => NProgress.done());
 
-const LayoutStart = ({ newsletterOpen, setNewsletterOpen, ...props }) => {
+const LayoutStart = ({
+  newsletterOpen,
+  setNewsletterOpen,
+  newsletterImage,
+  ...props
+}: any) => {
   return (
     <FooterProvider>
       <div
@@ -24,7 +29,9 @@ const LayoutStart = ({ newsletterOpen, setNewsletterOpen, ...props }) => {
         </Head>
         <HeaderStart {...props} />
         <div style={{ flex: 1 }}>{props.children}</div>
-        <FooterStart {...{ newsletterOpen, setNewsletterOpen }} />
+        <FooterStart
+          {...{ newsletterOpen, setNewsletterOpen, newsletterImage }}
+        />
       </div>
     </FooterProvider>
   );

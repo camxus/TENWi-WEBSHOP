@@ -3,6 +3,7 @@ import Router from "next/router";
 import Link from "next/link";
 import Layout from "../../../src/components/Layouts/LayoutShop";
 import { AppContext } from "../../../src/components/context/AppContext";
+import { getWebshopImages } from "../../../src/utils";
 
 const ThankYouContent = () => {
   const {
@@ -65,12 +66,31 @@ const ThankYouContent = () => {
   );
 };
 
-const ThankYou = () => {
+const ThankYou = ({ images }: any) => {
   return (
-    <Layout>
+    <Layout
+      newsletterImage={
+        images.find((image: { newsletter: any }) => !!image.newsletter)?.node
+          .sourceUrl || ""
+      }
+    >
       <ThankYouContent />
     </Layout>
   );
 };
 
 export default ThankYou;
+
+export async function getStaticProps(context: { params: { slug: any } }) {
+  const {
+    params: { slug },
+  } = context;
+
+  return {
+    props: {
+      images: await getWebshopImages(),
+      slug: slug,
+    },
+    revalidate: 1,
+  };
+}

@@ -15,8 +15,9 @@ import styles from "../../../src/styles/style.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
+import { getWebshopImages } from "../../../src/utils";
 
-export default function CategoryPage({ slug }: any) {
+export default function CategoryPage({ slug, images }: any) {
   const router = useRouter();
 
   const { data, loading, error } = useQuery(PRODUCT_BY_CATEGORY_SLUG, {
@@ -43,7 +44,12 @@ export default function CategoryPage({ slug }: any) {
   }
 
   return (
-    <Layout>
+    <Layout
+      newsletterImage={
+        images.find((image: { newsletter: any }) => !!image.newsletter)?.node
+          .sourceUrl || ""
+      }
+    >
       <div>
         <div className={`${styles["product-container"]}`}>
           {products.length
@@ -71,6 +77,7 @@ export async function getStaticProps(context: { params: { slug: any } }) {
 
   return {
     props: {
+      images: await getWebshopImages(),
       slug: slug,
     },
     revalidate: 1,

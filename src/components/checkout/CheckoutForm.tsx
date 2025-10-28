@@ -24,14 +24,8 @@ import CheckboxField from "./form-elements/CheckboxField";
 import REMOVE_ITEMS_FROM_CART_MUTATION from "../../mutations/clear-cart";
 
 import Link from "next/link";
-import Dialog, { submitMailchimp } from "../Dialog";
+import { submitMailchimp } from "../Dialog";
 
-import {
-  PaymentElement,
-  Elements,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
 import Stripe from "./Stripe";
 
 interface ICustromerInfo {

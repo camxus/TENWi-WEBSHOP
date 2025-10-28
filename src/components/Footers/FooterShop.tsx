@@ -6,20 +6,21 @@ import styles from "../../styles/footer.module.css";
 import Dialog from "../Dialog";
 import { usePathname } from "next/navigation";
 
-interface IFooter extends React.HTMLAttributes<any> {}
+interface IFooter extends React.HTMLAttributes<any> {
+  newsletterImage: string;
+}
 
-const Footer = ({ className, style }: IFooter) => {
+const Footer = ({ className, style, newsletterImage }: IFooter) => {
   const [footerLeft, , footerRight] = useContext(FooterContext);
   const [open, setOpen] = useState(false);
 
-const pathname = usePathname();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (pathname === "/shop/") {
       setOpen(true);
     }
   }, [pathname]);
-
 
   return (
     <div
@@ -106,7 +107,7 @@ const pathname = usePathname();
       </div>
 
       <dialog open={open}>
-        <Dialog setOpen={setOpen} />
+        <Dialog setOpen={setOpen} newsletterImage={newsletterImage} />
       </dialog>
     </div>
   );

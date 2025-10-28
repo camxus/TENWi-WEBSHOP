@@ -4,9 +4,10 @@ import { GET_POST_CATEGORIES } from "../src/queries/get-posts";
 import Link from "next/link";
 import Image from "next/image";
 import { UrlObject } from "url";
-import Dialog from "../src/components/Dialog";
 import { useMemo, useState } from "react";
 import Countdown from "react-countdown";
+import GALLERY_IMAGES, { MediaItemNode } from "../src/queries/gallery-images";
+import { extractCaptionText, getWebshopImages } from "../src/utils";
 
 interface Notification {
   onClick?: React.DOMAttributes<HTMLDivElement>["onClick"];
@@ -18,7 +19,13 @@ interface Notification {
   more: string;
 }
 
-export default function Home({ notifications }: any) {
+export default function Home({
+  notifications,
+  images,
+}: {
+  notifications: Notification[];
+  images: ({ node: MediaItemNode } & { [x: string]: boolean })[];
+}) {
   const [newsletterOpen, setNewsletterOpen] = useState(false);
 
   const releaseDate = new Date("2025-08-17T18:00:00+02:00");
@@ -61,11 +68,18 @@ export default function Home({ notifications }: any) {
   }, [notifications]);
 
   return (
-    <LayoutStart {...{ newsletterOpen, setNewsletterOpen }}>
+    <LayoutStart
+      {...{
+        newsletterOpen,
+        setNewsletterOpen,
+        newsletterImage:
+          images.find((image) => !!image.newsletter)?.node.sourceUrl || "",
+      }}
+    >
       <div>
         <div className="before">
           <Image
-            src={"/assets/images/gif/homepage.gif"}
+            src={images.find((image) => !!image.homepage)?.node.sourceUrl || ""}
             objectFit="cover"
             layout="fill"
             alt={""}
@@ -180,8 +194,11 @@ export async function getStaticProps() {
     }
   });
 
+  const imagesList = await getWebshopImages();
+  
   return {
     props: {
+      images: imagesList,
       notifications,
     },
     revalidate: 1,

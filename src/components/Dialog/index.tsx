@@ -9,9 +9,10 @@ import { X } from "react-feather";
 
 interface IDialog {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  newsletterImage: string
 }
 
-function Dialog({ setOpen }: IDialog) {
+function Dialog({ setOpen, newsletterImage }: IDialog) {
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -83,7 +84,7 @@ function Dialog({ setOpen }: IDialog) {
           {/* Image Section */}
           <div className="relative w-full md:w-1/2 h-64 md:h-auto">
             <Image
-              src="/assets/images/png/newsletter.png"
+              src={newsletterImage}
               alt="Newsletter"
               fill
               className="object-cover"

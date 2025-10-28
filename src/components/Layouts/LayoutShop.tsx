@@ -18,6 +18,7 @@ import { NavProvider } from "../context/NavContext";
 
 interface ILayout {
   children: ReactNode;
+  newsletterImage: string
 }
 
 const LayoutShop = (props: ILayout) => {
@@ -56,7 +57,7 @@ const LayoutShop = (props: ILayout) => {
             >
               <Header {...props} />
               <div style={{ flex: 1 }}>{props.children}</div>
-              <Footer />
+              <Footer newsletterImage={newsletterImage} />
             </div>
           </NavProvider>
         </FooterProvider>

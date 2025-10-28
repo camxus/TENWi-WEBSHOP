@@ -7,11 +7,17 @@ import intro from "../../src/styles/intro.module.css";
 import Image from "next/image";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import VimeoEmbed from "../../src/components/VimeoEmbed";
+import { getWebshopImages } from "../../src/utils";
 // import NewsletterSubmit from  "../src/components/NewsletterSubmit.js";
 
-function Categories({ categories }: any) {
+function Categories({ categories, images }: any) {
   return (
-    <Layout>
+    <Layout
+      newsletterImage={
+        images.find((image: { newsletter: any }) => !!image.newsletter)?.node
+          .sourceUrl || ""
+      }
+    >
       <div className={intro[`intro`]}>
         <div className={intro[`intro-background`]}>
           <div className={intro[`intro-image`]}>
@@ -59,6 +65,7 @@ export async function getStaticProps() {
 
   return {
     props: {
+      images: await getWebshopImages(),
       categories: categories ? categories : [],
     },
     revalidate: 1,

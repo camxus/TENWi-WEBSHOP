@@ -9,8 +9,9 @@ import { isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import styles from "../../src/styles/style.module.css";
 import { PRODUCT_CATEGORIES_SLUGS } from "../../src/queries/product-by-category";
+import { getWebshopImages } from "../../src/utils";
 
-export default function CategorySingle({ products }: any) {
+export default function CategorySingle({ products, images }: any) {
   const router = useRouter();
 
   // If the page is not yet generated, this will be displayed
@@ -21,7 +22,12 @@ export default function CategorySingle({ products }: any) {
   }
 
   return (
-    <Layout>
+    <Layout
+      newsletterImage={
+        images.find((image: { newsletter: any }) => !!image.newsletter)?.node
+          .sourceUrl || ""
+      }
+    >
       <div>
         <div className={`${styles["product-container"]}`}>
           {products.length
@@ -53,6 +59,7 @@ export async function getStaticProps(context: { params: { slug: any } }) {
 
   return {
     props: {
+      images: await getWebshopImages(),
       products: products || [],
     },
     revalidate: 1,

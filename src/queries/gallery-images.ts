@@ -1,5 +1,18 @@
 import { gql } from "@apollo/client";
 
+export type MediaItemNode = {
+  id: string;
+  title: string;
+  caption: string;
+  description: string;
+  sourceUrl: string;
+};
+
+export type MediaItemEdge = {
+  node: MediaItemNode;
+};
+
+
 const GALLERY_IMAGES = gql`
 query GALLERY_IMAGES($search: String = "") {
   mediaItems(
@@ -19,3 +32,4 @@ query GALLERY_IMAGES($search: String = "") {
 }
   `;
 export default GALLERY_IMAGES;
+
