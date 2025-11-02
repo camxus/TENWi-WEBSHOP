@@ -28,7 +28,7 @@ export default function Home({
 }) {
   const [newsletterOpen, setNewsletterOpen] = useState(false);
 
-  const releaseDate = new Date("2025-08-17T18:00:00+02:00");
+  const releaseDate = new Date("2025-11-02T18:00:00+02:00");
   const now = new Date();
 
   const shopMessages =
