@@ -37,7 +37,7 @@ export default function Home({
           header: "TENWI",
           timestamp: <Countdown date={releaseDate} />,
           sender: <Countdown date={releaseDate} />,
-          message: "SUMMER 25 ESSENTIALS RELEASING 17/08 | 18:00 PARIS TIME",
+          message: "WINTER 25 ESSENTIALS RELEASING 02/11 | 18:00 PARIS TIME",
           link: "",
           more: "2 new messages from TENWI",
           onClick: () => setNewsletterOpen(true),
