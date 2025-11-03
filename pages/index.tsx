@@ -19,6 +19,9 @@ interface Notification {
   more: string;
 }
 
+const releaseDate = new Date("2025-11-02T18:00:00+02:00");
+const now = new Date();
+
 export default function Home({
   notifications,
   images,
@@ -28,44 +31,40 @@ export default function Home({
 }) {
   const [newsletterOpen, setNewsletterOpen] = useState(false);
 
-  const releaseDate = new Date("2025-11-02T18:00:00+02:00");
-  const now = new Date();
 
   const shopMessages =
-    now < releaseDate
+    (now < releaseDate
       ? {
-          header: "TENWI",
-          timestamp: <Countdown date={releaseDate} />,
-          sender: <Countdown date={releaseDate} />,
-          message: "WINTER 25 ESSENTIALS RELEASING 02/11 | 18:00 PARIS TIME",
-          link: "",
-          more: "2 new messages from TENWI",
-          onClick: () => setNewsletterOpen(true),
-        }
-      : {
-          header: "TENWi",
-          timestamp: "Now",
-          sender: "TENWi",
-          message: "WEBSHOP",
-          link: "/shop",
-          more: "2 new messages from TENWI",
-        };
-
-  const notifs = useMemo(() => {
-    return [
-      ...notifications,
-      // shopMessages,
-      {
         header: "TENWI",
-        timestamp: "Now",
-        sender: "TENWI",
-        message: "CLAIM YOUR -10% MEMBER'S DISCOUNT. JOIN THE CULT",
+        timestamp: <Countdown date={releaseDate} />,
+        sender: <Countdown date={releaseDate} />,
+        message: "WINTER 25 ESSENTIALS RELEASING 02/11 | 18:00 PARIS TIME",
         link: "",
         more: "2 new messages from TENWI",
         onClick: () => setNewsletterOpen(true),
-      },
-    ];
-  }, [notifications]);
+      }
+      : {
+        header: "TENWi",
+        timestamp: "Now",
+        sender: "TENWi",
+        message: "WEBSHOP",
+        link: "/shop",
+        more: "2 new messages from TENWI",
+      }) as Notification;
+
+  const notifs = [
+    ...notifications,
+    shopMessages,
+    {
+      header: "TENWI",
+      timestamp: "Now",
+      sender: "TENWI",
+      message: "CLAIM YOUR -10% MEMBER'S DISCOUNT. JOIN THE CULT",
+      link: "",
+      more: "2 new messages from TENWI",
+      onClick: () => setNewsletterOpen(true),
+    },
+  ]
 
   return (
     <LayoutStart
@@ -142,22 +141,22 @@ export default function Home({
 }
 
 export async function getStaticProps() {
-  const notifications: {
+  const notifications: ({
     header: React.ReactElement | string | number;
     timestamp: string;
     sender: React.ReactElement | string | number;
     message: any;
     link: string;
     more: string;
-  }[] = [
-     {
-    header: "TENWi",
-    timestamp: "Now",
-    sender: "TENWi",
-  message: "WEBSHOP",
-    link: "/shop",
-    more: "2 new messages from TENWI",
-    },
+  } | null)[] = [
+    // now > releaseDate ? {
+    //   header: "TENWi",
+    //   timestamp: "Now",
+    //   sender: "TENWi",
+    //   message: "WEBSHOP",
+    //   link: "/shop",
+    //   more: "2 new messages from TENWI",
+    // } : null,
     // {
     //   header: "TENWi",
     //   timestamp: "Now",
@@ -166,7 +165,7 @@ export async function getStaticProps() {
     //   link: "/gallery",
     //   more: "2 new messages from TENWI",
     // },
-  ];
+  ].filter(Boolean);
 
   const { data } = await client.query({
     query: GET_POST_CATEGORIES,
@@ -182,7 +181,7 @@ export async function getStaticProps() {
       !slug.includes("styling-art-direction") &&
       slug !== "uncategorized"
     ) {
-      !notifications.find((element) => element.link === `portfolio/${slug}`) &&
+      !notifications.find((element) => element?.link === `portfolio/${slug}`) &&
         notifications.push({
           header: "TENWi",
           timestamp: "Now",
@@ -195,7 +194,7 @@ export async function getStaticProps() {
   });
 
   const imagesList = await getWebshopImages();
-  
+
   return {
     props: {
       images: imagesList,
