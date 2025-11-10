@@ -175,22 +175,21 @@ export async function getStaticProps() {
   categories.map((category: { node: { slug: any; name: any } }) => {
     let slug = category.node.slug;
 
-    if (
-      !slug.includes("footer") &&
-      !slug.includes("size-charts") &&
-      !slug.includes("styling-art-direction") &&
-      slug !== "uncategorized"
-    ) {
-      !notifications.find((element) => element?.link === `portfolio/${slug}`) &&
-        notifications.push({
-          header: "TENWi",
-          timestamp: "Now",
-          sender: "TENWi",
-          message: category.node.name,
-          link: `portfolio/${slug}`,
-          more: "2 new messages from TENWI",
-        });
-    }
+    // if (
+    //   !slug.includes("footer") &&
+    //   !slug.includes("size-charts") &&
+    //   slug !== "uncategorized"
+    // ) {
+    //   !notifications.find((element) => element?.link === `portfolio/${slug}`) &&
+    //     notifications.push({
+    //       header: "TENWi",
+    //       timestamp: "Now",
+    //       sender: "TENWi",
+    //       message: category.node.name,
+    //       link: `portfolio/${slug}`,
+    //       more: "2 new messages from TENWI",
+    //     });
+    // }
   });
 
   const imagesList = await getWebshopImages();
