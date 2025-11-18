@@ -55,15 +55,15 @@ export default function Home({
   const notifs = [
     ...notifications,
     shopMessages,
-    {
-      header: "TENWI",
-      timestamp: "Now",
-      sender: "TENWI",
-      message: "CLAIM YOUR -10% MEMBER'S DISCOUNT. JOIN THE CULT",
-      link: "",
-      more: "2 new messages from TENWI",
-      onClick: () => setNewsletterOpen(true),
-    },
+    // {
+    //   header: "TENWI",
+    //   timestamp: "Now",
+    //   sender: "TENWI",
+    //   message: "CLAIM YOUR -10% MEMBER'S DISCOUNT. JOIN THE CULT",
+    //   link: "",
+    //   more: "2 new messages from TENWI",
+    //   onClick: () => setNewsletterOpen(true),
+    // },
   ]
 
   return (
