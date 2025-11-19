@@ -35,35 +35,34 @@ export default function Home({
   const shopMessages =
     (now < releaseDate
       ? {
-        header: "TENWI",
-        timestamp: <Countdown date={releaseDate} />,
-        sender: <Countdown date={releaseDate} />,
-        message: "BLACK WEEK UP TO -70% JOIN TW F4M1LY: EARLY ACCESS + SPECIAL DEALS",
-        link: "https://chat.whatsapp.com/KcdxsZE1cPT0ZQmOs7PIM2",
-        more: "2 new messages from TENWI",
-        // onClick: () => setNewsletterOpen(true),
-      }
-      : {
         header: "TENWi",
         timestamp: "Now",
         sender: "TENWi",
         message: "WEBSHOP",
         link: "/shop",
         more: "2 new messages from TENWI",
-      }) as Notification;
+      } : {
+        header: "TENWi",
+        timestamp: "Now",
+        sender: "TENWi",
+        message: "WEBSHOP",
+        link: "/shop",
+        more: "2 new messages from TENWI",
+      }
+    ) as Notification;
 
   const notifs = [
     ...notifications,
     shopMessages,
-    // {
-    //   header: "TENWI",
-    //   timestamp: "Now",
-    //   sender: "TENWI",
-    //   message: "CLAIM YOUR -10% MEMBER'S DISCOUNT. JOIN THE CULT",
-    //   link: "",
-    //   more: "2 new messages from TENWI",
-    //   onClick: () => setNewsletterOpen(true),
-    // },
+    {
+      header: "TENWI",
+      timestamp: <Countdown date={releaseDate} />,
+      sender: <Countdown date={releaseDate} />,
+      message: "BLACK WEEK UP TO -70% JOIN TW F4M1LY: EARLY ACCESS + SPECIAL DEALS",
+      link: "https://chat.whatsapp.com/KcdxsZE1cPT0ZQmOs7PIM2",
+      more: "2 new messages from TENWI",
+      // onClick: () => setNewsletterOpen(true),
+    }
   ]
 
   return (
