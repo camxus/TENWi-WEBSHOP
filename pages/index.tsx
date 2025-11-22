@@ -53,7 +53,7 @@ export default function Home({
 
   const notifs = [
     ...notifications,
-    shopMessages,
+    now < releaseDate && shopMessages,
     {
       header: "TENWI",
       timestamp: <Countdown date={releaseDate} />,
@@ -63,7 +63,7 @@ export default function Home({
       more: "2 new messages from TENWI",
       // onClick: () => setNewsletterOpen(true),
     }
-  ]
+  ].filter(Boolean)
 
   return (
     <LayoutStart
