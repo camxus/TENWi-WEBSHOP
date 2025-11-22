@@ -56,8 +56,8 @@ export default function Home({
     now > releaseDate && shopMessages,
     {
       header: "TENWI",
-      timestamp: <Countdown date={releaseDate} />,
-      sender: <Countdown date={releaseDate} />,
+      timestamp: now < releaseDate ? <Countdown date={releaseDate}/> : "Now",
+      sender: now < releaseDate ?  <Countdown date={releaseDate} /> : "Now",
       message: "BLACK WEEK UP TO -70% JOIN TW F4M1LY: EARLY ACCESS + SPECIAL DEALS",
       link: "https://chat.whatsapp.com/KcdxsZE1cPT0ZQmOs7PIM2",
       more: "2 new messages from TENWI",
