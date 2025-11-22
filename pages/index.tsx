@@ -53,7 +53,7 @@ export default function Home({
 
   const notifs = [
     ...notifications,
-    now < releaseDate && shopMessages,
+    now > releaseDate && shopMessages,
     {
       header: "TENWI",
       timestamp: <Countdown date={releaseDate} />,
