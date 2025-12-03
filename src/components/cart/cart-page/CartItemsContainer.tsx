@@ -381,10 +381,10 @@ const CartItemsContainer = () => {
           {/* { requestError ? <div className="row cart-total-container mt-5"> { requestError } </div> : '' } */}
         </div>
       ) : (
-        <div className="container mx-auto my-32 px-4 xl:px-0">
+        <div className="mx-auto my-32 px-4 xl:px-0">
           <h2 className="text-2xl mb-5">YOUR CART IS EMPTY</h2>
           <Link href="/shop" legacyBehavior>
-            <button className="bg-black text-white px-5 py-3 rounded-sm">
+            <button className="bg-black text-white px-5 py-3">
               <span className="cart-checkout-txt">ADD NEW PRODUCTS</span>
               <i className="fas fa-long-arrow-alt-right" />
             </button>

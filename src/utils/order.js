@@ -72,8 +72,6 @@ export const getCreateOrderData = (
     ? order.billing
     : order.shipping;
 
-  console.log(order);
-
   // Checkout data.
   return {
     shipping: {
@@ -108,8 +106,9 @@ export const getCreateOrderData = (
     line_items: getCreateOrderLineItems(products),
     shipping_lines: [
       {
+        method_id: chosenShippingMethod?.id,
         method_title: chosenShippingMethod?.label || "Shipping", // You can customize this with the actual shipping method
-        total: order?.shipping?.price ||chosenShippingMethod?.cost || 0, // Include the actual shipping price here
+        total: (order?.shipping?.price || chosenShippingMethod?.cost || 0).toString(), // Include the actual shipping price here
       },
     ],
   };
