@@ -19,7 +19,7 @@ interface Notification {
   more: string;
 }
 
-const releaseDate = new Date("2025-11-24T18:00:00+02:00");
+const releaseDate = new Date("2026-02-08T18:00:00+02:00");
 const now = new Date();
 
 export default function Home({
@@ -58,7 +58,7 @@ export default function Home({
       header: "TENWI",
       timestamp: now < releaseDate ? <Countdown date={releaseDate}/> : "Now",
       sender: now < releaseDate ?  <Countdown date={releaseDate} /> : "Now",
-      message: "BLACK WEEK UP TO -70% JOIN TW F4M1LY: EARLY ACCESS + SPECIAL DEALS",
+      message: "VALENTINES SPECIAL -30% JOIN NOW : GET EARLY ACCESS + LIMITED CODES",
       link: "https://chat.whatsapp.com/KcdxsZE1cPT0ZQmOs7PIM2",
       more: "2 new messages from TENWI",
       // onClick: () => setNewsletterOpen(true),
