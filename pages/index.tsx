@@ -19,7 +19,7 @@ interface Notification {
   more: string;
 }
 
-const releaseDate = new Date("2026-02-08T18:00:00+02:00");
+const releaseDate = new Date("2026-02-08T19:00:00+02:00");
 const now = new Date();
 
 export default function Home({
