@@ -35,6 +35,14 @@ export default function Home({
   const releaseDate = new Date(prefs.releaseDate)
 
   const notifs = [
+    now > releaseDate && {
+      header: "TENWi",
+      timestamp: "Now",
+      sender: "TENWi",
+      message: "WEBSHOP",
+      link: "/shop",
+      more: "2 new messages from TENWI",
+    },
     prefs.showReleaseMessage && {
       header: "TENWI",
       timestamp: now < releaseDate ? <Countdown date={releaseDate} /> : "Now",
@@ -44,17 +52,9 @@ export default function Home({
       more: "2 new messages from TENWI",
       // onClick: () => setNewsletterOpen(true),
     },
-    now > releaseDate && {
-      header: "TENWi",
-      timestamp: "Now",
-      sender: "TENWi",
-      message: "WEBSHOP",
-      link: "/shop",
-      more: "2 new messages from TENWI",
-    },
     ...notifications,
     ,
-  ].filter(Boolean).reverse() as Notification[]
+  ].filter(Boolean) as Notification[]
 
   return (
     <LayoutStart
@@ -147,6 +147,7 @@ export async function getServerSideProps() {
   const prefs = await getPrefs();
 
   const categories = data.categories.edges;
+
 
   categories.forEach((category: { node: { slug: string; name: string } }) => {
     const slug = category.node.slug;

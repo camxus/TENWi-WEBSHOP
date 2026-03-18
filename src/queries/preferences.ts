@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 const GET_PREFS = gql`query GET_PREFS {
   tenwiPreferences {
     enableWebshop
+    showPortfolio
     homepageImage
     newsletterImage
     showReleaseMessage
