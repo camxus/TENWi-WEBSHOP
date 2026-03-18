@@ -54,7 +54,7 @@ export default function Home({
     },
     ...notifications,
     ,
-  ].filter(Boolean) as Notification[]
+  ].filter(Boolean).reverse() as Notification[]
 
   return (
     <LayoutStart
