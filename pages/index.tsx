@@ -35,7 +35,7 @@ export default function Home({
   const releaseDate = new Date(prefs.releaseDate)
 
   const notifs = [
-    {
+    prefs.showReleaseMessage && {
       header: "TENWI",
       timestamp: now < releaseDate ? <Countdown date={releaseDate} /> : "Now",
       sender: now < releaseDate ? <Countdown date={releaseDate} /> : "Now",
@@ -130,16 +130,15 @@ export default function Home({
     </LayoutStart>
   );
 }
-
-export async function getStaticProps() {
-  const notifications: ({
+export async function getServerSideProps() {
+  const notifications: {
     header: React.ReactElement | string | number;
     timestamp: string;
     sender: React.ReactElement | string | number;
     message: any;
     link: string;
     more: string;
-  } | null)[] = [].filter(Boolean);
+  }[] = [];
 
   const { data } = await client.query({
     query: GET_POST_CATEGORIES,
@@ -148,8 +147,9 @@ export async function getStaticProps() {
   const prefs = await getPrefs();
 
   const categories = data.categories.edges;
-  categories.map((category: { node: { slug: any; name: any } }) => {
-    let slug = category.node.slug;
+
+  categories.forEach((category: { node: { slug: string; name: string } }) => {
+    const slug = category.node.slug;
 
     if (
       prefs?.showPortfolio &&
@@ -157,24 +157,25 @@ export async function getStaticProps() {
       !slug.includes("size-charts") &&
       slug !== "uncategorized"
     ) {
-      !notifications.find((element) => element?.link === `portfolio/${slug}`) &&
+      const link = `portfolio/${slug}`;
+
+      if (!notifications.find((el) => el.link === link)) {
         notifications.push({
           header: "TENWi",
           timestamp: "Now",
           sender: "TENWi",
           message: category.node.name,
-          link: `portfolio/${slug}`,
+          link,
           more: "2 new messages from TENWI",
         });
+      }
     }
   });
-
 
   return {
     props: {
       notifications,
-      prefs,
+      prefs: prefs || {},
     },
-    revalidate: 1,
   };
 }

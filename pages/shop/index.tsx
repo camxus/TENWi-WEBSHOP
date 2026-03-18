@@ -8,7 +8,7 @@ import Image from "next/image";
 import { getPrefs, getWebshopImages, TenwiPreferences } from "../../src/utils";
 // import NewsletterSubmit from  "../src/components/NewsletterSubmit.js";
 
-function Categories({ categories, prefs }: {categories: any, prefs: TenwiPreferences}) {
+function Categories({ categories, prefs }: { categories: any, prefs: TenwiPreferences }) {
   return (
     <Layout
       newsletterImage={
@@ -53,7 +53,7 @@ function Categories({ categories, prefs }: {categories: any, prefs: TenwiPrefere
 }
 export default Categories;
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const {
     data: {
       productCategories: { nodes: categories },
@@ -62,11 +62,12 @@ export async function getStaticProps() {
     query: PRODUCTS_AND_CATEGORIES_QUERY,
   });
 
+  const prefs = await getPrefs();
+
   return {
     props: {
-      prefs: await getPrefs(),
-      categories: categories ? categories : [],
+      prefs: prefs ?? {},
+      categories: categories ?? [],
     },
-    revalidate: 1,
   };
 }

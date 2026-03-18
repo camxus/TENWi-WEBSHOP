@@ -83,6 +83,7 @@ export interface TenwiPreferences {
   enableWebshop: boolean;
   homepageImage: string;
   newsletterImage: string;
+  showReleaseMessage: boolean
   releaseDate: string;
   releaseMessage: string;
   releaseMessageLink: boolean;

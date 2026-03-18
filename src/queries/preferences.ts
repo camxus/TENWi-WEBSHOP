@@ -5,6 +5,7 @@ const GET_PREFS = gql`query GET_PREFS {
     enableWebshop
     homepageImage
     newsletterImage
+    showReleaseMessage
     releaseDate
     releaseMessage
     webshopImage
