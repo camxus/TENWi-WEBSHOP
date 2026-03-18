@@ -83,7 +83,7 @@ export default ThankYou;
 export async function getStaticProps() {
   return {
     props: {
-      images: await getPrefs(),
+      prefs: await getPrefs(),
     },
     revalidate: 1,
   };
