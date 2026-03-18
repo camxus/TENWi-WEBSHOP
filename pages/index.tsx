@@ -7,7 +7,8 @@ import { UrlObject } from "url";
 import { useMemo, useState } from "react";
 import Countdown from "react-countdown";
 import GALLERY_IMAGES, { MediaItemNode } from "../src/queries/gallery-images";
-import { extractCaptionText, getWebshopImages } from "../src/utils";
+import GET_PREFS from "../src/queries/preferences";
+import { extractCaptionText, getPrefs, getWebshopImages, TenwiPreferences } from "../src/utils";
 
 interface Notification {
   onClick?: React.DOMAttributes<HTMLDivElement>["onClick"];
@@ -19,51 +20,41 @@ interface Notification {
   more: string;
 }
 
-const releaseDate = new Date("2026-02-08T19:00:00+02:00");
+
 const now = new Date();
 
 export default function Home({
   notifications,
-  images,
+  prefs,
 }: {
   notifications: Notification[];
-  images: ({ node: MediaItemNode } & { [x: string]: boolean })[];
+  prefs: TenwiPreferences;
 }) {
   const [newsletterOpen, setNewsletterOpen] = useState(false);
 
-
-  const shopMessages =
-    (now < releaseDate
-      ? {
-        header: "TENWi",
-        timestamp: "Now",
-        sender: "TENWi",
-        message: "WEBSHOP",
-        link: "/shop",
-        more: "2 new messages from TENWI",
-      } : {
-        header: "TENWi",
-        timestamp: "Now",
-        sender: "TENWi",
-        message: "WEBSHOP",
-        link: "/shop",
-        more: "2 new messages from TENWI",
-      }
-    ) as Notification;
+  const releaseDate = new Date(prefs.releaseDate)
 
   const notifs = [
-    ...notifications,
-    now > releaseDate && shopMessages,
     {
       header: "TENWI",
-      timestamp: now < releaseDate ? <Countdown date={releaseDate}/> : "Now",
-      sender: now < releaseDate ?  <Countdown date={releaseDate} /> : "Now",
-      message: "VALENTINES SPECIAL -30% JOIN NOW : GET EARLY ACCESS + LIMITED CODES",
-      link: "https://chat.whatsapp.com/KcdxsZE1cPT0ZQmOs7PIM2",
+      timestamp: now < releaseDate ? <Countdown date={releaseDate} /> : "Now",
+      sender: now < releaseDate ? <Countdown date={releaseDate} /> : "Now",
+      message: prefs.releaseMessage,
+      link: prefs.releaseMessageLink,
       more: "2 new messages from TENWI",
       // onClick: () => setNewsletterOpen(true),
-    }
-  ].filter(Boolean)
+    },
+    now > releaseDate && {
+      header: "TENWi",
+      timestamp: "Now",
+      sender: "TENWi",
+      message: "WEBSHOP",
+      link: "/shop",
+      more: "2 new messages from TENWI",
+    },
+    ...notifications,
+    ,
+  ].filter(Boolean) as Notification[]
 
   return (
     <LayoutStart
@@ -71,13 +62,13 @@ export default function Home({
         newsletterOpen,
         setNewsletterOpen,
         newsletterImage:
-          images.find((image) => !!image.newsletter)?.node.sourceUrl || "",
+          prefs.newsletterImage,
       }}
     >
       <div>
         <div className="before">
           <Image
-            src={images.find((image) => !!image.homepage)?.node.sourceUrl || ""}
+            src={prefs.homepageImage || ""}
             objectFit="cover"
             layout="fill"
             alt={""}
@@ -89,7 +80,7 @@ export default function Home({
             <div className="notification-wrapper">
               {!!notifs.length &&
                 notifs.map((item: Notification) => (
-                  <ul id="one" className="notification-button">
+                  <ul key={item.message} id="one" className="notification-button">
                     <li className="one">
                       <div className="container" onClick={item.onClick}>
                         <Link href={item.link}>
@@ -130,7 +121,8 @@ export default function Home({
                       </div>
                     </li>
                   </ul>
-                ))}
+                ))
+              }
             </div>
           </main>
         </div>
@@ -147,56 +139,41 @@ export async function getStaticProps() {
     message: any;
     link: string;
     more: string;
-  } | null)[] = [
-    // now > releaseDate ? {
-    //   header: "TENWi",
-    //   timestamp: "Now",
-    //   sender: "TENWi",
-    //   message: "WEBSHOP",
-    //   link: "/shop",
-    //   more: "2 new messages from TENWI",
-    // } : null,
-    // {
-    //   header: "TENWi",
-    //   timestamp: "Now",
-    //   sender: "TENWi",
-    //   message: "GALLERY",
-    //   link: "/gallery",
-    //   more: "2 new messages from TENWI",
-    // },
-  ].filter(Boolean);
+  } | null)[] = [].filter(Boolean);
 
   const { data } = await client.query({
     query: GET_POST_CATEGORIES,
   });
 
+  const prefs = await getPrefs();
+
   const categories = data.categories.edges;
   categories.map((category: { node: { slug: any; name: any } }) => {
     let slug = category.node.slug;
 
-    // if (
-    //   !slug.includes("footer") &&
-    //   !slug.includes("size-charts") &&
-    //   slug !== "uncategorized"
-    // ) {
-    //   !notifications.find((element) => element?.link === `portfolio/${slug}`) &&
-    //     notifications.push({
-    //       header: "TENWi",
-    //       timestamp: "Now",
-    //       sender: "TENWi",
-    //       message: category.node.name,
-    //       link: `portfolio/${slug}`,
-    //       more: "2 new messages from TENWI",
-    //     });
-    // }
+    if (
+      prefs?.showPortfolio &&
+      !slug.includes("footer") &&
+      !slug.includes("size-charts") &&
+      slug !== "uncategorized"
+    ) {
+      !notifications.find((element) => element?.link === `portfolio/${slug}`) &&
+        notifications.push({
+          header: "TENWi",
+          timestamp: "Now",
+          sender: "TENWi",
+          message: category.node.name,
+          link: `portfolio/${slug}`,
+          more: "2 new messages from TENWI",
+        });
+    }
   });
 
-  const imagesList = await getWebshopImages();
 
   return {
     props: {
-      images: imagesList,
       notifications,
+      prefs,
     },
     revalidate: 1,
   };

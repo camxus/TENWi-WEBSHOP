@@ -3,15 +3,14 @@ import Layout from "../../../src/components/Layouts/LayoutShop";
 import PostPage from "../../../src/components/PostPage";
 import { GET_POST_BY_SLUG, POSTS_SLUGS } from "../../../src/queries/get-posts";
 import PRODUCTS_AND_CATEGORIES_QUERY from "../../../src/queries/product-and-categories";
-import { getWebshopImages } from "../../../src/utils";
+import { getPrefs, getWebshopImages, TenwiPreferences } from "../../../src/utils";
 
-export default function Post(props) {
+export default function Post(props: { post: any, prefs: TenwiPreferences }) {
   return (
     <Layout
       {...props}
       newsletterImage={
-        props.images.find((image: { newsletter: any }) => !!image.newsletter)?.node
-          .sourceUrl || ""
+        props.prefs.newsletterImage || ""
       }
     >
       <PostPage {...props} />;
@@ -19,7 +18,7 @@ export default function Post(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
   const {
     params: { slug },
     req: {
@@ -44,7 +43,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      images: await getWebshopImages(),
+      prefs: await getPrefs(),
       post: post ?? {},
       categories: categories ?? [],
       tags: tags ?? [],

@@ -1,5 +1,6 @@
 import client from "../components/ApolloClient";
 import GALLERY_IMAGES from "../queries/gallery-images";
+import GET_PREFS from "../queries/preferences";
 
 // Helper function to extract caption text
 export const extractCaptionText = (caption: string) => {
@@ -75,5 +76,32 @@ export async function getWebshopImages(): Promise<WebshopImage[]> {
   } catch (error) {
     console.error("Error fetching webshop images:", error);
     return [];
+  }
+}
+
+export interface TenwiPreferences {
+  enableWebshop: boolean;
+  homepageImage: string;
+  newsletterImage: string;
+  releaseDate: string;
+  releaseMessage: string;
+  releaseMessageLink: boolean;
+  webshopImage: string;
+  showPortfolio: boolean
+}
+
+/**
+ * Fetches TENWi website preferences from WPGraphQL
+ */
+export async function getPrefs(): Promise<TenwiPreferences | null> {
+  try {
+    const { data } = await client.query({
+      query: GET_PREFS,
+    });
+
+    return data.tenwiPreferences ?? null;
+  } catch (error) {
+    console.error("Error fetching TENWi preferences:", error);
+    return null;
   }
 }

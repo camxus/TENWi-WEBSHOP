@@ -5,15 +5,14 @@ import Link from "next/link";
 import styles from "../../src/styles/categories.module.css";
 import intro from "../../src/styles/intro.module.css";
 import Image from "next/image";
-import { getWebshopImages } from "../../src/utils";
+import { getPrefs, getWebshopImages, TenwiPreferences } from "../../src/utils";
 // import NewsletterSubmit from  "../src/components/NewsletterSubmit.js";
 
-function Categories({ categories, images }: any) {
+function Categories({ categories, prefs }: {categories: any, prefs: TenwiPreferences}) {
   return (
     <Layout
       newsletterImage={
-        images.find((image: { newsletter: any }) => !!image.newsletter)?.node
-          .sourceUrl || ""
+        prefs.newsletterImage || ""
       }
     >
       <div className={intro[`intro`]}>
@@ -39,7 +38,7 @@ function Categories({ categories, images }: any) {
             className="w-full h-full object-cover"
             layout="fill"
             src={
-              images.find((image: any) => !!image.webshop).node.sourceUrl || ""
+              prefs.webshopImage || ""
             }
             alt={""}
           />
@@ -65,7 +64,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      images: await getWebshopImages(),
+      prefs: await getPrefs(),
       categories: categories ? categories : [],
     },
     revalidate: 1,

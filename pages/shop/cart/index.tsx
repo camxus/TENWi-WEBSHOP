@@ -1,13 +1,12 @@
 import Layout from "../../../src/components/Layouts/LayoutShop";
 import CartItemsContainer from "../../../src/components/cart/cart-page/CartItemsContainer";
-import { getWebshopImages } from "../../../src/utils";
+import { getPrefs, getWebshopImages, TenwiPreferences } from "../../../src/utils";
 
-const Cart = ({ images }: any) => {
+const Cart = ({ prefs }: {prefs: TenwiPreferences}) => {
   return (
     <Layout
       newsletterImage={
-        images.find((image: { newsletter: any }) => !!image.newsletter)?.node
-          .sourceUrl || ""
+        prefs.newsletterImage || ""
       }
     >
       <CartItemsContainer />
@@ -20,7 +19,7 @@ export default Cart;
 export async function getStaticProps() {
   return {
     props: {
-      images: await getWebshopImages(),
+      prefs: await getPrefs(),
     },
     revalidate: 1,
   };

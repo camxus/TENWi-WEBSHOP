@@ -6,20 +6,20 @@ import client from "../../../src/components/ApolloClient";
 import React, { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import { getWebshopImages } from "../../../src/utils";
+import { getPrefs, getWebshopImages, TenwiPreferences } from "../../../src/utils";
 
 interface ICheckout {
   countries: any;
   categories: any;
   tags: any;
   methods: any;
-  images: any;
+  prefs: TenwiPreferences;
 }
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_CLIENT || "pk_test_6pRNASCoBOKtIshFeQd4XMUh"
 );
 
-const Checkout = ({ countries, images }: ICheckout) => {
+const Checkout = ({ countries, prefs }: ICheckout) => {
   const [open, setOpen] = useState(false);
   const [stripeOptions, setStripeOptions] = useState({
     mode: "payment",
@@ -36,8 +36,7 @@ const Checkout = ({ countries, images }: ICheckout) => {
     <Elements stripe={stripePromise} options={stripeOptions}>
       <Layout
         newsletterImage={
-          images.find((image: { newsletter: any }) => !!image.newsletter)?.node
-            .sourceUrl || ""
+          prefs.newsletterImage || ""
         }
       >
         <div className="checkout container mx-auto my-32 px-4 xl:px-0">
@@ -65,7 +64,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      images: await getWebshopImages(),
+      prefs: await getPrefs(),
       countries: wooCountries || {},
     },
     revalidate: 1,

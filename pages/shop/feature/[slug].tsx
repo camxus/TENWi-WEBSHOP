@@ -9,9 +9,9 @@ import { isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import styles from "../../../src/styles/style.module.css";
 import { PRODUCT_CATEGORIES_SLUGS } from "../../../src/queries/product-by-category";
-import { getWebshopImages } from "../../../src/utils";
+import { getPrefs, getWebshopImages, TenwiPreferences } from "../../../src/utils";
 
-export default function CategorySingle({ products, images }: any) {
+export default function CategorySingle({ products, prefs }: {products: any, prefs: TenwiPreferences}) {
   const router = useRouter();
 
   // If the page is not yet generated, this will be displayed
@@ -24,8 +24,7 @@ export default function CategorySingle({ products, images }: any) {
   return (
     <Layout
       newsletterImage={
-        images.find((image: { newsletter: any }) => !!image.newsletter)?.node
-          .sourceUrl || ""
+        prefs.newsletterImage || ""
       }
     >
       <div>
@@ -59,7 +58,7 @@ export async function getStaticProps(context: { params: { slug: any } }) {
 
   return {
     props: {
-      images: await getWebshopImages(),
+      prefs: await getPrefs(),
       products: products || [],
     },
     revalidate: 1,

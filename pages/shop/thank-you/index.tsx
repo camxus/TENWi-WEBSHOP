@@ -3,7 +3,7 @@ import Router from "next/router";
 import Link from "next/link";
 import Layout from "../../../src/components/Layouts/LayoutShop";
 import { AppContext } from "../../../src/components/context/AppContext";
-import { getWebshopImages } from "../../../src/utils";
+import { getPrefs, getWebshopImages, TenwiPreferences } from "../../../src/utils";
 
 const ThankYouContent = () => {
   const {
@@ -66,12 +66,11 @@ const ThankYouContent = () => {
   );
 };
 
-const ThankYou = ({ images }: any) => {
+const ThankYou = ({ prefs }: { prefs: TenwiPreferences }) => {
   return (
     <Layout
       newsletterImage={
-        images.find((image: { newsletter: any }) => !!image.newsletter)?.node
-          .sourceUrl || ""
+        prefs.newsletterImage || ""
       }
     >
       <ThankYouContent />
@@ -84,7 +83,7 @@ export default ThankYou;
 export async function getStaticProps() {
   return {
     props: {
-      images: await getWebshopImages(),
+      images: await getPrefs(),
     },
     revalidate: 1,
   };
