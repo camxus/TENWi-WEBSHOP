@@ -35,7 +35,7 @@ export default function Home({
   const releaseDate = new Date(prefs.releaseDate)
 
   const notifs = [
-    now > releaseDate && {
+    now > releaseDate && !!prefs.enableWebshop && {
       header: "TENWi",
       timestamp: "Now",
       sender: "TENWi",
